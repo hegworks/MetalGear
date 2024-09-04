@@ -1,0 +1,60 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "",
+    "expandedProjectPaths": [
+    ],
+    "fileStates": {
+        "MGEAR1_0011.tsx": {
+            "scaleInEditor": 2
+        },
+        "level0.tmx": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 664,
+                "y": 528
+            }
+        },
+        "level1.tmx": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 286,
+                "y": 395
+            }
+        },
+        "main-tileset.tmx": {
+            "scale": 5.5,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 73.63636363636363,
+                "y": 65.63636363636363
+            }
+        }
+    },
+    "last.exportedFilePath": "D:/dev/cpp/MetalGear/assets/tiles",
+    "last.imagePath": "D:/dev/cpp/MetalGear/assets/tiles",
+    "map.height": 24,
+    "map.lastUsedExportFilter": "CSV files (*.csv)",
+    "map.lastUsedFormat": "tmx",
+    "map.renderOrder": "3",
+    "map.tileHeight": 16,
+    "map.tileWidth": 16,
+    "map.width": 32,
+    "openFiles": [
+    ],
+    "project": "metal-gear.tiled-project",
+    "recentFiles": [
+        "level1.tmx",
+        "level0.tmx",
+        "MGEAR1_0011.tsx"
+    ],
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.tileSize": {
+        "height": 16,
+        "width": 16
+    }
+}

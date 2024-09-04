@@ -1,40 +1,43 @@
 {
-    "Map/SizeTest": {
-        "height": 4300,
-        "width": 2
-    },
     "activeFile": "",
     "expandedProjectPaths": [
+        "."
     ],
-    "exportAsImage.drawTileGrid": true,
     "fileStates": {
+        "0000.tmx": {
+            "scale": 2,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 305,
+                "y": 179.5
+            }
+        },
+        "0000.tmx#MGEAR1_0011": {
+            "scaleInDock": 1
+        },
         "MGEAR1_0000.tsx": {
             "dynamicWrapping": false,
             "scaleInDock": 1,
             "scaleInEditor": 2
         },
+        "MGEAR1_0011.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1,
+            "scaleInEditor": 2
+        },
         "Main.tsx": {
-            "dynamicWrapping": true
+            "dynamicWrapping": true,
+            "scaleInDock": 1,
+            "scaleInEditor": 1.5
         }
     },
-    "last.exportedFilePath": "D:/dev/cpp/MetalGear/assets/tiles",
-    "last.imagePath": "C:/Users/ASUS/Desktop/MG/MetalGear-master/MetalGear-master/room_images",
-    "map.lastUsedExportFilter": "JSON map files (*.tmj *.json)",
-    "map.lastUsedFormat": "tmx",
-    "map.tileHeight": 8,
-    "map.tileWidth": 8,
     "openFiles": [
     ],
     "project": "metal-gear-tiles.tiled-project",
-    "property.type": "bool",
     "recentFiles": [
+        "MGEAR1_0011.tsx",
+        "0000.tmx",
+        "Main.tsx",
         "MGEAR1_0000.tsx"
-    ],
-    "resizeMap.removeObjects": false,
-    "tileset.lastUsedFormat": "tsx",
-    "tileset.tileSize": {
-        "height": 16,
-        "width": 16
-    },
-    "tileset.type": 1
+    ]
 }
