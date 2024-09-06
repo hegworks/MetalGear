@@ -1,25 +1,6 @@
-// Template, 2024 IGAD Edition
-// Get the latest version from: https://github.com/jbikker/tmpl8
-// IGAD/NHTV/BUAS/UU - Jacco Bikker - 2006-2024
-
-#include "precomp.h"
-#include "game.h"
-#include "tileMap.h"
-
-const char* tileSetAddress = "assets/tiles/main-tileset.png";
-const int tileWidth = 32;
-const int tileHeight = 32;
-const int tileSetRows = 50;
-const int tileSetColumns = 50;
-
-const int levelRows = 24;
-const int levelColumns = 32;
-
-int levelMap[levelRows][levelColumns] =
-{
 {0,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151},
 {0,151,151,151,151,150,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151},
-{0,151,151,151,150,250,150,151,151,151,151,151,151,151,151,151,151,151,151,51,51,51,51,51,51,51,0,151,151,151,151,151},
+{0,151,151,151,250,150,150,151,151,151,151,151,151,151,151,151,151,151,151,51,51,51,51,51,51,51,0,151,151,151,151,151},
 {0,151,151,151,151,150,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,0,151,151,151,151,151},
 {0,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,0,151,151,151,151,151},
 {0,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,0,151,151,151,151,151},
@@ -41,34 +22,3 @@ int levelMap[levelRows][levelColumns] =
 {0,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151},
 {0,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151},
 {51,51,51,51,51,51,51,51,51,51,51,51,51,151,151,151,151,151,151,151,51,51,51,51,51,51,51,51,51,51,51,51}
-
-};
-
-int* levelMapPtrs[levelRows];
-Surface* tileSet = nullptr;
-TileMap* tileMap = nullptr;
-
-// -----------------------------------------------------------
-// Initialize the application
-// -----------------------------------------------------------
-void Game::Init()
-{
-    tileSet = new Surface(tileSetAddress);
-
-    // Initialize the level map pointers
-    // each row is a pointer to the first column of the row
-    for (int i = 0; i < levelRows; ++i)
-    {
-        levelMapPtrs[i] = levelMap[i];
-    }
-
-    tileMap = new TileMap(tileSet, tileWidth, tileHeight, tileSetRows, tileSetColumns);
-}
-
-// -----------------------------------------------------------
-// Main application tick function - Executed once per frame
-// -----------------------------------------------------------
-void Game::Tick(float /* deltaTime */)
-{
-    tileMap->DrawLevel(screen, levelMapPtrs, levelColumns, levelRows);
-}
