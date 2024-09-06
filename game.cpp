@@ -4,28 +4,44 @@
 
 #include "precomp.h"
 #include "game.h"
+#include "tileMap.h"
 
-Sprite* oneTileSprite;
-Sprite* fiveTilesSprite;
-const int tile_height = 16;
-const int tile_width = 16;
-int levelNumbers[10] = {0, 0, 0, 1, 1, 1, 2, 2, 2, 3};
+int tileWidth = 16;
+int tileHeight = 16;
+int tileSetRows = 6;
+int tileSetColumns = 7;
 
+const int levelRows = 6;
+const int levelColumns = 7;
+
+int levelMap[levelRows][levelColumns] = {
+    {3, 4, 5, 6, 37, 0, 0},
+    {10, 11, 12, 13, 21, 0, 0},
+    {17, 18, 19, 20, 21, 0, 0},
+    {24, 25, 26, 27, 21, 0, 0},
+    {22, 22, 22, 22, 21, 0, 0},
+    {22, 22, 22, 22, 21, 0, 0}
+};
+
+int* levelMapPtrs[levelRows];
+Surface* tileSet = nullptr;
+TileMap* tileMap = nullptr;
 
 // -----------------------------------------------------------
 // Initialize the application
 // -----------------------------------------------------------
 void Game::Init()
 {
-    oneTileSprite = new Sprite(new Surface("assets/tiles/oneTile.png"), 1);
-    fiveTilesSprite = new Sprite(new Surface("assets/tiles/fiveTiles.png"), 5);
-}
+    tileSet = new Surface("assets/tiles/main-tileset2.png");
 
-void DrawSprite(int spriteIndex, int screenTilePosX, int screenTilePosY, Surface* screen)
-{
-    fiveTilesSprite->SetFrame(spriteIndex);
-    // draw the sprite at the given position on the screen
-    fiveTilesSprite->Draw(screen, screenTilePosX * tile_width, screenTilePosY * tile_height);
+    // Initialize the level map pointers
+    // each row is a pointer to the first column of the row
+    for (int i = 0; i < levelRows; ++i)
+    {
+        levelMapPtrs[i] = levelMap[i];
+    }
+
+    tileMap = new TileMap(tileSet, tileWidth, tileHeight, tileSetRows, tileSetColumns);
 }
 
 // -----------------------------------------------------------
@@ -33,12 +49,5 @@ void DrawSprite(int spriteIndex, int screenTilePosX, int screenTilePosY, Surface
 // -----------------------------------------------------------
 void Game::Tick(float /* deltaTime */)
 {
-    // show oneTileSprite
-    oneTileSprite->Draw(screen, 0, 0);
-
-    // show fiveTilesSprite
-    for (int i = 0; i < sizeof(levelNumbers) / sizeof(levelNumbers[0]); i++)
-    {
-        DrawSprite(levelNumbers[i], i, 0, screen);
-    }
+    tileMap->DrawLevel(screen, levelMapPtrs, levelColumns, levelRows);
 }
