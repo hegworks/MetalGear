@@ -53,16 +53,16 @@ TileMap* tileMap = nullptr;
 // -----------------------------------------------------------
 void Game::Init()
 {
-    tileSet = new Surface(tileSetAddress);
+	tileSet = new Surface(tileSetAddress);
 
-    // Initialize the level map pointers
-    // each row is a pointer to the first column of the row
-    for (int i = 0; i < levelRows; ++i)
-    {
-        levelMapPtrs[i] = levelMap[i];
-    }
+	// Initialize the level map pointers
+	// each row is a pointer to the first column of the row
+	for(int i = 0; i < levelRows; ++i)
+	{
+		levelMapPtrs[i] = levelMap[i];
+	}
 
-    tileMap = new TileMap(tileSet, tileWidth, tileHeight, tileSetRows, tileSetColumns);
+	tileMap = new TileMap(tileSet, tileWidth, tileHeight, tileSetRows, tileSetColumns);
 }
 
 // -----------------------------------------------------------
@@ -70,5 +70,5 @@ void Game::Init()
 // -----------------------------------------------------------
 void Game::Tick(float /* deltaTime */)
 {
-    tileMap->DrawLevel(screen, levelMapPtrs, levelColumns, levelRows);
+	tileMap->DrawLevel(screen, levelMapPtrs, levelColumns, levelRows);
 }
