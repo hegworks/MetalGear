@@ -24,6 +24,8 @@
     </ClCompile>
     <ClCompile Include="src\game.cpp" />
     <ClCompile Include="src\tileMap.cpp" />
+    <ClCompile Include="src\LevelMap\levelMap.cpp" />
+    <ClCompile Include="src\LevelMaps\levelMaps.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="template\common.h">
@@ -55,6 +57,8 @@
     </ClInclude>
     <ClInclude Include="src\game.h" />
     <ClInclude Include="src\tileMap.h" />
+    <ClInclude Include="src\LevelMap\levelMap.h" />
+    <ClInclude Include="src\LevelMaps\levelMaps.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md">
