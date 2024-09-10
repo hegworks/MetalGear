@@ -3,7 +3,7 @@
 // IGAD/NHTV/BUAS/UU - Jacco Bikker - 2006-2024
 
 #include "precomp.h"
-#include "game.h"
+#include "src/game.h"
 
 #pragma comment( linker, "/subsystem:windows /ENTRY:mainCRTStartup" )
 

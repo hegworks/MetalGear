@@ -121,7 +121,7 @@
   </ItemDefinitionGroup>
   <!-- END Custom section -->
   <ItemGroup>
-    <ClCompile Include="game.cpp" />
+    <ClCompile Include="src\game.cpp" />
     <ClCompile Include="template\opencl.cpp" />
     <ClCompile Include="template\opengl.cpp" />
     <ClCompile Include="template\scene.cpp">
@@ -136,12 +136,12 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">precomp.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="template\tileMap.cpp" />
+    <ClCompile Include="src\tileMap.cpp" />
     <ClCompile Include="template\tmpl8math.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cl\tools.cl" />
-    <ClInclude Include="game.h" />
+    <ClInclude Include="src\game.h" />
     <ClInclude Include="template\common.h" />
     <ClInclude Include="template\opencl.h" />
     <ClInclude Include="template\opengl.h" />
@@ -149,7 +149,7 @@
     <ClInclude Include="template\scene.h" />
     <ClInclude Include="template\sprite.h" />
     <ClInclude Include="template\surface.h" />
-    <ClInclude Include="template\tileMap.h" />
+    <ClInclude Include="src\tileMap.h" />
     <ClInclude Include="template\tmpl8math.h" />
   </ItemGroup>
   <ItemGroup>
