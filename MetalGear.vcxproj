@@ -121,8 +121,6 @@
   </ItemDefinitionGroup>
   <!-- END Custom section -->
   <ItemGroup>
-    <ClCompile Include="src\LevelMaps\levelMaps.cpp" />
-    <ClCompile Include="src\LevelMap\levelMap.cpp" />
     <ClCompile Include="src\game.cpp" />
     <ClCompile Include="template\opencl.cpp" />
     <ClCompile Include="template\opengl.cpp" />
@@ -143,8 +141,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cl\tools.cl" />
-    <ClInclude Include="src\LevelMaps\levelMaps.h" />
-    <ClInclude Include="src\LevelMap\levelMap.h" />
     <ClInclude Include="src\game.h" />
     <ClInclude Include="template\common.h" />
     <ClInclude Include="template\opencl.h" />
