@@ -3,6 +3,9 @@
 // IGAD/NHTV/BUAS/UU - Jacco Bikker - 2006-2024
 
 #pragma once
+#include "actors/player.h"
+#include "levelMap/levelMaps.h"
+#include "tileMap.h"
 
 namespace Tmpl8
 {
@@ -23,6 +26,13 @@ public:
 	void KeyDown(int) { /* implement if you want to handle keys */ }
 	// data members
 	int2 mousePos;
+
+
+	Surface* tileSet = nullptr;
+	TileMap* tileMap = nullptr;
+	LevelMaps* levelMaps = nullptr;
+	int** currentLevelPointers = nullptr;
+	Player* player = nullptr;
 };
 
 } // namespace Tmpl8

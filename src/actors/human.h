@@ -8,10 +8,11 @@ public:
 	char* spriteAddress;
 	int graphicFrames;
 	Sprite* graphic;
-	int2 position;
-	int speed;
+	float2 position;
+	float speed;
 	int animationFrame;
 
 	void Draw(Surface* screen);
-	void Move(int2 direction);
+	virtual void Move(int2 direction);
+	virtual void Tick(float deltaTime);
 };

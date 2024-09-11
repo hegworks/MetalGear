@@ -3,18 +3,11 @@
 // IGAD/NHTV/BUAS/UU - Jacco Bikker - 2006-2024
 
 #include "precomp.h"
-#include "actors/human.h"
 #include "actors/player.h"
 #include "game.h"
 #include "levelMap/levelMaps.h"
 #include "tileMap.h"
 #include "tileSet.h"
-
-Surface* tileSet = nullptr;
-TileMap* tileMap = nullptr;
-LevelMaps* levelMaps = nullptr;
-int** currentLevelPointers = nullptr;
-Player* player = nullptr;
 
 void Game::Init()
 {
@@ -27,8 +20,9 @@ void Game::Init()
 	player = new Player();
 }
 
-void Game::Tick(float /* deltaTime */)
+void Game::Tick(float deltaTime)
 {
 	tileMap->DrawLevel(screen, currentLevelPointers, LevelMap::COLS, LevelMap::ROWS);
+	player->Tick(deltaTime);
 	player->Draw(screen);
 }

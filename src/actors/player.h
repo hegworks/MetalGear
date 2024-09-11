@@ -5,4 +5,5 @@ class Player : public Human
 {
 public:
 	Player();
+	void Tick(float deltaTime) override;
 };

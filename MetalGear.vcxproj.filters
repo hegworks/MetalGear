@@ -24,6 +24,11 @@
     </ClCompile>
     <ClCompile Include="src\game.cpp" />
     <ClCompile Include="src\tileMap.cpp" />
+    <ClCompile Include="src\actors\human.cpp" />
+    <ClCompile Include="src\actors\player.cpp" />
+    <ClCompile Include="src\levelMap\levelMap.cpp" />
+    <ClCompile Include="src\levelMap\levelMaps.cpp" />
+    <ClCompile Include="src\tileSet.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="template\common.h">
@@ -55,6 +60,11 @@
     </ClInclude>
     <ClInclude Include="src\game.h" />
     <ClInclude Include="src\tileMap.h" />
+    <ClInclude Include="src\actors\human.h" />
+    <ClInclude Include="src\actors\player.h" />
+    <ClInclude Include="src\levelMap\levelMap.h" />
+    <ClInclude Include="src\levelMap\levelMaps.h" />
+    <ClInclude Include="src\tileSet.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md">
