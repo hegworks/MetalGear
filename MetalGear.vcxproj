@@ -124,6 +124,7 @@
     <ClCompile Include="src\levelMap\levelMap.cpp" />
     <ClCompile Include="src\game.cpp" />
     <ClCompile Include="src\levelMap\levelMaps.cpp" />
+    <ClCompile Include="src\tileSet.cpp" />
     <ClCompile Include="template\opencl.cpp" />
     <ClCompile Include="template\opengl.cpp" />
     <ClCompile Include="template\scene.cpp">
@@ -146,6 +147,7 @@
     <ClInclude Include="src\levelMap\levelMap.h" />
     <ClInclude Include="src\game.h" />
     <ClInclude Include="src\levelMap\levelMaps.h" />
+    <ClInclude Include="src\tileSet.h" />
     <ClInclude Include="template\common.h" />
     <ClInclude Include="template\opencl.h" />
     <ClInclude Include="template\opengl.h" />
