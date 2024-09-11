@@ -121,6 +121,8 @@
   </ItemDefinitionGroup>
   <!-- END Custom section -->
   <ItemGroup>
+    <ClCompile Include="src\actors\human.cpp" />
+    <ClCompile Include="src\actors\player.cpp" />
     <ClCompile Include="src\levelMap\levelMap.cpp" />
     <ClCompile Include="src\game.cpp" />
     <ClCompile Include="src\levelMap\levelMaps.cpp" />
@@ -144,6 +146,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cl\tools.cl" />
+    <ClInclude Include="src\actors\human.h" />
+    <ClInclude Include="src\actors\player.h" />
     <ClInclude Include="src\levelMap\levelMap.h" />
     <ClInclude Include="src\game.h" />
     <ClInclude Include="src\levelMap\levelMaps.h" />
