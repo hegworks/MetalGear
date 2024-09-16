@@ -1,7 +1,7 @@
 ﻿#include "precomp.h"
 #include "player.h"
 
-Player::Player()
+Player::Player(Surface* screen) : Human(screen)
 {
 	spriteAddress = "assets/graphics/playerSheet.png";
 	graphicFrames = 42;

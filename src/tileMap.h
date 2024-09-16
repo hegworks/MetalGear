@@ -10,13 +10,13 @@ class TileMap
 {
 public:
 	// Constructors and destructor
-	TileMap(TileSet* tileSet);
+	TileMap(Surface* screen, TileSet* tileSet);
 	~TileMap();
 
 	// Methods
 	void SetCurrentTile(int tileIndex);
-	void DrawCurrentTile(Surface* target, int x, int y);
-	void DrawLevel(Surface* target, int** levelMap, int mapColumns, int mapRows);
+	void DrawCurrentTile(int x, int y) const;
+	void DrawLevel(int** levelMap);
 
 	// Getters
 	int GetTileWidth() const { return tileWidth; }
@@ -27,6 +27,7 @@ public:
 
 private:
 	// Attributes
+	Surface* screen;
 	Surface* graphicSurface; // The tileset image
 	int tileWidth, tileHeight; // Size of a single tile
 	int rows, columns; // Number of rows and columns in the tileset

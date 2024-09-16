@@ -1,15 +1,14 @@
 ﻿#include "precomp.h"
 #include "human.h"
 
-Human::Human()
+Human::Human(Surface* screen)
 {
+	this->screen = screen;
 }
 
-Human::~Human()
-{
-}
+Human::~Human() = default;
 
-void Human::Draw(Surface* screen)
+void Human::Draw() const
 {
 	graphic->Draw(screen, position.x, position.y);
 }

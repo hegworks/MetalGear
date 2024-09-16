@@ -12,17 +12,17 @@
 void Game::Init()
 {
 	tileSet = new TileSet();
-	tileMap = new TileMap(tileSet);
+	tileMap = new TileMap(screen, tileSet);
 
 	levelMaps = new LevelMaps();
 	currentLevelPointers = levelMaps->GetLevelMapPointers(0);
 
-	player = new Player();
+	player = new Player(screen);
 }
 
 void Game::Tick(float deltaTime)
 {
-	tileMap->DrawLevel(screen, currentLevelPointers, LevelMap::COLS, LevelMap::ROWS);
+	tileMap->DrawLevel(currentLevelPointers);
 	player->Tick(deltaTime);
-	player->Draw(screen);
+	player->Draw();
 }

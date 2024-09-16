@@ -4,6 +4,6 @@
 class Player : public Human
 {
 public:
-	Player();
+	Player(Surface* screen);
 	void Tick(float deltaTime) override;
 };

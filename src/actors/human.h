@@ -3,7 +3,7 @@
 class Human
 {
 public:
-	Human();
+	Human(Surface* screen);
 	~Human();
 	char* spriteAddress;
 	int graphicFrames;
@@ -12,7 +12,10 @@ public:
 	float speed;
 	int animationFrame;
 
-	void Draw(Surface* screen);
+	void Draw() const;
 	virtual void Move(int2 direction);
 	virtual void Tick(float deltaTime);
+
+protected:
+	Surface* screen;
 };

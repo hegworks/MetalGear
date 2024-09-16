@@ -10,10 +10,11 @@ using namespace Tmpl8;
 */
 
 // Constructor
-TileMap::TileMap(TileSet* tileSet)
-	: graphicSurface(tileSet->GetGraphic()), tileWidth(tileSet->WIDTH), tileHeight(tileSet->HEIGHT),
-	rows(tileSet->ROWS), columns(tileSet->COLUMNS), currentTile(0)
+TileMap::TileMap(Surface* screen, TileSet* tileSet)
+	: graphicSurface(tileSet->GetGraphic()), tileWidth(TILESET_WIDTH), tileHeight(TILESET_HEIGHT),
+	rows(TILESET_ROWS), columns(TILESET_COLUMNS), currentTile(0)
 {
+	this->screen = screen;
 }
 
 // Destructor
@@ -28,11 +29,11 @@ void TileMap::SetCurrentTile(int tileIndex)
 }
 
 // Draw the current tile at the specified position
-void TileMap::DrawCurrentTile(Surface* target, int x, int y)
+void TileMap::DrawCurrentTile(int x, int y) const
 {
 	// Check if tile is within visible bounds
-	if(x < -tileWidth || x >(target->width + tileWidth)) return;
-	if(y < -tileHeight || y >(target->height + tileHeight)) return;
+	if(x < -tileWidth || x >(screen->width + tileWidth)) return;
+	if(y < -tileHeight || y >(screen->height + tileHeight)) return;
 
 	// Calculate the tile's row and column in the tileset
 	int tileRow = currentTile / columns;
@@ -47,15 +48,15 @@ void TileMap::DrawCurrentTile(Surface* target, int x, int y)
 	int y1 = y, y2 = y + tileHeight;
 	uint* src = graphicSurface->pixels + srcX + srcY * graphicSurface->width;
 	if(x1 < 0) src += -x1, x1 = 0;
-	if(x2 > target->width) x2 = target->width;
+	if(x2 > screen->width) x2 = screen->width;
 	if(y1 < 0) src += -y1 * graphicSurface->width, y1 = 0;
-	if(y2 > target->height) y2 = target->height;
-	uint* dest = target->pixels;
+	if(y2 > screen->height) y2 = screen->height;
+	uint* dest = screen->pixels;
 
 	// ensure the tile is inside the visible area
 	if(x2 > x1 && y2 > y1)
 	{
-		unsigned int addr = y1 * target->width + x1;
+		unsigned int addr = y1 * screen->width + x1;
 		const int w = x2 - x1;
 		const int h = y2 - y1;
 		// iterate over each pixel of the tile to be drawn
@@ -66,7 +67,7 @@ void TileMap::DrawCurrentTile(Surface* target, int x, int y)
 				const uint c1 = *(src + i);
 				if(c1 & 0xffffff) *(dest + addr + i) = c1;
 			}
-			addr += target->width;
+			addr += screen->width;
 			src += graphicSurface->width; // Move to the next row in the tileset
 		}
 	}
@@ -75,15 +76,15 @@ void TileMap::DrawCurrentTile(Surface* target, int x, int y)
 /// Draw the full level map
 /// @param target Surface to draw the level onto
 /// @param levelMap 2D array of tile indices
-void TileMap::DrawLevel(Surface* target, int** levelMap, int mapColumns, int mapRows)
+void TileMap::DrawLevel(int** levelMap)
 {
-	for(int row = 0; row < mapRows; ++row)
+	for(int row = 0; row < LEVELMAP_ROWS; ++row)
 	{
-		for(int col = 0; col < mapColumns; ++col)
+		for(int col = 0; col < LEVELMAP_COLS; ++col)
 		{
 			int tileIndex = levelMap[row][col];
 			SetCurrentTile(tileIndex);
-			DrawCurrentTile(target, col * tileWidth, row * tileHeight);
+			DrawCurrentTile(col * tileWidth, row * tileHeight);
 		}
 	}
 }

@@ -1,7 +1,7 @@
 ﻿#include "precomp.h"
 #include "levelMaps.h"
 
-const int LEVEL_MAPS[TOTAL_LEVEL_MAPS][LevelMap::ROWS][LevelMap::COLS] =
+const int LEVEL_MAPS[TOTAL_LEVEL_MAPS][LEVELMAP_ROWS][LEVELMAP_COLS] =
 {
 { // 0-middle
 {0,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151},
@@ -138,11 +138,11 @@ const int LEVEL_MAPS[TOTAL_LEVEL_MAPS][LevelMap::ROWS][LevelMap::COLS] =
 
 int** LevelMaps::GetLevelMapPointers(int id)
 {
-	int** levelMap = new int* [LevelMap::ROWS];
-	for(int i = 0; i < LevelMap::ROWS; i++)
+	int** levelMap = new int* [LEVELMAP_ROWS];
+	for(int i = 0; i < LEVELMAP_ROWS; i++)
 	{
-		levelMap[i] = new int[LevelMap::COLS];
-		for(int j = 0; j < LevelMap::COLS; j++)
+		levelMap[i] = new int[LEVELMAP_COLS];
+		for(int j = 0; j < LEVELMAP_COLS; j++)
 		{
 			levelMap[i][j] = LEVEL_MAPS[id][i][j];
 		}

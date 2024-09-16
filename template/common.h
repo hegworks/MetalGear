@@ -8,6 +8,16 @@
 // default screen resolution
 #define SCRWIDTH	1024
 #define SCRHEIGHT	768
+
+constexpr int LEVELMAP_ROWS = 24;
+constexpr int LEVELMAP_COLS = 32;
+
+constexpr char* TILESET_ADDRESS = "assets/tiles/main-tileset.png";
+constexpr int TILESET_WIDTH = 32;
+constexpr int TILESET_HEIGHT = 32;
+constexpr int TILESET_ROWS = 50;
+constexpr int TILESET_COLUMNS = 50;
+
 // #define FULLSCREEN
 
 // constants
