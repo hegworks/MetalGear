@@ -1,4 +1,5 @@
 #pragma once
+#include "tileSet.h"
 
 namespace Tmpl8
 {
@@ -9,7 +10,7 @@ class TileMap
 {
 public:
 	// Constructors and destructor
-	TileMap(Surface* surface, int tileWidth, int tileHeight, int rows, int columns);
+	TileMap(TileSet* tileSet);
 	~TileMap();
 
 	// Methods
@@ -22,11 +23,11 @@ public:
 	int GetTileHeight() const { return tileHeight; }
 	int GetRows() const { return rows; }
 	int GetColumns() const { return columns; }
-	Surface* GetSurface() const { return surface; }
+	Surface* GetSurface() const { return graphicSurface; }
 
 private:
 	// Attributes
-	Surface* surface; // The tileset image
+	Surface* graphicSurface; // The tileset image
 	int tileWidth, tileHeight; // Size of a single tile
 	int rows, columns; // Number of rows and columns in the tileset
 	int currentTile; // Currently selected tile index

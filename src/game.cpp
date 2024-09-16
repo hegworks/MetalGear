@@ -11,8 +11,8 @@
 
 void Game::Init()
 {
-	tileSet = new Surface(TileSet::ADDRESS);
-	tileMap = new TileMap(tileSet, TileSet::WIDTH, TileSet::HEIGHT, TileSet::ROWS, TileSet::COLUMNS);
+	tileSet = new TileSet();
+	tileMap = new TileMap(tileSet);
 
 	levelMaps = new LevelMaps();
 	currentLevelPointers = levelMaps->GetLevelMapPointers(0);

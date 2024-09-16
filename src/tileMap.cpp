@@ -10,9 +10,9 @@ using namespace Tmpl8;
 */
 
 // Constructor
-TileMap::TileMap(Surface* surface, int tileWidth, int tileHeight, int rows, int columns)
-	: surface(surface), tileWidth(tileWidth), tileHeight(tileHeight),
-	rows(rows), columns(columns), currentTile(0)
+TileMap::TileMap(TileSet* tileSet)
+	: graphicSurface(tileSet->GetGraphic()), tileWidth(tileSet->WIDTH), tileHeight(tileSet->HEIGHT),
+	rows(tileSet->ROWS), columns(tileSet->COLUMNS), currentTile(0)
 {
 }
 
@@ -45,10 +45,10 @@ void TileMap::DrawCurrentTile(Surface* target, int x, int y)
 	// Clip drawing if necessary
 	int x1 = x, x2 = x + tileWidth;
 	int y1 = y, y2 = y + tileHeight;
-	uint* src = surface->pixels + srcX + srcY * surface->width;
+	uint* src = graphicSurface->pixels + srcX + srcY * graphicSurface->width;
 	if(x1 < 0) src += -x1, x1 = 0;
 	if(x2 > target->width) x2 = target->width;
-	if(y1 < 0) src += -y1 * surface->width, y1 = 0;
+	if(y1 < 0) src += -y1 * graphicSurface->width, y1 = 0;
 	if(y2 > target->height) y2 = target->height;
 	uint* dest = target->pixels;
 
@@ -67,7 +67,7 @@ void TileMap::DrawCurrentTile(Surface* target, int x, int y)
 				if(c1 & 0xffffff) *(dest + addr + i) = c1;
 			}
 			addr += target->width;
-			src += surface->width; // Move to the next row in the tileset
+			src += graphicSurface->width; // Move to the next row in the tileset
 		}
 	}
 }

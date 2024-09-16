@@ -6,6 +6,7 @@
 #include "actors/player.h"
 #include "levelMap/levelMaps.h"
 #include "tileMap.h"
+#include "tileSet.h"
 
 namespace Tmpl8
 {
@@ -27,8 +28,7 @@ public:
 	// data members
 	int2 mousePos;
 
-
-	Surface* tileSet = nullptr;
+	TileSet* tileSet = nullptr;
 	TileMap* tileMap = nullptr;
 	LevelMaps* levelMaps = nullptr;
 	int** currentLevelPointers = nullptr;

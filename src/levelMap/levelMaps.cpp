@@ -1,7 +1,7 @@
 ﻿#include "precomp.h"
 #include "levelMaps.h"
 
-const int LEVEL_MAPS[LevelMaps::TOTAL_LEVEL_MAPS][LevelMap::ROWS][LevelMap::COLS] =
+const int LEVEL_MAPS[TOTAL_LEVEL_MAPS][LevelMap::ROWS][LevelMap::COLS] =
 {
 { // 0-middle
 {0,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151},
