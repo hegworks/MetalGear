@@ -12,60 +12,29 @@ Player::Player(Surface* screen) : Human(screen)
 	animationFrame = 0;
 }
 
-enum AnimationState
-{
-	Up = 0,
-	Down = 1,
-	Left = 2,
-	Right = 3,
-};
-
-bool isIdle = true;
-
-struct MyAnimation
-{
-	AnimationState state;
-	int startFrame;
-	int endFrame;
-};
-
-
-const int animationCount = 4;
-const float animationUpdateTime = 100.0f;
-float animationUpdateTimer = 0.0f;
-
-AnimationState currentAnimationState = Down;
-AnimationState lastAnimationState = Down;
-
-MyAnimation animations[animationCount] = {
-	{ Up, 6, 8 },
-	{ Down, 0, 2 },
-	{ Left, 3, 5 },
-	{ Right, 9, 11 },
-};
-
 void Player::Tick(float deltaTime)
 {
 	isIdle = false;
+
 	if(GetAsyncKeyState(VK_UP))
 	{
 		position.y -= speed * deltaTime;
-		currentAnimationState = Up;
+		currentAnimationState = AnimationState::Up;
 	}
 	else if(GetAsyncKeyState(VK_DOWN))
 	{
 		position.y += speed * deltaTime;
-		currentAnimationState = Down;
+		currentAnimationState = AnimationState::Down;
 	}
 	else if(GetAsyncKeyState(VK_LEFT))
 	{
 		position.x -= speed * deltaTime;
-		currentAnimationState = Left;
+		currentAnimationState = AnimationState::Left;
 	}
 	else if(GetAsyncKeyState(VK_RIGHT))
 	{
 		position.x += speed * deltaTime;
-		currentAnimationState = Right;
+		currentAnimationState = AnimationState::Right;
 	}
 	else
 	{
@@ -74,28 +43,29 @@ void Player::Tick(float deltaTime)
 
 	if(isIdle)
 	{
-		graphic->SetFrame(animations[currentAnimationState].startFrame);
-		animationUpdateTimer = animationUpdateTime;
+		graphic->SetFrame(animations[static_cast<int>(currentAnimationState)].startFrame);
+		animationUpdateTimer = ANIMATION_UPDATE_TIME;
 		return;
 	}
 
 	if(currentAnimationState != lastAnimationState)
 	{
-		animationFrame = animations[currentAnimationState].startFrame;
+		animationFrame = animations[static_cast<int>(currentAnimationState)].startFrame;
 		lastAnimationState = currentAnimationState;
 	}
 
 	animationUpdateTimer += deltaTime;
 
-	if(animationUpdateTimer > animationUpdateTime)
+	if(animationUpdateTimer > ANIMATION_UPDATE_TIME)
 	{
 		animationUpdateTimer = 0.0f;
 
 		animationFrame++;
-		if(animationFrame > animations[currentAnimationState].endFrame)
+		if(animationFrame > animations[static_cast<int>(currentAnimationState)].endFrame)
 		{
-			animationFrame = animations[currentAnimationState].startFrame;
+			animationFrame = animations[static_cast<int>(currentAnimationState)].startFrame;
 		}
+
 		graphic->SetFrame(animationFrame);
 	}
 }

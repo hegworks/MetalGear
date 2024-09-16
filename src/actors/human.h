@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include "../Animation/AnimationState.h"
 
 class Human
 {
@@ -18,4 +19,6 @@ public:
 
 protected:
 	Surface* screen;
+	AnimationState currentAnimationState = AnimationState::Down;
+	AnimationState lastAnimationState = AnimationState::Down;
 };

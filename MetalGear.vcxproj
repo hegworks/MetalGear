@@ -146,8 +146,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cl\tools.cl" />
+    <ClInclude Include="src\Animation\AnimationState.h" />
     <ClInclude Include="src\actors\human.h" />
     <ClInclude Include="src\actors\player.h" />
+    <ClInclude Include="src\Animation\customAnimation.h" />
     <ClInclude Include="src\levelMap\levelMap.h" />
     <ClInclude Include="src\game.h" />
     <ClInclude Include="src\levelMap\levelMaps.h" />

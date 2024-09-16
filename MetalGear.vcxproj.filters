@@ -65,6 +65,8 @@
     <ClInclude Include="src\levelMap\levelMap.h" />
     <ClInclude Include="src\levelMap\levelMaps.h" />
     <ClInclude Include="src\tileSet.h" />
+    <ClInclude Include="src\Animation\AnimationState.h" />
+    <ClInclude Include="src\Animation\customAnimation.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md">
