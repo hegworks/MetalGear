@@ -148,8 +148,6 @@ LevelMaps::LevelMaps()
 			}
 		}
 	}
-
-	delete[] temp;
 }
 
 int** LevelMaps::GetLevelMapPointers(int id)
