@@ -18,6 +18,8 @@ constexpr int TILESET_HEIGHT = 32;
 constexpr int TILESET_ROWS = 50;
 constexpr int TILESET_COLUMNS = 50;
 
+constexpr int TOTAL_LEVEL_MAPS = 5;
+
 // #define FULLSCREEN
 
 // constants
