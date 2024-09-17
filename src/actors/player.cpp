@@ -7,7 +7,7 @@ Player::Player(Surface* screen) : Human(screen)
 	graphicFrames = 42;
 	graphic = new Sprite(new Surface(spriteAddress), graphicFrames);
 	graphic->SetFrame(0);
-	position = float2(100, 100);
+	position = float2(SCRWIDTH / 2.0f, SCRHEIGHT / 2.0f);
 	speed = 0.25f;
 	animationFrame = 0;
 }
