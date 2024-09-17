@@ -31,7 +31,8 @@ public:
 	TileSet* tileSet = nullptr;
 	TileMap* tileMap = nullptr;
 	LevelMaps* levelMaps = nullptr;
-	int** currentLevelPointers = nullptr;
+	int** currentLevelTiles = nullptr;
+	int** currentLevelColliders = nullptr;
 	Player* player = nullptr;
 };
 

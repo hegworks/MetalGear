@@ -11,14 +11,16 @@ void Game::Init()
 	tileMap = new TileMap(screen, tileSet);
 
 	levelMaps = new LevelMaps();
-	currentLevelPointers = levelMaps->GetLevelMapPointers(0);
+	currentLevelTiles = levelMaps->GetLevelMapPointers(0);
+	currentLevelColliders = levelMaps->GetLevelColliderPointers(0);
 
 	player = new Player(screen);
 }
 
 void Game::Tick(float deltaTime)
 {
-	tileMap->DrawLevel(currentLevelPointers);
+	tileMap->DrawLevel(currentLevelTiles);
+	tileMap->DrawLevel(currentLevelColliders);
 	player->Tick(deltaTime);
 	player->Draw();
 }

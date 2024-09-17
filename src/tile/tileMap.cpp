@@ -85,8 +85,11 @@ void TileMap::DrawLevel(int** levelMap)
 		for(int col = 0; col < LEVELMAP_COLS; ++col)
 		{
 			int tileIndex = levelMap[row][col];
-			SetCurrentTile(tileIndex);
-			DrawCurrentTile(col * tileWidth, row * tileHeight);
+			if(tileIndex != -1)
+			{
+				SetCurrentTile(tileIndex);
+				DrawCurrentTile(col * tileWidth, row * tileHeight);
+			}
 		}
 	}
 }
