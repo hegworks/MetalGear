@@ -49,8 +49,6 @@ void Player::HandleInput()
 	}
 }
 
-const int tileCollisionPreventPixels = 5;
-
 void Player::UpdatePosition(float deltaTime)
 {
 	if(isIdle) return;
@@ -101,7 +99,6 @@ void Player::UpdateColliders() const
 			feet.x += tileCollisionPreventPixels;
 			break;
 	}
-
 
 	tileBoxCollider->UpdatePosition(feet);
 	tileBoxCollider->Draw(2);

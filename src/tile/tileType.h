@@ -2,7 +2,7 @@
 
 enum class TileType
 {
-	Empty,
+	Empty = -1,
 	Solid = 323,
 	RoomChange = 324,
 };
