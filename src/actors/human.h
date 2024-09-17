@@ -1,10 +1,11 @@
 ﻿#pragma once
-#include "../Animation/AnimationState.h"
+#include "src/animation/animationState.h"
+#include "src/tile/levelMap/levelMaps.h"
 
 class Human
 {
 public:
-	Human(Surface* screen);
+	Human(Surface* screen, LevelMaps* levelMaps);
 	~Human();
 	char* spriteAddress;
 	int graphicFrames;
@@ -19,6 +20,7 @@ public:
 
 protected:
 	Surface* screen;
+	LevelMaps* levelMaps;
 	AnimationState currentAnimationState = AnimationState::Down;
 	AnimationState lastAnimationState = AnimationState::Down;
 };

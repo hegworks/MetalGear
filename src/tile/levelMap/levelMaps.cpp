@@ -1,6 +1,8 @@
 ﻿#include "precomp.h"
 #include "levelMaps.h"
 
+#include "src/tile/tileSet.h"
+
 LevelMaps::LevelMaps()
 {
 	const int levelMapsTemp[TOTAL_LEVEL_MAPS][LEVELMAP_ROWS][LEVELMAP_COLS] =
@@ -70,7 +72,7 @@ LevelMaps::LevelMaps()
 		{
 			for(int k = 0; k < LEVELMAP_COLS; ++k)
 			{
-				levelMaps[i][j][k] = levelMapsTemp[i][j][k];
+				tiles[i][j][k] = levelMapsTemp[i][j][k];
 			}
 		}
 	}
@@ -81,28 +83,43 @@ LevelMaps::LevelMaps()
 		{
 			for(int k = 0; k < LEVELMAP_COLS; ++k)
 			{
-				levelColliders[i][j][k] = levelCollidersTemp[i][j][k];
+				colls[i][j][k] = levelCollidersTemp[i][j][k];
 			}
 		}
 	}
 }
 
-int** LevelMaps::GetLevelMapPointers(int id)
+int** LevelMaps::GetLevelMapPointers()
 {
 	int** maps = new int* [LEVELMAP_ROWS];
 	for(int i = 0; i < LEVELMAP_ROWS; ++i)
 	{
-		maps[i] = levelMaps[id][i];
+		maps[i] = tiles[currentLevelId][i];
 	}
 	return maps;
 }
 
-int** LevelMaps::GetLevelColliderPointers(int id)
+int** LevelMaps::GetLevelColliderPointers()
 {
 	int** colliders = new int* [LEVELMAP_ROWS];
 	for(int i = 0; i < LEVELMAP_ROWS; ++i)
 	{
-		colliders[i] = levelColliders[id][i];
+		colliders[i] = colls[currentLevelId][i];
 	}
 	return colliders;
+}
+
+TileType LevelMaps::GetTileType(const int2 pos) const
+{
+	return static_cast<TileType>(GetCollValue(pos));
+}
+
+int LevelMaps::GetCollValue(const int2 pos) const
+{
+	return colls[currentLevelId][pos.y / TILESET_TILEHEIGHT][pos.x / TILESET_TILEWIDTH];
+}
+
+bool LevelMaps::IsSolid(const int2 pos) const
+{
+	return GetTileType(pos) == TileType::Solid;
 }

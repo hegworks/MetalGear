@@ -1,9 +1,10 @@
 ﻿#pragma once
+#include "src/tile/levelMap/levelMaps.h"
 
 class Collider
 {
 public:
-	Collider(Surface* screen);
+	Collider(Surface* screen, LevelMaps* levelMaps);
 	~Collider() {}
 
 	virtual void Draw(const int size) {}
@@ -11,4 +12,5 @@ public:
 
 protected:
 	Surface* screen;
+	LevelMaps* levelMaps;
 };

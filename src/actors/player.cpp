@@ -1,7 +1,7 @@
 ﻿#include "precomp.h"
 #include "player.h"
 
-Player::Player(Surface* screen) : Human(screen)
+Player::Player(Surface* screen, LevelMaps* levelMaps) : Human(screen, levelMaps)
 {
 	spriteAddress = "assets/graphics/playerSheet.png";
 	graphicFrames = 42;
@@ -11,7 +11,7 @@ Player::Player(Surface* screen) : Human(screen)
 	speed = 0.25f;
 	animationFrame = 0;
 
-	tileBoxCollider = new BoxCollider(screen, {32, 32});
+	tileBoxCollider = new BoxCollider(screen, levelMaps, {32, 32});
 }
 
 void Player::Tick(float deltaTime)
@@ -49,9 +49,16 @@ void Player::HandleInput()
 	}
 }
 
+const int tileCollisionPreventPixels = 5;
+
 void Player::UpdatePosition(float deltaTime)
 {
 	if(isIdle) return;
+
+	if(tileBoxCollider->IsSolid(movementDirection))
+	{
+		return;
+	}
 
 	switch(movementDirection)
 	{
@@ -72,11 +79,30 @@ void Player::UpdatePosition(float deltaTime)
 
 void Player::UpdateColliders() const
 {
-	const int2 feet =
+	if(isIdle) return;
+
+	int2 feet =
 	{
 		static_cast<int>(position.x) + tileBoxColliderXOffset,
 		static_cast<int>(position.y) + tileBoxColliderYOffset
 	};
+	switch(movementDirection)
+	{
+		case Direction::Up:
+			feet.y -= tileCollisionPreventPixels;
+			break;
+		case Direction::Down:
+			feet.y += tileCollisionPreventPixels;
+			break;
+		case Direction::Left:
+			feet.x -= tileCollisionPreventPixels;
+			break;
+		case Direction::Right:
+			feet.x += tileCollisionPreventPixels;
+			break;
+	}
+
+
 	tileBoxCollider->UpdatePosition(feet);
 	tileBoxCollider->Draw(2);
 }

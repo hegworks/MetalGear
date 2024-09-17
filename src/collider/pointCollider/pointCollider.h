@@ -4,7 +4,7 @@
 class PointCollider : public Collider
 {
 public:
-	PointCollider(Surface* screen) : Collider(screen) {	}
+	PointCollider(Surface* screen, LevelMaps* levelMaps) : Collider(screen, levelMaps) {}
 
 	void UpdatePosition(int2 pos);
 	void Draw(int size, int color = 0xff0000) override;

@@ -1,4 +1,5 @@
 #pragma once
+#include "levelMap/levelMaps.h"
 #include "tileSet.h"
 
 namespace Tmpl8

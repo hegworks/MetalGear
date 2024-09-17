@@ -1,9 +1,10 @@
 ﻿#include "precomp.h"
 #include "human.h"
 
-Human::Human(Surface* screen)
+Human::Human(Surface* screen, LevelMaps* levelMaps)
 {
 	this->screen = screen;
+	this->levelMaps = levelMaps;
 }
 
 Human::~Human() = default;

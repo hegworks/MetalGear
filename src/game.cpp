@@ -11,10 +11,11 @@ void Game::Init()
 	tileMap = new TileMap(screen, tileSet);
 
 	levelMaps = new LevelMaps();
-	currentLevelTiles = levelMaps->GetLevelMapPointers(0);
-	currentLevelColliders = levelMaps->GetLevelColliderPointers(0);
+	levelMaps->SetCurrentLevelId(0);
+	currentLevelTiles = levelMaps->GetLevelMapPointers();
+	currentLevelColliders = levelMaps->GetLevelColliderPointers();
 
-	player = new Player(screen);
+	player = new Player(screen, levelMaps);
 }
 
 void Game::Tick(float deltaTime)

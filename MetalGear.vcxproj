@@ -126,7 +126,6 @@
     <ClCompile Include="src\collider\boxCollider\boxCollider.cpp" />
     <ClCompile Include="src\collider\collider.cpp" />
     <ClCompile Include="src\collider\pointCollider\pointCollider.cpp" />
-    <ClCompile Include="src\tile\levelMap\levelMap.cpp" />
     <ClCompile Include="src\game.cpp" />
     <ClCompile Include="src\tile\levelMap\levelMaps.cpp" />
     <ClCompile Include="src\tile\tileSet.cpp" />
@@ -157,10 +156,10 @@
     <ClInclude Include="src\collider\boxCollider\boxCollider.h" />
     <ClInclude Include="src\collider\collider.h" />
     <ClInclude Include="src\collider\pointCollider\pointCollider.h" />
-    <ClInclude Include="src\tile\levelMap\levelMap.h" />
     <ClInclude Include="src\game.h" />
     <ClInclude Include="src\tile\levelMap\levelMaps.h" />
     <ClInclude Include="src\tile\tileSet.h" />
+    <ClInclude Include="src\tile\tileType.h" />
     <ClInclude Include="template\common.h" />
     <ClInclude Include="template\opencl.h" />
     <ClInclude Include="template\opengl.h" />

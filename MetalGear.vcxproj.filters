@@ -26,7 +26,6 @@
     <ClCompile Include="src\tile\tileMap.cpp" />
     <ClCompile Include="src\actors\human.cpp" />
     <ClCompile Include="src\actors\player.cpp" />
-    <ClCompile Include="src\tile\levelMap\levelMap.cpp" />
     <ClCompile Include="src\tile\levelMap\levelMaps.cpp" />
     <ClCompile Include="src\tile\tileSet.cpp" />
     <ClCompile Include="src\collider\pointCollider\pointCollider.cpp" />
@@ -65,7 +64,6 @@
     <ClInclude Include="src\tile\tileMap.h" />
     <ClInclude Include="src\actors\human.h" />
     <ClInclude Include="src\actors\player.h" />
-    <ClInclude Include="src\tile\levelMap\levelMap.h" />
     <ClInclude Include="src\tile\levelMap\levelMaps.h" />
     <ClInclude Include="src\tile\tileSet.h" />
     <ClInclude Include="src\animation\animationState.h" />
@@ -74,6 +72,7 @@
     <ClInclude Include="src\collider\pointCollider\pointCollider.h" />
     <ClInclude Include="src\collider\collider.h" />
     <ClInclude Include="src\collider\boxCollider\boxCollider.h" />
+    <ClInclude Include="src\tile\tileType.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md">

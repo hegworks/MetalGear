@@ -10,7 +10,7 @@ constexpr int PLAYER_ANIMATION_COUNT = 4;
 class Player : public Human
 {
 public:
-	Player(Surface* screen);
+	Player(Surface* screen, LevelMaps* levelMaps);
 	void Tick(float deltaTime) override;
 
 private:
