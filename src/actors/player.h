@@ -2,6 +2,8 @@
 #include "direction.h"
 #include "human.h"
 #include "src/Animation/customAnimation.h"
+#include "src/collider/boxCollider/boxCollider.h"
+#include "src/tile/tileSet.h"
 
 constexpr int PLAYER_ANIMATION_COUNT = 4;
 
@@ -26,8 +28,13 @@ private:
 	float animationUpdateTimer = 0.0f;
 	Direction movementDirection = Direction::Down;
 
+	BoxCollider* tileBoxCollider;
+	const int tileBoxColliderXOffset = TILESET_TILEWIDTH - 8;
+	const int tileBoxColliderYOffset = TILESET_TILEHEIGHT * 3 - 8;
+
 	void HandleInput();
 	void UpdatePosition(float deltaTime);
+	void UpdateColliders() const;
 	void UpdateAnimationState();
 	void Animate(float deltaTime);
 };

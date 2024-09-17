@@ -13,7 +13,7 @@ using namespace Tmpl8;
 
 // Constructor
 TileMap::TileMap(Surface* screen, TileSet* tileSet)
-	: graphicSurface(tileSet->GetGraphic()), tileWidth(TILESET_WIDTH), tileHeight(TILESET_HEIGHT),
+	: graphicSurface(tileSet->GetGraphic()), tileWidth(TILESET_TILEWIDTH), tileHeight(TILESET_TILEHEIGHT),
 	rows(TILESET_ROWS), columns(TILESET_COLUMNS), currentTile(0)
 {
 	this->screen = screen;

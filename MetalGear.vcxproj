@@ -123,6 +123,7 @@
   <ItemGroup>
     <ClCompile Include="src\actors\human.cpp" />
     <ClCompile Include="src\actors\player.cpp" />
+    <ClCompile Include="src\collider\boxCollider\boxCollider.cpp" />
     <ClCompile Include="src\collider\collider.cpp" />
     <ClCompile Include="src\collider\pointCollider\pointCollider.cpp" />
     <ClCompile Include="src\tile\levelMap\levelMap.cpp" />
@@ -153,6 +154,7 @@
     <ClInclude Include="src\actors\human.h" />
     <ClInclude Include="src\actors\player.h" />
     <ClInclude Include="src\animation\customAnimation.h" />
+    <ClInclude Include="src\collider\boxCollider\boxCollider.h" />
     <ClInclude Include="src\collider\collider.h" />
     <ClInclude Include="src\collider\pointCollider\pointCollider.h" />
     <ClInclude Include="src\tile\levelMap\levelMap.h" />

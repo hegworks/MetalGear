@@ -31,6 +31,7 @@
     <ClCompile Include="src\tile\tileSet.cpp" />
     <ClCompile Include="src\collider\pointCollider\pointCollider.cpp" />
     <ClCompile Include="src\collider\collider.cpp" />
+    <ClCompile Include="src\collider\boxCollider\boxCollider.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="template\common.h">
@@ -72,6 +73,7 @@
     <ClInclude Include="src\actors\direction.h" />
     <ClInclude Include="src\collider\pointCollider\pointCollider.h" />
     <ClInclude Include="src\collider\collider.h" />
+    <ClInclude Include="src\collider\boxCollider\boxCollider.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md">

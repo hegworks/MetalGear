@@ -7,7 +7,7 @@ public:
 	PointCollider(Surface* screen) : Collider(screen) {	}
 
 	void UpdatePosition(int2 pos);
-	void Draw(int size, int color = 0xff0000);
+	void Draw(int size, int color = 0xff0000) override;
 	int2 GetPos() const { return pos; }
 
 private:

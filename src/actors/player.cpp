@@ -7,14 +7,17 @@ Player::Player(Surface* screen) : Human(screen)
 	graphicFrames = 42;
 	graphic = new Sprite(new Surface(spriteAddress), graphicFrames);
 	graphic->SetFrame(0);
-	position = float2(SCRWIDTH / 2.0f, SCRHEIGHT / 2.0f);
+	position = float2(512, 256);
 	speed = 0.25f;
 	animationFrame = 0;
+
+	tileBoxCollider = new BoxCollider(screen, {32, 32});
 }
 
 void Player::Tick(float deltaTime)
 {
 	HandleInput();
+	UpdateColliders();
 	UpdatePosition(deltaTime);
 	UpdateAnimationState();
 	Animate(deltaTime);
@@ -65,6 +68,17 @@ void Player::UpdatePosition(float deltaTime)
 			position.x += speed * deltaTime;
 			break;
 	}
+}
+
+void Player::UpdateColliders() const
+{
+	const int2 feet =
+	{
+		static_cast<int>(position.x) + tileBoxColliderXOffset,
+		static_cast<int>(position.y) + tileBoxColliderYOffset
+	};
+	tileBoxCollider->UpdatePosition(feet);
+	tileBoxCollider->Draw(2);
 }
 
 void Player::UpdateAnimationState()
