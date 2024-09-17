@@ -14,33 +14,82 @@ Player::Player(Surface* screen) : Human(screen)
 
 void Player::Tick(float deltaTime)
 {
+	HandleInput();
+	UpdatePosition(deltaTime);
+	UpdateAnimationState();
+	Animate(deltaTime);
+}
+
+void Player::HandleInput()
+{
 	isIdle = false;
 
 	if(GetAsyncKeyState(VK_UP))
 	{
-		position.y -= speed * deltaTime;
-		currentAnimationState = AnimationState::Up;
+		movementDirection = Direction::Up;
 	}
 	else if(GetAsyncKeyState(VK_DOWN))
 	{
-		position.y += speed * deltaTime;
-		currentAnimationState = AnimationState::Down;
+		movementDirection = Direction::Down;
 	}
 	else if(GetAsyncKeyState(VK_LEFT))
 	{
-		position.x -= speed * deltaTime;
-		currentAnimationState = AnimationState::Left;
+		movementDirection = Direction::Left;
 	}
 	else if(GetAsyncKeyState(VK_RIGHT))
 	{
-		position.x += speed * deltaTime;
-		currentAnimationState = AnimationState::Right;
+		movementDirection = Direction::Right;
 	}
 	else
 	{
 		isIdle = true;
 	}
+}
 
+void Player::UpdatePosition(float deltaTime)
+{
+	if(isIdle) return;
+
+	switch(movementDirection)
+	{
+		case Direction::Up:
+			position.y -= speed * deltaTime;
+			break;
+		case Direction::Down:
+			position.y += speed * deltaTime;
+			break;
+		case Direction::Left:
+			position.x -= speed * deltaTime;
+			break;
+		case Direction::Right:
+			position.x += speed * deltaTime;
+			break;
+	}
+}
+
+void Player::UpdateAnimationState()
+{
+	if(isIdle) return;
+
+	switch(movementDirection)
+	{
+		case Direction::Up:
+			currentAnimationState = AnimationState::Up;
+			break;
+		case Direction::Down:
+			currentAnimationState = AnimationState::Down;
+			break;
+		case Direction::Left:
+			currentAnimationState = AnimationState::Left;
+			break;
+		case Direction::Right:
+			currentAnimationState = AnimationState::Right;
+			break;
+	}
+}
+
+void Player::Animate(float deltaTime)
+{
 	if(isIdle)
 	{
 		graphic->SetFrame(animations[static_cast<int>(currentAnimationState)].startFrame);

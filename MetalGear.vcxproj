@@ -146,6 +146,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cl\tools.cl" />
+    <ClInclude Include="src\actors\direction.h" />
     <ClInclude Include="src\animation\animationState.h" />
     <ClInclude Include="src\actors\human.h" />
     <ClInclude Include="src\actors\player.h" />

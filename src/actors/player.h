@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include "direction.h"
 #include "human.h"
 #include "src/Animation/customAnimation.h"
 
@@ -23,4 +24,10 @@ private:
 
 	const float ANIMATION_UPDATE_TIME = 100.0f;
 	float animationUpdateTimer = 0.0f;
+	Direction movementDirection = Direction::Down;
+
+	void HandleInput();
+	void UpdatePosition(float deltaTime);
+	void UpdateAnimationState();
+	void Animate(float deltaTime);
 };

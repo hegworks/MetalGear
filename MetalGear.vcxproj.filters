@@ -67,6 +67,7 @@
     <ClInclude Include="src\tile\tileSet.h" />
     <ClInclude Include="src\animation\animationState.h" />
     <ClInclude Include="src\animation\customAnimation.h" />
+    <ClInclude Include="src\actors\direction.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md">
