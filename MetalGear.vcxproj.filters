@@ -23,12 +23,12 @@
       <Filter>template</Filter>
     </ClCompile>
     <ClCompile Include="src\game.cpp" />
-    <ClCompile Include="src\tileMap.cpp" />
+    <ClCompile Include="src\tile\tileMap.cpp" />
     <ClCompile Include="src\actors\human.cpp" />
     <ClCompile Include="src\actors\player.cpp" />
-    <ClCompile Include="src\levelMap\levelMap.cpp" />
-    <ClCompile Include="src\levelMap\levelMaps.cpp" />
-    <ClCompile Include="src\tileSet.cpp" />
+    <ClCompile Include="src\tile\levelMap\levelMap.cpp" />
+    <ClCompile Include="src\tile\levelMap\levelMaps.cpp" />
+    <ClCompile Include="src\tile\tileSet.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="template\common.h">
@@ -59,14 +59,14 @@
       <Filter>template</Filter>
     </ClInclude>
     <ClInclude Include="src\game.h" />
-    <ClInclude Include="src\tileMap.h" />
+    <ClInclude Include="src\tile\tileMap.h" />
     <ClInclude Include="src\actors\human.h" />
     <ClInclude Include="src\actors\player.h" />
-    <ClInclude Include="src\levelMap\levelMap.h" />
-    <ClInclude Include="src\levelMap\levelMaps.h" />
-    <ClInclude Include="src\tileSet.h" />
-    <ClInclude Include="src\Animation\animationState.h" />
-    <ClInclude Include="src\Animation\customAnimation.h" />
+    <ClInclude Include="src\tile\levelMap\levelMap.h" />
+    <ClInclude Include="src\tile\levelMap\levelMaps.h" />
+    <ClInclude Include="src\tile\tileSet.h" />
+    <ClInclude Include="src\animation\animationState.h" />
+    <ClInclude Include="src\animation\customAnimation.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md">

@@ -4,9 +4,9 @@
 
 #pragma once
 #include "actors/player.h"
-#include "levelMap/levelMaps.h"
-#include "tileMap.h"
-#include "tileSet.h"
+#include "tile/levelMap/levelMaps.h"
+#include "tile/tileMap.h"
+#include "tile/tileSet.h"
 
 namespace Tmpl8
 {

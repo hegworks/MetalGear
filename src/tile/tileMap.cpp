@@ -1,6 +1,8 @@
 #include "precomp.h"
 #include "tileMap.h"
 
+#include "levelMap/levelMap.h"
+
 using namespace Tmpl8;
 
 /*

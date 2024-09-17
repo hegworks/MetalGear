@@ -3,11 +3,7 @@
 // IGAD/NHTV/BUAS/UU - Jacco Bikker - 2006-2024
 
 #include "precomp.h"
-#include "actors/player.h"
 #include "game.h"
-#include "levelMap/levelMaps.h"
-#include "tileMap.h"
-#include "tileSet.h"
 
 void Game::Init()
 {
