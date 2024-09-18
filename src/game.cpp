@@ -21,7 +21,9 @@ void Game::Init()
 void Game::Tick(float deltaTime)
 {
 	tileMap->DrawLevel(currentLevelTiles);
+#ifdef _PHYSICS_DEBUG
 	tileMap->DrawLevel(currentLevelColliders);
+#endif
 	player->Tick(deltaTime);
 	player->Draw();
 }
