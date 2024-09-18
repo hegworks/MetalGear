@@ -23,21 +23,17 @@ int tempCounter = 0;
 
 void Game::Tick(float deltaTime)
 {
-	screen->Clear(0);
-
 	tempCounter++;
 
 	if(GetAsyncKeyState(VK_F1) && tempCounter > 300)
 	{
 		tempCounter = 0;
 		currentLevel = (currentLevel + 1) % TOTAL_LEVEL_MAPS;
-		printf("%i\n", currentLevel);
 		levelMaps->SetCurrentLevelId(currentLevel);
 		currentLevelTiles = nullptr;
 		currentLevelColliders = nullptr;
 		currentLevelTiles = levelMaps->GetLevelMapPointers();
 		currentLevelColliders = levelMaps->GetLevelColliderPointers();
-		screen->Clear(0);
 		return;
 	}
 
