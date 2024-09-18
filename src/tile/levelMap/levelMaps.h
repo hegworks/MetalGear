@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "src/tile/tileType.h"
 
-constexpr int TOTAL_LEVEL_MAPS = 1;
+constexpr int TOTAL_LEVEL_MAPS = 10;
 constexpr int LEVELMAP_ROWS = 24;
 constexpr int LEVELMAP_COLS = 32;
 

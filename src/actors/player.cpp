@@ -11,7 +11,7 @@ Player::Player(Surface* screen, LevelMaps* levelMaps) : Human(screen, levelMaps)
 	speed = 0.25f;
 	animationFrame = 0;
 
-	tileBoxCollider = new BoxCollider(screen, levelMaps, {32, 32});
+	tileBoxCollider = new BoxCollider(screen, levelMaps, {30, 30});
 }
 
 void Player::Tick(float deltaTime)

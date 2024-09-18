@@ -31,7 +31,7 @@ private:
 	BoxCollider* tileBoxCollider;
 	const int tileBoxColliderXOffset = TILESET_TILEWIDTH - 8;
 	const int tileBoxColliderYOffset = TILESET_TILEHEIGHT * 3 - 8;
-	const int tileCollisionPreventPixels = 5;
+	const int tileCollisionPreventPixels = 1;
 
 	void HandleInput();
 	void UpdatePosition(float deltaTime);
