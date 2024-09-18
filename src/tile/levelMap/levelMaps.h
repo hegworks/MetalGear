@@ -17,8 +17,8 @@ public:
 	bool IsSolid(int2 pos) const;
 
 private:
-	const int (*tiles)[LEVELMAP_ROWS][LEVELMAP_COLS];
-	const int (*colls)[LEVELMAP_ROWS][LEVELMAP_COLS];
+	int tiles[TOTAL_LEVEL_MAPS][LEVELMAP_ROWS][LEVELMAP_COLS];
+	int colls[TOTAL_LEVEL_MAPS][LEVELMAP_ROWS][LEVELMAP_COLS];
 	int currentLevelId = 0;
 
 	int GetCollValue(int2 pos) const;

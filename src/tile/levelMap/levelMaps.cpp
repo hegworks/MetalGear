@@ -534,8 +534,28 @@ LevelMaps::LevelMaps()
 	},
 	};
 
-	tiles = levelMapsTemp;
-	colls = levelCollidersTemp;
+	// Manually copy the temporary arrays to the member array
+	for(int i = 0; i < TOTAL_LEVEL_MAPS; ++i)
+	{
+		for(int j = 0; j < LEVELMAP_ROWS; ++j)
+		{
+			for(int k = 0; k < LEVELMAP_COLS; ++k)
+			{
+				tiles[i][j][k] = levelMapsTemp[i][j][k];
+			}
+		}
+	}
+
+	for(int i = 0; i < TOTAL_LEVEL_MAPS; ++i)
+	{
+		for(int j = 0; j < LEVELMAP_ROWS; ++j)
+		{
+			for(int k = 0; k < LEVELMAP_COLS; ++k)
+			{
+				colls[i][j][k] = levelCollidersTemp[i][j][k];
+			}
+		}
+	}
 }
 
 int** LevelMaps::GetLevelMapPointers()
@@ -543,7 +563,7 @@ int** LevelMaps::GetLevelMapPointers()
 	int** maps = new int* [LEVELMAP_ROWS];
 	for(int i = 0; i < LEVELMAP_ROWS; ++i)
 	{
-		maps[i] = const_cast<int*>(tiles[currentLevelId][i]);
+		maps[i] = tiles[currentLevelId][i];
 	}
 	return maps;
 }
@@ -553,7 +573,7 @@ int** LevelMaps::GetLevelColliderPointers()
 	int** colliders = new int* [LEVELMAP_ROWS];
 	for(int i = 0; i < LEVELMAP_ROWS; ++i)
 	{
-		colliders[i] = const_cast<int*>(colls[currentLevelId][i]);
+		colliders[i] = colls[currentLevelId][i];
 	}
 	return colliders;
 }
