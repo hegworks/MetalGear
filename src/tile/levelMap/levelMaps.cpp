@@ -5,7 +5,7 @@
 
 LevelMaps::LevelMaps()
 {
-	const int levelMapsTemp[TOTAL_LEVEL_MAPS][LEVELMAP_ROWS][LEVELMAP_COLS] =
+	static const int levelMapsTemp[TOTAL_LEVEL_MAPS][LEVELMAP_ROWS][LEVELMAP_COLS] =
 	{
 	{ // 0
 	{2,2,2,3,8,9,9,10,8,9,9,10,132,132,132,132,132,132,132,132,8,9,9,10,8,9,9,10,2,2,2,3},
@@ -35,7 +35,7 @@ LevelMaps::LevelMaps()
 	},
 	};
 
-	const int levelCollidersTemp[TOTAL_LEVEL_MAPS][LEVELMAP_ROWS][LEVELMAP_COLS] =
+	static const int levelCollidersTemp[TOTAL_LEVEL_MAPS][LEVELMAP_ROWS][LEVELMAP_COLS] =
 	{
 	{ // 0
 	{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,323,324,324,324,324,324,324,324,324,323,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
@@ -65,28 +65,8 @@ LevelMaps::LevelMaps()
 	},
 	};
 
-	// Manually copy the temporary arrays to the member array
-	for(int i = 0; i < TOTAL_LEVEL_MAPS; ++i)
-	{
-		for(int j = 0; j < LEVELMAP_ROWS; ++j)
-		{
-			for(int k = 0; k < LEVELMAP_COLS; ++k)
-			{
-				tiles[i][j][k] = levelMapsTemp[i][j][k];
-			}
-		}
-	}
-
-	for(int i = 0; i < TOTAL_LEVEL_MAPS; ++i)
-	{
-		for(int j = 0; j < LEVELMAP_ROWS; ++j)
-		{
-			for(int k = 0; k < LEVELMAP_COLS; ++k)
-			{
-				colls[i][j][k] = levelCollidersTemp[i][j][k];
-			}
-		}
-	}
+	tiles = levelMapsTemp;
+	colls = levelCollidersTemp;
 }
 
 int** LevelMaps::GetLevelMapPointers()
@@ -94,7 +74,7 @@ int** LevelMaps::GetLevelMapPointers()
 	int** maps = new int* [LEVELMAP_ROWS];
 	for(int i = 0; i < LEVELMAP_ROWS; ++i)
 	{
-		maps[i] = tiles[currentLevelId][i];
+		maps[i] = const_cast<int*>(tiles[currentLevelId][i]);
 	}
 	return maps;
 }
@@ -104,7 +84,7 @@ int** LevelMaps::GetLevelColliderPointers()
 	int** colliders = new int* [LEVELMAP_ROWS];
 	for(int i = 0; i < LEVELMAP_ROWS; ++i)
 	{
-		colliders[i] = colls[currentLevelId][i];
+		colliders[i] = const_cast<int*>(colls[currentLevelId][i]);
 	}
 	return colliders;
 }
