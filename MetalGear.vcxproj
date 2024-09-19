@@ -127,6 +127,7 @@
     <ClCompile Include="src\collider\collider.cpp" />
     <ClCompile Include="src\collider\pointCollider\pointCollider.cpp" />
     <ClCompile Include="src\game.cpp" />
+    <ClCompile Include="src\managers\room\roomFinder.cpp" />
     <ClCompile Include="src\tile\levelMap\levelMaps.cpp" />
     <ClCompile Include="src\tile\tileSet.cpp" />
     <ClCompile Include="template\opencl.cpp" />
@@ -157,6 +158,12 @@
     <ClInclude Include="src\collider\collider.h" />
     <ClInclude Include="src\collider\pointCollider\pointCollider.h" />
     <ClInclude Include="src\game.h" />
+    <ClInclude Include="src\managers\room\room.h" />
+    <ClInclude Include="src\managers\room\roomChange.h" />
+    <ClInclude Include="src\managers\room\roomChangePositionType.h" />
+    <ClInclude Include="src\managers\room\roomChangeType.h" />
+    <ClInclude Include="src\managers\room\roomFinder.h" />
+    <ClInclude Include="src\managers\room\roomChangeStorage.h" />
     <ClInclude Include="src\tile\levelMap\levelMaps.h" />
     <ClInclude Include="src\tile\tileSet.h" />
     <ClInclude Include="src\tile\tileType.h" />

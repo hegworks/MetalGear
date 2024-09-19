@@ -31,6 +31,7 @@
     <ClCompile Include="src\collider\pointCollider\pointCollider.cpp" />
     <ClCompile Include="src\collider\collider.cpp" />
     <ClCompile Include="src\collider\boxCollider\boxCollider.cpp" />
+    <ClCompile Include="src\managers\room\roomFinder.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="template\common.h">
@@ -73,6 +74,12 @@
     <ClInclude Include="src\collider\collider.h" />
     <ClInclude Include="src\collider\boxCollider\boxCollider.h" />
     <ClInclude Include="src\tile\tileType.h" />
+    <ClInclude Include="src\managers\room\roomFinder.h" />
+    <ClInclude Include="src\managers\room\room.h" />
+    <ClInclude Include="src\managers\room\roomChange.h" />
+    <ClInclude Include="src\managers\room\roomChangeType.h" />
+    <ClInclude Include="src\managers\room\roomChangePositionType.h" />
+    <ClInclude Include="src\managers\room\roomChangeStorage.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md">
