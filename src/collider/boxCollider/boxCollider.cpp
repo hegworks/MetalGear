@@ -21,6 +21,7 @@ void BoxCollider::UpdatePosition(int2 pos)
 
 void BoxCollider::Draw(int visualSize, int color)
 {
+#ifdef _PHYSICS_DEBUG
 	topLeft->Draw(visualSize, color);
 	topRight->Draw(visualSize, color);
 	bottomLeft->Draw(visualSize, color);
@@ -29,6 +30,7 @@ void BoxCollider::Draw(int visualSize, int color)
 	screen->Line(topRight->GetPos().x, topRight->GetPos().y, bottomRight->GetPos().x, bottomRight->GetPos().y, color);
 	screen->Line(bottomRight->GetPos().x, bottomRight->GetPos().y, bottomLeft->GetPos().x, bottomLeft->GetPos().y, color);
 	screen->Line(bottomLeft->GetPos().x, bottomLeft->GetPos().y, topLeft->GetPos().x, topLeft->GetPos().y, color);
+#endif
 }
 
 bool BoxCollider::IsSolid(Direction direction)
