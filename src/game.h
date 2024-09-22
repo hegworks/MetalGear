@@ -4,6 +4,7 @@
 
 #pragma once
 #include "actors/player.h"
+#include "managers/room/roomFinder.h"
 #include "tile/levelMap/levelMaps.h"
 #include "tile/tileMap.h"
 #include "tile/tileSet.h"
@@ -34,6 +35,10 @@ public:
 	int** currentLevelTiles = nullptr;
 	int** currentLevelColliders = nullptr;
 	Player* player = nullptr;
+	RoomFinder* roomFinder = nullptr;
+	RoomChangeStorage* roomChangeStorage = nullptr;
+
+	void ChangeRoom();
 };
 
 } // namespace Tmpl8

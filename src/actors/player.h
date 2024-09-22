@@ -3,6 +3,8 @@
 #include "human.h"
 #include "src/Animation/customAnimation.h"
 #include "src/collider/boxCollider/boxCollider.h"
+#include "src/managers/room/roomChange.h"
+#include "src/managers/room/roomChangeType.h"
 #include "src/tile/tileSet.h"
 
 constexpr int PLAYER_ANIMATION_COUNT = 4;
@@ -12,6 +14,8 @@ class Player : public Human
 public:
 	Player(Surface* screen, LevelMaps* levelMaps);
 	void Tick(float deltaTime) override;
+	RoomChangeType ReportRoomChange() const;
+	void RoomChangePos(RoomChange roomChange);
 
 private:
 	CustomAnimation animations[PLAYER_ANIMATION_COUNT] =
@@ -33,9 +37,15 @@ private:
 	const int tileBoxColliderYOffset = TILESET_TILEHEIGHT * 3 - 8;
 	const int tileCollisionPreventPixels = 1;
 
+	const int roomChangeColliderXOffset = -5;
+	const int roomChangeColliderYOffset = -5;
+
+	PointCollider* roomChangeCollider;
+
 	void HandleInput();
 	void UpdatePosition(float deltaTime);
 	void UpdateColliders() const;
+	void UpdateRoomChangeCollider() const;
 	void UpdateAnimationState();
 	void Animate(float deltaTime);
 };

@@ -9,38 +9,44 @@ void Game::Init()
 {
 	tileSet = new TileSet();
 	tileMap = new TileMap(screen, tileSet);
-
+	roomChangeStorage = new RoomChangeStorage;
+	roomFinder = new RoomFinder(roomChangeStorage);
 	levelMaps = new LevelMaps();
-	levelMaps->SetCurrentLevelId(5);
-	currentLevelTiles = levelMaps->GetLevelMapPointers();
-	currentLevelColliders = levelMaps->GetLevelColliderPointers();
-
 	player = new Player(screen, levelMaps);
+	ChangeRoom();
 }
-
-int currentLevel = 0;
-int tempCounter = 0;
 
 void Game::Tick(float deltaTime)
 {
-	tempCounter++;
-
-	if(GetAsyncKeyState(VK_F1) && tempCounter > 300)
-	{
-		tempCounter = 0;
-		currentLevel = (currentLevel + 1) % TOTAL_LEVEL_MAPS;
-		levelMaps->SetCurrentLevelId(currentLevel);
-		currentLevelTiles = nullptr;
-		currentLevelColliders = nullptr;
-		currentLevelTiles = levelMaps->GetLevelMapPointers();
-		currentLevelColliders = levelMaps->GetLevelColliderPointers();
-		return;
-	}
-
 	tileMap->DrawLevel(currentLevelTiles);
 #ifdef _PHYSICS_DEBUG
 	tileMap->DrawLevel(currentLevelColliders);
 #endif
 	player->Tick(deltaTime);
 	player->Draw();
+
+	switch(RoomChangeType roomChangeType = player->ReportRoomChange())
+	{
+		case RoomChangeType::None:
+			break;
+		case RoomChangeType::RC0:
+		case RoomChangeType::RC1:
+		case RoomChangeType::RC2:
+		case RoomChangeType::RC3:
+		case RoomChangeType::RC4:
+			RoomChange newRoom = roomFinder->FindNextRoom(roomChangeType);
+			roomFinder->SetCurrentLevelId(newRoom.nextRoomId);
+			ChangeRoom();
+			player->RoomChangePos(newRoom);
+			break;
+		default:
+			throw exception("Invalid room change type");
+	}
+}
+
+void Game::ChangeRoom()
+{
+	levelMaps->SetCurrentLevelId(roomFinder->GetCurrentLevelId());
+	currentLevelTiles = levelMaps->GetLevelMapPointers();
+	currentLevelColliders = levelMaps->GetLevelColliderPointers();
 }
