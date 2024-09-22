@@ -91,6 +91,7 @@
     <None Include="template\LICENSE">
       <Filter>template</Filter>
     </None>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="template">

@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Human" Collapsed="true">
+    <Position X="5.5" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEICAAgAIAAAEKAQACACCAQAAAAAAAAQAQAA=</HashCode>
+      <FileName>src\actors\human.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Player">
+    <Position X="5.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAMCAAABABCIAEQAAAAQhAAAA0AAACAQAAQAAyAA=</HashCode>
+      <FileName>src\actors\player.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BoxCollider">
+    <Position X="2.75" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAAAAAAAiCAAIAAAIAAAGAAAgAAAAAAAAIAEAA=</HashCode>
+      <FileName>src\collider\boxCollider\boxCollider.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PointCollider">
+    <Position X="0.5" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAiAAAAAAAKgAAAAAAAAAAAAAAAgAAAA=</HashCode>
+      <FileName>src\collider\pointCollider\pointCollider.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Collider">
+    <Position X="1.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAgAAAAAAAAQAAAAAAAAQAAAAAAQAAAA=</HashCode>
+      <FileName>src\collider\collider.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RoomChangeStorage" Collapsed="true">
+    <Position X="11.5" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAA=</HashCode>
+      <FileName>src\managers\room\roomChangeStorage.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RoomFinder" Collapsed="true">
+    <Position X="8" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAAAAAAIAAgAAgAQAAAAAAAAAACAAA=</HashCode>
+      <FileName>src\managers\room\roomFinder.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LevelMaps" Collapsed="true">
+    <Position X="9.75" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAIIAAAAAAAAACAAAAICAAIgAAAhAAAAAAAAACAAA=</HashCode>
+      <FileName>src\tile\levelMap\levelMaps.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TileSet" Collapsed="true">
+    <Position X="11.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAIAAEAAAAAAAA=</HashCode>
+      <FileName>src\tile\tileSet.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Tmpl8::TileMap" Collapsed="true">
+    <Position X="9.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAIAAAAAAAAAAAARQAAQAgBAgAEAACYQAAAACIAE=</HashCode>
+      <FileName>src\tile\tileMap.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Tmpl8::Game" Collapsed="true">
+    <Position X="8" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAgEEAAAgAAQAAAAgAEAABIMICABGAQAA=</HashCode>
+      <FileName>src\game.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="CustomAnimation" Collapsed="true">
+    <Position X="8" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAgAAAAAAAAAAAAIAAAAAAAAAEAAAAAAAAAAA=</HashCode>
+      <FileName>src\animation\customAnimation.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Room" Collapsed="true">
+    <Position X="9.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgA=</HashCode>
+      <FileName>src\managers\room\room.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="RoomChange" Collapsed="true">
+    <Position X="11.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAQAAAAAAAAAACAAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\managers\room\roomChange.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Enum Name="AnimationState">
+    <Position X="8" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAACACAAAAAAAI=</HashCode>
+      <FileName>src\animation\animationState.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="RoomChangePositionType">
+    <Position X="9.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAgAAABBAAAAAAAAAAAAgAAAAAAAAAAA=</HashCode>
+      <FileName>src\managers\room\roomChangePositionType.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="RoomChangeType">
+    <Position X="11.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>src\managers\room\roomChangeType.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="TileType">
+    <Position X="8" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAAAAAIAAAAAAAAAAAAIAAAAAAAAAAA=</HashCode>
+      <FileName>src\tile\tileType.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="10" />
+</ClassDiagram>

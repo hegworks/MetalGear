@@ -178,6 +178,7 @@
     <ClInclude Include="template\tmpl8math.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram.cd" />
     <None Include="cl\kernels.cl" />
     <None Include="README.md" />
     <None Include="template\LICENSE" />
