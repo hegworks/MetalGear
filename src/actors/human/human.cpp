@@ -1,17 +1,21 @@
 ﻿#include "precomp.h"
 #include "human.h"
 
-Human::Human(Surface* screen, LevelMaps* levelMaps)
+Human::Human(Surface* screen, LevelMaps* levelMaps, SpriteStorage* spriteStorage)
 {
 	this->screen = screen;
 	this->levelMaps = levelMaps;
+	this->spriteStorage = spriteStorage;
 }
 
 Human::~Human() = default;
 
 void Human::Draw() const
 {
-	graphic->Draw(screen, position.x, position.y);
+	if(!sprite)
+		throw exception("sprite doesn't exist");
+
+	sprite->Draw(screen, position.x, position.y);
 }
 
 void Human::Move(int2 direction)

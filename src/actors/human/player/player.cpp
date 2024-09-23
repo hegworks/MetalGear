@@ -3,15 +3,14 @@
 
 #include "src/managers/room/roomChangeType.h"
 
-Player::Player(Surface* screen, LevelMaps* levelMaps) : Human(screen, levelMaps)
+Player::Player(Surface* screen, LevelMaps* levelMaps, SpriteStorage* spriteStorage) : Human(screen, levelMaps, spriteStorage)
 {
-	spriteAddress = "assets/graphics/playerSheet.png";
-	graphicFrames = 42;
-	graphic = new Sprite(new Surface(spriteAddress), graphicFrames);
-	graphic->SetFrame(0);
+	sprite = spriteStorage->GetSpriteData(SpriteType::Player)->sprite;
+	sprite->SetFrame(0);
+
+	animationFrame = 0;
 	position = float2(512, 256);
 	speed = 0.25f;
-	animationFrame = 0;
 
 	tileBoxCollider = new BoxCollider(screen, levelMaps, {30, 30});
 	roomChangeCollider = new PointCollider(screen, levelMaps);
@@ -162,7 +161,7 @@ void Player::Animate(float deltaTime)
 {
 	if(isIdle)
 	{
-		graphic->SetFrame(animations[static_cast<int>(currentAnimationState)].startFrame);
+		sprite->SetFrame(animations[static_cast<int>(currentAnimationState)].startFrame);
 		animationUpdateTimer = ANIMATION_UPDATE_TIME;
 		return;
 	}
@@ -185,7 +184,7 @@ void Player::Animate(float deltaTime)
 			animationFrame = animations[static_cast<int>(currentAnimationState)].startFrame;
 		}
 
-		graphic->SetFrame(animationFrame);
+		sprite->SetFrame(animationFrame);
 	}
 }
 

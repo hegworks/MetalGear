@@ -3,7 +3,7 @@
 // IGAD/NHTV/BUAS/UU - Jacco Bikker - 2006-2024
 
 #pragma once
-#include "actors/player.h"
+#include "actors/human/player/player.h"
 #include "managers/room/roomFinder.h"
 #include "tile/levelMap/levelMaps.h"
 #include "tile/tileMap.h"
@@ -37,6 +37,7 @@ public:
 	Player* player = nullptr;
 	RoomFinder* roomFinder = nullptr;
 	RoomChangeStorage* roomChangeStorage = nullptr;
+	SpriteStorage* spriteStorage;
 
 	void ChangeRoom();
 };

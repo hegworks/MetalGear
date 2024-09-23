@@ -121,13 +121,14 @@
   </ItemDefinitionGroup>
   <!-- END Custom section -->
   <ItemGroup>
-    <ClCompile Include="src\actors\human.cpp" />
-    <ClCompile Include="src\actors\player.cpp" />
+    <ClCompile Include="src\actors\human\human.cpp" />
+    <ClCompile Include="src\actors\human\player\player.cpp" />
     <ClCompile Include="src\collider\boxCollider\boxCollider.cpp" />
     <ClCompile Include="src\collider\collider.cpp" />
     <ClCompile Include="src\collider\pointCollider\pointCollider.cpp" />
     <ClCompile Include="src\game.cpp" />
     <ClCompile Include="src\managers\room\roomFinder.cpp" />
+    <ClCompile Include="src\spriteStorage\spriteStorage.cpp" />
     <ClCompile Include="src\tile\levelMap\levelMaps.cpp" />
     <ClCompile Include="src\tile\tileSet.cpp" />
     <ClCompile Include="template\opencl.cpp" />
@@ -148,11 +149,11 @@
     <ClCompile Include="template\tmpl8math.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="cl\tools.cl" />
+    <ClInclude Include="src\actors\human\cl\tools.cl" />
     <ClInclude Include="src\actors\direction.h" />
     <ClInclude Include="src\animation\animationState.h" />
-    <ClInclude Include="src\actors\human.h" />
-    <ClInclude Include="src\actors\player.h" />
+    <ClInclude Include="src\actors\human\human.h" />
+    <ClInclude Include="src\actors\human\player\player.h" />
     <ClInclude Include="src\animation\customAnimation.h" />
     <ClInclude Include="src\collider\boxCollider\boxCollider.h" />
     <ClInclude Include="src\collider\collider.h" />
@@ -164,6 +165,9 @@
     <ClInclude Include="src\managers\room\roomChangeType.h" />
     <ClInclude Include="src\managers\room\roomFinder.h" />
     <ClInclude Include="src\managers\room\roomChangeStorage.h" />
+    <ClInclude Include="src\spriteStorage\spriteData.h" />
+    <ClInclude Include="src\spriteStorage\spriteStorage.h" />
+    <ClInclude Include="src\spriteStorage\spriteType.h" />
     <ClInclude Include="src\tile\levelMap\levelMaps.h" />
     <ClInclude Include="src\tile\tileSet.h" />
     <ClInclude Include="src\tile\tileType.h" />
@@ -179,7 +183,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
-    <None Include="cl\kernels.cl" />
+    <None Include="src\actors\human\cl\kernels.cl" />
     <None Include="README.md" />
     <None Include="template\LICENSE" />
   </ItemGroup>

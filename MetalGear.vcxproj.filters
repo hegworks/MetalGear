@@ -24,14 +24,15 @@
     </ClCompile>
     <ClCompile Include="src\game.cpp" />
     <ClCompile Include="src\tile\tileMap.cpp" />
-    <ClCompile Include="src\actors\human.cpp" />
-    <ClCompile Include="src\actors\player.cpp" />
+    <ClCompile Include="src\actors\human\human.cpp" />
+    <ClCompile Include="src\actors\human\player\player.cpp" />
     <ClCompile Include="src\tile\levelMap\levelMaps.cpp" />
     <ClCompile Include="src\tile\tileSet.cpp" />
     <ClCompile Include="src\collider\pointCollider\pointCollider.cpp" />
     <ClCompile Include="src\collider\collider.cpp" />
     <ClCompile Include="src\collider\boxCollider\boxCollider.cpp" />
     <ClCompile Include="src\managers\room\roomFinder.cpp" />
+    <ClCompile Include="src\spriteStorage\spriteStorage.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="template\common.h">
@@ -55,7 +56,7 @@
     <ClInclude Include="template\tmpl8math.h">
       <Filter>template</Filter>
     </ClInclude>
-    <ClInclude Include="cl\tools.cl">
+    <ClInclude Include="src\actors\human\cl\tools.cl">
       <Filter>kernels</Filter>
     </ClInclude>
     <ClInclude Include="template\scene.h">
@@ -63,8 +64,8 @@
     </ClInclude>
     <ClInclude Include="src\game.h" />
     <ClInclude Include="src\tile\tileMap.h" />
-    <ClInclude Include="src\actors\human.h" />
-    <ClInclude Include="src\actors\player.h" />
+    <ClInclude Include="src\actors\human\human.h" />
+    <ClInclude Include="src\actors\human\player\player.h" />
     <ClInclude Include="src\tile\levelMap\levelMaps.h" />
     <ClInclude Include="src\tile\tileSet.h" />
     <ClInclude Include="src\animation\animationState.h" />
@@ -80,12 +81,15 @@
     <ClInclude Include="src\managers\room\roomChangeType.h" />
     <ClInclude Include="src\managers\room\roomChangePositionType.h" />
     <ClInclude Include="src\managers\room\roomChangeStorage.h" />
+    <ClInclude Include="src\spriteStorage\spriteData.h" />
+    <ClInclude Include="src\spriteStorage\spriteStorage.h" />
+    <ClInclude Include="src\spriteStorage\spriteType.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md">
       <Filter>template</Filter>
     </None>
-    <None Include="cl\kernels.cl">
+    <None Include="src\actors\human\cl\kernels.cl">
       <Filter>kernels</Filter>
     </None>
     <None Include="template\LICENSE">

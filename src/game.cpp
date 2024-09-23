@@ -12,7 +12,8 @@ void Game::Init()
 	roomChangeStorage = new RoomChangeStorage;
 	roomFinder = new RoomFinder(roomChangeStorage);
 	levelMaps = new LevelMaps();
-	player = new Player(screen, levelMaps);
+	spriteStorage = new SpriteStorage();
+	player = new Player(screen, levelMaps, spriteStorage);
 	ChangeRoom();
 }
 
