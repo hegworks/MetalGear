@@ -15,6 +15,7 @@ public:
 	void Tick(float deltaTime) override;
 	RoomChangeType ReportRoomChange() const;
 	void RoomChangePos(RoomChange roomChange);
+	void DrawColliders() const override;
 
 private:
 	CustomAnimation animations[PLAYER_ANIMATION_COUNT] =

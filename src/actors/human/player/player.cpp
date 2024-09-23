@@ -106,7 +106,6 @@ void Player::UpdateColliders() const
 	}
 
 	tileBoxCollider->UpdatePosition(feet);
-	tileBoxCollider->Draw(2);
 }
 
 void Player::UpdateRoomChangeCollider() const
@@ -133,7 +132,6 @@ void Player::UpdateRoomChangeCollider() const
 	}
 
 	roomChangeCollider->UpdatePosition(center);
-	roomChangeCollider->Draw(10, 0x00FF00FF);
 }
 
 void Player::UpdateAnimationState()
@@ -229,4 +227,11 @@ void Player::RoomChangePos(RoomChange roomChange)
 		default:
 			throw exception("Invalid room change position type");
 	}
+}
+
+void Player::DrawColliders() const
+{
+	if(isIdle) return;
+	tileBoxCollider->Draw(2);
+	roomChangeCollider->Draw(5, 0x00FF00FF);
 }

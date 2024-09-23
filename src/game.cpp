@@ -23,8 +23,12 @@ void Game::Tick(float deltaTime)
 #ifdef _PHYSICS_DEBUG
 	tileMap->DrawLevel(currentLevelColliders);
 #endif
+
 	player->Tick(deltaTime);
 	player->Draw();
+#ifdef _PHYSICS_DEBUG
+	player->DrawColliders();
+#endif
 
 	switch(RoomChangeType roomChangeType = player->ReportRoomChange())
 	{

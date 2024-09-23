@@ -10,8 +10,9 @@ public:
 	~Human();
 
 	void Draw() const;
-	virtual void Move(int2 direction);
-	virtual void Tick(float deltaTime);
+	virtual void DrawColliders() const {}
+	virtual void Move(int2 direction) {}
+	virtual void Tick(float deltaTime) {}
 
 protected:
 	Surface* screen = nullptr;

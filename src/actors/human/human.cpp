@@ -17,11 +17,3 @@ void Human::Draw() const
 
 	sprite->Draw(screen, position.x, position.y);
 }
-
-void Human::Move(int2 direction)
-{
-}
-
-void Human::Tick(float deltaTime)
-{
-}
