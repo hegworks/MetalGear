@@ -149,7 +149,7 @@
     <ClCompile Include="template\tmpl8math.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\actors\human\cl\tools.cl" />
+    <ClInclude Include="cl\tools.cl" />
     <ClInclude Include="src\actors\direction.h" />
     <ClInclude Include="src\animation\animationState.h" />
     <ClInclude Include="src\actors\human\human.h" />
@@ -183,7 +183,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
-    <None Include="src\actors\human\cl\kernels.cl" />
+    <None Include="cl\kernels.cl" />
     <None Include="README.md" />
     <None Include="template\LICENSE" />
   </ItemGroup>

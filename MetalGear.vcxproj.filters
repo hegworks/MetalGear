@@ -56,7 +56,7 @@
     <ClInclude Include="template\tmpl8math.h">
       <Filter>template</Filter>
     </ClInclude>
-    <ClInclude Include="src\actors\human\cl\tools.cl">
+    <ClInclude Include="cl\tools.cl">
       <Filter>kernels</Filter>
     </ClInclude>
     <ClInclude Include="template\scene.h">
@@ -89,7 +89,7 @@
     <None Include="README.md">
       <Filter>template</Filter>
     </None>
-    <None Include="src\actors\human\cl\kernels.cl">
+    <None Include="cl\kernels.cl">
       <Filter>kernels</Filter>
     </None>
     <None Include="template\LICENSE">
