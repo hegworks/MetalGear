@@ -5,7 +5,7 @@
 SpriteStorage::SpriteStorage()
 {
 	playerData = new SpriteData{new Sprite(new Surface("assets/graphics/playerSheet.png"), 42) ,42};
-	//enemyData = new SpriteData{new Sprite(new Surface("assets/graphics/enemy.png"), 1) ,1};
+	enemyData = new SpriteData{new Sprite(new Surface("assets/graphics/enemySheet.png"), 12) ,12};
 }
 
 SpriteData* SpriteStorage::GetSpriteData(SpriteType spriteType)
@@ -14,8 +14,8 @@ SpriteData* SpriteStorage::GetSpriteData(SpriteType spriteType)
 	{
 		case SpriteType::Player:
 			return playerData;
-		//case SpriteType::Enemy:
-		//	return enemyData;
+		case SpriteType::Enemy:
+			return enemyData;
 		default:
 			throw exception("Invalid sprite type");
 	}

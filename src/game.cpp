@@ -14,6 +14,7 @@ void Game::Init()
 	levelMaps = new LevelMaps();
 	spriteStorage = new SpriteStorage();
 	player = new Player(screen, levelMaps, spriteStorage);
+	enemy = new Enemy(screen, levelMaps, spriteStorage);
 	ChangeRoom();
 }
 
@@ -29,6 +30,8 @@ void Game::Tick(float deltaTime)
 #ifdef _PHYSICS_DEBUG
 	player->DrawColliders();
 #endif
+
+	enemy->Draw();
 
 	switch(RoomChangeType roomChangeType = player->ReportRoomChange())
 	{

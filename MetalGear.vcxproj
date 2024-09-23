@@ -121,6 +121,7 @@
   </ItemDefinitionGroup>
   <!-- END Custom section -->
   <ItemGroup>
+    <ClCompile Include="src\actors\human\enemy\enemy.cpp" />
     <ClCompile Include="src\actors\human\human.cpp" />
     <ClCompile Include="src\actors\human\player\player.cpp" />
     <ClCompile Include="src\collider\boxCollider\boxCollider.cpp" />
@@ -151,6 +152,7 @@
   <ItemGroup>
     <ClInclude Include="cl\tools.cl" />
     <ClInclude Include="src\actors\direction.h" />
+    <ClInclude Include="src\actors\human\enemy\enemy.h" />
     <ClInclude Include="src\animation\animationState.h" />
     <ClInclude Include="src\actors\human\human.h" />
     <ClInclude Include="src\actors\human\player\player.h" />
