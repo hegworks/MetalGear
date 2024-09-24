@@ -205,6 +205,8 @@ RoomChangeType Player::ReportRoomChange() const
 		case TileType::EPD:
 		case TileType::EPL:
 		case TileType::EPR:
+		case TileType::Door:
+		case TileType::Elevator:
 			return RoomChangeType::None;
 		case TileType::RC0:
 			return RoomChangeType::RC0;
@@ -216,6 +218,7 @@ RoomChangeType Player::ReportRoomChange() const
 			return RoomChangeType::RC3;
 		case TileType::RC4:
 			return RoomChangeType::RC4;
+
 		default:
 			throw exception("Invalid room change type");
 	}

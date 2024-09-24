@@ -1,9 +1,11 @@
 ﻿#pragma once
+#include "enemyState.h"
 #include "src/actors/direction.h"
 #include "src/actors/human/human.h"
 #include "src/Animation/customAnimation.h"
 #include "src/collider/pointCollider/pointCollider.h"
 #include "src/tile/tileSet.h"
+#include "src/Tools/rng.h"
 
 constexpr int ENEMY_ANIMATION_COUNT = 4;
 
@@ -32,12 +34,25 @@ private:
 	};
 
 	// else
-	Direction movementDirection = Direction::Down;
+	Direction movementDirection = Direction::Up;
+	Direction movementDirectionAfterLookAround = Direction::Up;
+	Direction movementDirectionBeforeLookAround = Direction::Up;
+	const float SPEED = 0.1f;
+	const int LOOKAROUND_CHANGE = 50;
+	Rng* rng = nullptr;
+	EnemyState state = EnemyState::Patrol;
+
+	// LookAround
+	float lookaroundTimer = 0.0f;
+	const float LOOKAROUND_TIME = 500.0f;
+	Direction lookAroundDirection = Direction::Up;
+	bool isOneStageOfLookOutPlaying = false;
+	int lookAroundChecksDone = 0;
 
 	// functions
-	void UpdateColliders();
 	void UpdatePatrolCollider() const;
 	void CheckPatrolCollider();
+	void Lookaround(float deltaTime);
 	void UpdatePosition(float deltaTime);
 	void UpdateAnimationState();
 	void Animate(float deltaTime);

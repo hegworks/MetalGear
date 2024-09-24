@@ -1,5 +1,7 @@
 ﻿#pragma once
 
+constexpr int TOTAL_DIRECTIONS = 4;
+
 enum class Direction
 {
 	Up = 0,

@@ -88,6 +88,8 @@
     <ClInclude Include="src\spriteStorage\spriteType.h" />
     <ClInclude Include="src\actors\human\enemy\enemy.h" />
     <ClInclude Include="src\managers\enemy\enemySpawner.h" />
+    <ClInclude Include="src\Tools\rng.h" />
+    <ClInclude Include="src\actors\human\enemy\enemyState.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md">

@@ -8,11 +8,15 @@ Enemy::Enemy(Surface* screen, LevelMaps* levelMaps, SpriteStorage* spriteStorage
 	sprite = new Sprite(*spriteStorage->GetSpriteData(SpriteType::Enemy)->sprite);
 	sprite->SetFrame(0);
 
+	rng = new Rng();
+
 	animationFrame = 0;
 	position = spawnPos;
-	speed = 0.2f;
+	speed = SPEED;
 
 	movementDirection = spawnDir;
+	movementDirectionAfterLookAround = spawnDir;
+	movementDirectionBeforeLookAround = spawnDir;
 	UpdateAnimationState();
 
 	patrolCollider = new PointCollider(screen, levelMaps);
@@ -20,9 +24,21 @@ Enemy::Enemy(Surface* screen, LevelMaps* levelMaps, SpriteStorage* spriteStorage
 
 void Enemy::Tick(float deltaTime)
 {
-	UpdateColliders();
-	CheckPatrolCollider();
-	UpdatePosition(deltaTime);
+	if(state == EnemyState::Patrol)
+	{
+		UpdatePatrolCollider();
+		CheckPatrolCollider();
+	}
+	else if(state == EnemyState::LookAround)
+	{
+		Lookaround(deltaTime);
+	}
+
+	if(state == EnemyState::Patrol)
+	{
+		UpdatePosition(deltaTime);
+	}
+
 	UpdateAnimationState();
 	Animate(deltaTime);
 }
@@ -32,11 +48,6 @@ void Enemy::DrawColliders() const
 	screen->Box(position.x, position.y, position.x + sprite->GetWidth(), position.y + sprite->GetHeight(), 0xff0000);
 
 	patrolCollider->Draw(2, 0x00ff00);
-}
-
-void Enemy::UpdateColliders()
-{
-	UpdatePatrolCollider();
 }
 
 void Enemy::UpdatePatrolCollider() const
@@ -88,19 +99,66 @@ void Enemy::CheckPatrolCollider()
 			// do nothing
 			break;
 		case TileType::EPU:
-			movementDirection = Direction::Up;
+			movementDirectionAfterLookAround = Direction::Up;
 			break;
 		case TileType::EPD:
-			movementDirection = Direction::Down;
+			movementDirectionAfterLookAround = Direction::Down;
 			break;
 		case TileType::EPL:
-			movementDirection = Direction::Left;
+			movementDirectionAfterLookAround = Direction::Left;
 			break;
 		case TileType::EPR:
-			movementDirection = Direction::Right;
+			movementDirectionAfterLookAround = Direction::Right;
 			break;
 		default:
 			throw exception("Invalid tile type");
+	}
+
+	if(movementDirectionAfterLookAround != movementDirection)
+	{
+		movementDirectionBeforeLookAround = movementDirection;
+		state = EnemyState::LookAround;
+	}
+}
+
+void Enemy::Lookaround(float deltaTime)
+{
+	speed = 0.0f;
+
+	if(lookAroundChecksDone >= TOTAL_DIRECTIONS)
+	{
+		lookAroundChecksDone = 0;
+		state = EnemyState::Patrol;
+		speed = SPEED;
+		movementDirection = movementDirectionAfterLookAround;
+		isOneStageOfLookOutPlaying = false;
+		return;
+	}
+
+	if(isOneStageOfLookOutPlaying)
+	{
+		lookaroundTimer += deltaTime;
+		if(lookaroundTimer > LOOKAROUND_TIME)
+		{
+			lookaroundTimer = 0.0f;
+			isOneStageOfLookOutPlaying = false;
+		}
+	}
+	else
+	{
+		int chance = rng->BetweenInclusive(0, 100);
+		if(chance > LOOKAROUND_CHANGE &&
+		   static_cast<Direction>(lookAroundChecksDone) != movementDirectionBeforeLookAround &&
+		   static_cast<Direction>(lookAroundChecksDone) != movementDirectionAfterLookAround)
+		{
+			movementDirection = static_cast<Direction>(lookAroundChecksDone);
+			isOneStageOfLookOutPlaying = true;
+		}
+		else
+		{
+			isOneStageOfLookOutPlaying = false;
+		}
+		lookAroundChecksDone++;
 	}
 }
 
@@ -126,8 +184,6 @@ void Enemy::UpdatePosition(float deltaTime)
 
 void Enemy::UpdateAnimationState()
 {
-	//if(isIdle) return;
-
 	switch(movementDirection)
 	{
 		case Direction::Up:
@@ -147,12 +203,12 @@ void Enemy::UpdateAnimationState()
 
 void Enemy::Animate(float deltaTime)
 {
-	//if(isIdle)
-	//{
-	//	sprite->SetFrame(animations[static_cast<int>(currentAnimationState)].startFrame);
-	//	animationUpdateTimer = ANIMATION_UPDATE_TIME;
-	//	return;
-	//}
+	if(state == EnemyState::LookAround)
+	{
+		sprite->SetFrame(animations[static_cast<int>(currentAnimationState)].startFrame);
+		animationUpdateTimer = ANIMATION_UPDATE_TIME;
+		return;
+	}
 
 	if(currentAnimationState != lastAnimationState)
 	{

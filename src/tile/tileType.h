@@ -10,11 +10,13 @@ enum class TileType
 	RC3 = 327,
 	RC4 = 330,
 	ESU = 331, // EnemySpawnUp
-	ESD = 332,
-	ESL = 333,
-	ESR = 334,
+	ESD = 332, // ...Down
+	ESL = 333, // ...Left
+	ESR = 334, // ...Right
 	EPU = 335, // EnemyPatrolUp
-	EPD = 336,
-	EPL = 337,
-	EPR = 338,
+	EPD = 336, // ...Down
+	EPL = 337, // ...Left
+	EPR = 338, // ...Right
+	Door = 328,
+	Elevator = 329,
 };

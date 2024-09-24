@@ -154,6 +154,7 @@
     <ClInclude Include="cl\tools.cl" />
     <ClInclude Include="src\actors\direction.h" />
     <ClInclude Include="src\actors\human\enemy\enemy.h" />
+    <ClInclude Include="src\actors\human\enemy\enemyState.h" />
     <ClInclude Include="src\animation\animationState.h" />
     <ClInclude Include="src\actors\human\human.h" />
     <ClInclude Include="src\actors\human\player\player.h" />
@@ -173,6 +174,7 @@
     <ClInclude Include="src\spriteStorage\spriteStorage.h" />
     <ClInclude Include="src\spriteStorage\spriteType.h" />
     <ClInclude Include="src\tile\levelMap\levelMaps.h" />
+    <ClInclude Include="src\Tools\rng.h" />
     <ClInclude Include="src\tile\tileSet.h" />
     <ClInclude Include="src\tile\tileType.h" />
     <ClInclude Include="template\common.h" />
