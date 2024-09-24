@@ -15,7 +15,7 @@ void Game::Init()
 	spriteStorage = new SpriteStorage();
 	player = new Player(screen, levelMaps, spriteStorage);
 	enemySpawner = new EnemySpawner(screen, levelMaps, spriteStorage, player);
-	roomFinder->SetCurrentLevelId(1);
+	roomFinder->SetCurrentLevelId(7);
 	ChangeRoom();
 }
 
