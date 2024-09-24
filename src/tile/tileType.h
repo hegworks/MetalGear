@@ -9,8 +9,8 @@ enum class TileType
 	RC2 = 326,
 	RC3 = 327,
 	RC4 = 330,
-	ESR = 331,
-	ESU = 332,
+	ESU = 331,
+	ESD = 332,
 	ESL = 333,
-	ESD = 334,
+	ESR = 334,
 };
