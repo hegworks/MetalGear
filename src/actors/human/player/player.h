@@ -45,6 +45,7 @@ private:
 	void UpdatePosition(float deltaTime);
 	void UpdateColliders() const;
 	void UpdateRoomChangeCollider() const;
+	void UpdateTileBoxCollider() const;
 	void UpdateAnimationState();
 	void Animate(float deltaTime);
 };

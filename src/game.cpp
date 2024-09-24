@@ -15,27 +15,34 @@ void Game::Init()
 	spriteStorage = new SpriteStorage();
 	player = new Player(screen, levelMaps, spriteStorage);
 	enemySpawner = new EnemySpawner(screen, levelMaps, spriteStorage);
+	roomFinder->SetCurrentLevelId(2);
 	ChangeRoom();
 }
 
 void Game::Tick(float deltaTime)
 {
+	// tileMap
 	tileMap->DrawLevel(currentLevelTiles);
 #ifdef _PHYSICS_DEBUG
 	tileMap->DrawLevel(currentLevelColliders);
 #endif
 
+	// player
 	player->Tick(deltaTime);
 	player->Draw();
 #ifdef _PHYSICS_DEBUG
 	player->DrawColliders();
 #endif
 
+	// enemies
 	for(int i = 0; i < enemySpawner->enemyCount; i++)
 	{
+		enemySpawner->enemies[i]->Tick(deltaTime);
 		enemySpawner->enemies[i]->Draw();
+		enemySpawner->enemies[i]->DrawColliders();
 	}
 
+	// room
 	switch(RoomChangeType roomChangeType = player->ReportRoomChange())
 	{
 		case RoomChangeType::None:

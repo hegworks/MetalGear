@@ -83,29 +83,7 @@ void Player::UpdateColliders() const
 	if(isIdle) return;
 
 	UpdateRoomChangeCollider();
-
-	int2 feet =
-	{
-		static_cast<int>(position.x) + tileBoxColliderXOffset,
-		static_cast<int>(position.y) + tileBoxColliderYOffset
-	};
-	switch(movementDirection)
-	{
-		case Direction::Up:
-			feet.y -= tileCollisionPreventPixels;
-			break;
-		case Direction::Down:
-			feet.y += tileCollisionPreventPixels;
-			break;
-		case Direction::Left:
-			feet.x -= tileCollisionPreventPixels;
-			break;
-		case Direction::Right:
-			feet.x += tileCollisionPreventPixels;
-			break;
-	}
-
-	tileBoxCollider->UpdatePosition(feet);
+	UpdateTileBoxCollider();
 }
 
 void Player::UpdateRoomChangeCollider() const
@@ -132,6 +110,32 @@ void Player::UpdateRoomChangeCollider() const
 	}
 
 	roomChangeCollider->UpdatePosition(center);
+}
+
+void Player::UpdateTileBoxCollider() const
+{
+	int2 feet =
+	{
+		static_cast<int>(position.x) + tileBoxColliderXOffset,
+		static_cast<int>(position.y) + tileBoxColliderYOffset
+	};
+	switch(movementDirection)
+	{
+		case Direction::Up:
+			feet.y -= tileCollisionPreventPixels;
+			break;
+		case Direction::Down:
+			feet.y += tileCollisionPreventPixels;
+			break;
+		case Direction::Left:
+			feet.x -= tileCollisionPreventPixels;
+			break;
+		case Direction::Right:
+			feet.x += tileCollisionPreventPixels;
+			break;
+	}
+
+	tileBoxCollider->UpdatePosition(feet);
 }
 
 void Player::UpdateAnimationState()
