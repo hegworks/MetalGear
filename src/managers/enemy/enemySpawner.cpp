@@ -3,11 +3,12 @@
 
 #include "src/tile/tileSet.h"
 
-EnemySpawner::EnemySpawner(Surface* screen, LevelMaps* levelMaps, SpriteStorage* spriteStorage)
+EnemySpawner::EnemySpawner(Surface* screen, LevelMaps* levelMaps, SpriteStorage* spriteStorage, Player* player)
 {
 	this->screen = screen;
 	this->levelMaps = levelMaps;
 	this->spriteStorage = spriteStorage;
+	this->player = player;
 }
 
 bool EnemySpawner::Spawn()
@@ -15,6 +16,17 @@ bool EnemySpawner::Spawn()
 	for(int i = 0; i < MAX_ENEMIES; i++)
 	{
 		enemies[i] = nullptr;
+	}
+
+	bool isExceptionLevel4 = levelMaps->GetCurrentLevelId() == 4;
+	bool isPlayerCloserToBottom = player->GetPosition().y > SCRHEIGHT / 2;
+	bool skipLeftSpawn = false;
+	bool skipRightSpawn = false;
+
+	if(isExceptionLevel4)
+	{
+		skipLeftSpawn = !isPlayerCloserToBottom;
+		skipRightSpawn = !skipLeftSpawn;
 	}
 
 	enemyCount = 0;
@@ -28,6 +40,7 @@ bool EnemySpawner::Spawn()
 			if(tileIndex != -1)
 			{
 				TileType tileType = levelMaps->GetTileType(levelColls[i][j]);
+
 				if(tileType == TileType::ESD || tileType == TileType::ESL || tileType == TileType::ESR || tileType == TileType::ESU)
 				{
 					Direction spawnDir;
@@ -48,12 +61,18 @@ bool EnemySpawner::Spawn()
 						default:
 							throw exception("Invalid tile type");
 					}
-					float2 spawnPos = float2(j * TILESET_TILEWIDTH, i * TILESET_TILEHEIGHT - 96);
-					enemies[enemyCount] = new Enemy(screen, levelMaps, spriteStorage, spawnPos, spawnDir);
-					enemyCount++;
-					if(enemyCount >= MAX_ENEMIES)
+					if(!isExceptionLevel4 ||
+					   (spawnDir == Direction::Up || spawnDir == Direction::Down) ||
+					   (spawnDir == Direction::Left && !skipLeftSpawn) ||
+					   spawnDir == Direction::Right && !skipRightSpawn)
 					{
-						return true;
+						float2 spawnPos = float2(j * TILESET_TILEWIDTH, i * TILESET_TILEHEIGHT - 96);
+						enemies[enemyCount] = new Enemy(screen, levelMaps, spriteStorage, spawnPos, spawnDir);
+						enemyCount++;
+						if(enemyCount >= MAX_ENEMIES)
+						{
+							return true;
+						}
 					}
 				}
 			}

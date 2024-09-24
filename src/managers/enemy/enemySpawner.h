@@ -1,12 +1,13 @@
 ﻿#pragma once
 #include "src/actors/human/enemy/enemy.h"
+#include "src/actors/human/player/player.h"
 
 constexpr int MAX_ENEMIES = 2;
 
 class EnemySpawner
 {
 public:
-	EnemySpawner(Surface* screen, LevelMaps* levelMaps, SpriteStorage* spriteStorage);
+	EnemySpawner(Surface* screen, LevelMaps* levelMaps, SpriteStorage* spriteStorage, Player* player);
 	bool Spawn();
 
 	Enemy* enemies[MAX_ENEMIES];
@@ -16,4 +17,5 @@ private:
 	Surface* screen = nullptr;
 	LevelMaps* levelMaps = nullptr;
 	SpriteStorage* spriteStorage = nullptr;
+	Player* player = nullptr;
 };

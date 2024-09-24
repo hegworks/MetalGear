@@ -14,8 +14,8 @@ void Game::Init()
 	levelMaps = new LevelMaps();
 	spriteStorage = new SpriteStorage();
 	player = new Player(screen, levelMaps, spriteStorage);
-	enemySpawner = new EnemySpawner(screen, levelMaps, spriteStorage);
-	roomFinder->SetCurrentLevelId(2);
+	enemySpawner = new EnemySpawner(screen, levelMaps, spriteStorage, player);
+	roomFinder->SetCurrentLevelId(1);
 	ChangeRoom();
 }
 
@@ -23,9 +23,6 @@ void Game::Tick(float deltaTime)
 {
 	// tileMap
 	tileMap->DrawLevel(currentLevelTiles);
-#ifdef _PHYSICS_DEBUG
-	tileMap->DrawLevel(currentLevelColliders);
-#endif
 
 	// player
 	player->Tick(deltaTime);
@@ -39,8 +36,17 @@ void Game::Tick(float deltaTime)
 	{
 		enemySpawner->enemies[i]->Tick(deltaTime);
 		enemySpawner->enemies[i]->Draw();
+		//enemySpawner->enemies[i]->DrawColliders();
+	}
+
+#ifdef _PHYSICS_DEBUG
+	tileMap->DrawLevel(currentLevelColliders);
+
+	for(int i = 0; i < enemySpawner->enemyCount; i++)
+	{
 		enemySpawner->enemies[i]->DrawColliders();
 	}
+#endif
 
 	// room
 	switch(RoomChangeType roomChangeType = player->ReportRoomChange())
@@ -54,8 +60,8 @@ void Game::Tick(float deltaTime)
 		case RoomChangeType::RC4:
 			RoomChange newRoom = roomFinder->FindNextRoom(roomChangeType);
 			roomFinder->SetCurrentLevelId(newRoom.nextRoomId);
-			ChangeRoom();
 			player->RoomChangePos(newRoom);
+			ChangeRoom();
 			break;
 		default:
 			throw exception("Invalid room change type");

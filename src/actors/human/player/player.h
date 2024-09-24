@@ -16,6 +16,7 @@ public:
 	RoomChangeType ReportRoomChange() const;
 	void RoomChangePos(RoomChange roomChange);
 	void DrawColliders() const override;
+	float2 GetPosition() const;
 
 private:
 	CustomAnimation animations[PLAYER_ANIMATION_COUNT] =

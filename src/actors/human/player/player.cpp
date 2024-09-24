@@ -197,6 +197,14 @@ RoomChangeType Player::ReportRoomChange() const
 	{
 		case TileType::Empty:
 		case TileType::Solid:
+		case TileType::ESU:
+		case TileType::ESD:
+		case TileType::ESL:
+		case TileType::ESR:
+		case TileType::EPU:
+		case TileType::EPD:
+		case TileType::EPL:
+		case TileType::EPR:
 			return RoomChangeType::None;
 		case TileType::RC0:
 			return RoomChangeType::RC0;
@@ -238,4 +246,9 @@ void Player::DrawColliders() const
 	if(isIdle) return;
 	tileBoxCollider->Draw(2);
 	roomChangeCollider->Draw(5, 0x00FF00FF);
+}
+
+float2 Player::GetPosition() const
+{
+	return position;
 }
