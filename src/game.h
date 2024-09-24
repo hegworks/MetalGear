@@ -5,6 +5,7 @@
 #pragma once
 #include "actors/human/enemy/enemy.h"
 #include "actors/human/player/player.h"
+#include "managers/enemy/enemySpawner.h"
 #include "managers/room/roomFinder.h"
 #include "tile/levelMap/levelMaps.h"
 #include "tile/tileMap.h"
@@ -40,6 +41,7 @@ public:
 	RoomChangeStorage* roomChangeStorage = nullptr;
 	SpriteStorage* spriteStorage;
 	Enemy* enemy = nullptr;
+	EnemySpawner* enemySpawner = nullptr;
 
 	void ChangeRoom();
 };

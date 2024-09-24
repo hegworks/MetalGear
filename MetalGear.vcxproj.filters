@@ -34,6 +34,7 @@
     <ClCompile Include="src\managers\room\roomFinder.cpp" />
     <ClCompile Include="src\spriteStorage\spriteStorage.cpp" />
     <ClCompile Include="src\actors\human\enemy\enemy.cpp" />
+    <ClCompile Include="src\managers\enemy\enemySpawner.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="template\common.h">
@@ -86,6 +87,7 @@
     <ClInclude Include="src\spriteStorage\spriteStorage.h" />
     <ClInclude Include="src\spriteStorage\spriteType.h" />
     <ClInclude Include="src\actors\human\enemy\enemy.h" />
+    <ClInclude Include="src\managers\enemy\enemySpawner.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md">

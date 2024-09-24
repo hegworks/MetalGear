@@ -14,6 +14,7 @@ public:
 	int GetCurrentLevelId() const { return currentLevelId; }
 	void SetCurrentLevelId(const int id) { currentLevelId = id; }
 	TileType GetTileType(int2 pos) const;
+	TileType GetTileType(int tileIndex) const;
 	bool IsSolid(int2 pos) const;
 
 private:

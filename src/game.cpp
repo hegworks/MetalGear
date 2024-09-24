@@ -14,7 +14,7 @@ void Game::Init()
 	levelMaps = new LevelMaps();
 	spriteStorage = new SpriteStorage();
 	player = new Player(screen, levelMaps, spriteStorage);
-	enemy = new Enemy(screen, levelMaps, spriteStorage);
+	enemySpawner = new EnemySpawner(screen, levelMaps, spriteStorage);
 	ChangeRoom();
 }
 
@@ -31,7 +31,10 @@ void Game::Tick(float deltaTime)
 	player->DrawColliders();
 #endif
 
-	enemy->Draw();
+	for(int i = 0; i < enemySpawner->enemyCount; i++)
+	{
+		enemySpawner->enemies[i]->Draw();
+	}
 
 	switch(RoomChangeType roomChangeType = player->ReportRoomChange())
 	{
@@ -57,4 +60,5 @@ void Game::ChangeRoom()
 	levelMaps->SetCurrentLevelId(roomFinder->GetCurrentLevelId());
 	currentLevelTiles = levelMaps->GetLevelMapPointers();
 	currentLevelColliders = levelMaps->GetLevelColliderPointers();
+	bool haveEnemies = enemySpawner->Spawn();
 }
