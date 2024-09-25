@@ -1,8 +1,8 @@
 ﻿#include "precomp.h"
 #include "collider.h"
 
-Collider::Collider(Surface* screen, LevelMaps* levelMaps)
+Collider::Collider(Surface* pScreen, LevelMaps* pLevelMaps)
 {
-	this->screen = screen;
-	this->levelMaps = levelMaps;
+	m_pScreen = pScreen;
+	m_pLevelMaps = pLevelMaps;
 }

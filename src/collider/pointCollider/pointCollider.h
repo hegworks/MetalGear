@@ -4,13 +4,13 @@
 class PointCollider : public Collider
 {
 public:
-	PointCollider(Surface* screen, LevelMaps* levelMaps) : Collider(screen, levelMaps) {}
+	PointCollider(Surface* pScreen, LevelMaps* pLevelMaps) : Collider(pScreen, pLevelMaps) {}
 
 	void UpdatePosition(int2 pos);
-	void Draw(int size, int color = 0xff0000) override;
-	int2 GetPos() const { return pos; }
-	TileType GetTileType() const { return levelMaps->GetTileType(pos); }
+	virtual void Draw(int size, int color = 0xff0000);
+	int2 GetPos() const { return m_pos; }
+	TileType GetTileType() const { return m_pLevelMaps->GetTileType(m_pos); }
 
 private:
-	int2 pos;
+	int2 m_pos;
 };

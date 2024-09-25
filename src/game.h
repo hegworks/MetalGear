@@ -3,16 +3,20 @@
 // IGAD/NHTV/BUAS/UU - Jacco Bikker - 2006-2024
 
 #pragma once
-#include "human/enemy/enemy.h"
-#include "human/player/player.h"
-#include "managers/enemy/enemySpawner.h"
-#include "managers/room/roomFinder.h"
-#include "tile/levelMap/levelMaps.h"
-#include "tile/tileMap.h"
-#include "tile/tileSet.h"
+
+class EnemySpawner;
+class Enemy;
+class SpriteStorage;
+class RoomChangeStorage;
+class RoomFinder;
+class Player;
+class LevelMaps;
+class TileSet;
 
 namespace Tmpl8
 {
+
+class TileMap;
 
 class Game : public TheApp
 {

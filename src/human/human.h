@@ -1,12 +1,13 @@
 ﻿#pragma once
 #include "src/animation/animationState.h"
-#include "src/spriteStorage/spriteStorage.h"
-#include "src/tile/levelMap/levelMaps.h"
+
+class SpriteStorage;
+class LevelMaps;
 
 class Human
 {
 public:
-	Human(Surface* screen, LevelMaps* levelMaps, SpriteStorage* spriteStorage);
+	Human(Surface* pScreen, LevelMaps* pLevelMaps, SpriteStorage* pSpriteStorage);
 	~Human();
 
 	void Draw() const;
@@ -15,16 +16,16 @@ public:
 	virtual void Tick(float deltaTime) {}
 
 protected:
-	Surface* screen = nullptr;
-	LevelMaps* levelMaps = nullptr;
-	SpriteStorage* spriteStorage = nullptr;
+	Surface* m_pScreen = nullptr;
+	LevelMaps* m_pLevelMaps = nullptr;
+	SpriteStorage* m_pSpriteStorage = nullptr;
 
-	AnimationState currentAnimationState = AnimationState::Down;
-	AnimationState lastAnimationState = AnimationState::Down;
+	AnimationState m_currentAnimationState = AnimationState::Down;
+	AnimationState m_lastAnimationState = AnimationState::Down;
 
-	Sprite* sprite = nullptr;
+	Sprite* m_pSprite = nullptr;
 
-	float2 position;
-	float speed;
-	int animationFrame;
+	float2 m_position;
+	float m_speed;
+	int m_animationFrame;
 };

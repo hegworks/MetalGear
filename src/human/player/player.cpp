@@ -1,16 +1,17 @@
 ﻿#include "precomp.h"
 #include "player.h"
 
-#include "src/managers/room/roomChangeType.h"
+#include "src/spriteStorage/spriteStorage.h"
+#include "src/spriteStorage/spriteType.h"
 
 Player::Player(Surface* screen, LevelMaps* levelMaps, SpriteStorage* spriteStorage) : Human(screen, levelMaps, spriteStorage)
 {
-	sprite = spriteStorage->GetSpriteData(SpriteType::Player)->sprite;
-	sprite->SetFrame(0);
+	m_pSprite = spriteStorage->GetSpriteData(SpriteType::Player)->sprite;
+	m_pSprite->SetFrame(0);
 
-	animationFrame = 0;
-	position = float2(512, 256);
-	speed = 0.25f;
+	m_animationFrame = 0;
+	m_position = float2(512, 256);
+	m_speed = 0.25f;
 
 	tileBoxCollider = new BoxCollider(screen, levelMaps, {30, 30});
 	roomChangeCollider = new PointCollider(screen, levelMaps);
@@ -64,16 +65,16 @@ void Player::UpdatePosition(float deltaTime)
 	switch(movementDirection)
 	{
 		case Direction::Up:
-			position.y -= speed * deltaTime;
+			m_position.y -= m_speed * deltaTime;
 			break;
 		case Direction::Down:
-			position.y += speed * deltaTime;
+			m_position.y += m_speed * deltaTime;
 			break;
 		case Direction::Left:
-			position.x -= speed * deltaTime;
+			m_position.x -= m_speed * deltaTime;
 			break;
 		case Direction::Right:
-			position.x += speed * deltaTime;
+			m_position.x += m_speed * deltaTime;
 			break;
 	}
 }
@@ -90,8 +91,8 @@ void Player::UpdateRoomChangeCollider() const
 {
 	int2 center =
 	{
-		static_cast<int>(position.x) + tileBoxColliderXOffset + 15,
-		static_cast<int>(position.y) + tileBoxColliderYOffset + 15
+		static_cast<int>(m_position.x) + tileBoxColliderXOffset + 15,
+		static_cast<int>(m_position.y) + tileBoxColliderYOffset + 15
 	};
 	switch(movementDirection)
 	{
@@ -116,8 +117,8 @@ void Player::UpdateTileBoxCollider() const
 {
 	int2 feet =
 	{
-		static_cast<int>(position.x) + tileBoxColliderXOffset,
-		static_cast<int>(position.y) + tileBoxColliderYOffset
+		static_cast<int>(m_position.x) + tileBoxColliderXOffset,
+		static_cast<int>(m_position.y) + tileBoxColliderYOffset
 	};
 	switch(movementDirection)
 	{
@@ -145,16 +146,16 @@ void Player::UpdateAnimationState()
 	switch(movementDirection)
 	{
 		case Direction::Up:
-			currentAnimationState = AnimationState::Up;
+			m_currentAnimationState = AnimationState::Up;
 			break;
 		case Direction::Down:
-			currentAnimationState = AnimationState::Down;
+			m_currentAnimationState = AnimationState::Down;
 			break;
 		case Direction::Left:
-			currentAnimationState = AnimationState::Left;
+			m_currentAnimationState = AnimationState::Left;
 			break;
 		case Direction::Right:
-			currentAnimationState = AnimationState::Right;
+			m_currentAnimationState = AnimationState::Right;
 			break;
 	}
 }
@@ -163,15 +164,15 @@ void Player::Animate(float deltaTime)
 {
 	if(isIdle)
 	{
-		sprite->SetFrame(animations[static_cast<int>(currentAnimationState)].startFrame);
+		m_pSprite->SetFrame(animations[static_cast<int>(m_currentAnimationState)].startFrame);
 		animationUpdateTimer = ANIMATION_UPDATE_TIME;
 		return;
 	}
 
-	if(currentAnimationState != lastAnimationState)
+	if(m_currentAnimationState != m_lastAnimationState)
 	{
-		animationFrame = animations[static_cast<int>(currentAnimationState)].startFrame;
-		lastAnimationState = currentAnimationState;
+		m_animationFrame = animations[static_cast<int>(m_currentAnimationState)].startFrame;
+		m_lastAnimationState = m_currentAnimationState;
 	}
 
 	animationUpdateTimer += deltaTime;
@@ -180,13 +181,13 @@ void Player::Animate(float deltaTime)
 	{
 		animationUpdateTimer = 0.0f;
 
-		animationFrame++;
-		if(animationFrame > animations[static_cast<int>(currentAnimationState)].endFrame)
+		m_animationFrame++;
+		if(m_animationFrame > animations[static_cast<int>(m_currentAnimationState)].endFrame)
 		{
-			animationFrame = animations[static_cast<int>(currentAnimationState)].startFrame;
+			m_animationFrame = animations[static_cast<int>(m_currentAnimationState)].startFrame;
 		}
 
-		sprite->SetFrame(animationFrame);
+		m_pSprite->SetFrame(m_animationFrame);
 	}
 }
 
@@ -230,14 +231,14 @@ void Player::RoomChangePos(RoomChange roomChange)
 	{
 		case RoomChangePositionType::TOP:
 		case RoomChangePositionType::BOTTOM:
-			position.y = roomChange.newPlayerPos.y;
+			m_position.y = roomChange.newPlayerPos.y;
 			break;
 		case RoomChangePositionType::LEFT:
 		case RoomChangePositionType::RIGHT:
-			position.x = roomChange.newPlayerPos.x;
+			m_position.x = roomChange.newPlayerPos.x;
 			break;
 		case RoomChangePositionType::EXCEPTION:
-			position = roomChange.newPlayerPos;
+			m_position = roomChange.newPlayerPos;
 			break;
 		default:
 			throw exception("Invalid room change position type");
@@ -253,5 +254,5 @@ void Player::DrawColliders() const
 
 float2 Player::GetPosition() const
 {
-	return position;
+	return m_position;
 }

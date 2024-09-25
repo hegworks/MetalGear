@@ -1,25 +1,28 @@
 ﻿#include "precomp.h"
 #include "enemy.h"
 
-#include "src/tile/tileSet.h"
+#include "src/collider/pointCollider/pointCollider.h"
+#include "src/spriteStorage/spriteStorage.h"
+#include "src/spriteStorage/spriteType.h"
+#include "src/Tools/rng.h"
 
-Enemy::Enemy(Surface* screen, LevelMaps* levelMaps, SpriteStorage* spriteStorage, float2 spawnPos, Direction spawnDir) : Human(screen, levelMaps, spriteStorage)
+Enemy::Enemy(Surface* pScreen, LevelMaps* pLevelMaps, SpriteStorage* pSpriteStorage, float2 spawnPos, Direction spawnDir) : Human(pScreen, pLevelMaps, pSpriteStorage)
 {
-	sprite = new Sprite(*spriteStorage->GetSpriteData(SpriteType::Enemy)->sprite);
-	sprite->SetFrame(0);
+	m_pSprite = new Sprite(*pSpriteStorage->GetSpriteData(SpriteType::Enemy)->sprite);
+	m_pSprite->SetFrame(0);
 
 	rng = new Rng();
 
-	animationFrame = 0;
-	position = spawnPos;
-	speed = SPEED;
+	m_animationFrame = 0;
+	m_position = spawnPos;
+	m_speed = SPEED;
 
 	movementDirection = spawnDir;
 	movementDirectionAfterLookAround = spawnDir;
 	movementDirectionBeforeLookAround = spawnDir;
 	UpdateAnimationState();
 
-	patrolCollider = new PointCollider(screen, levelMaps);
+	patrolCollider = new PointCollider(pScreen, pLevelMaps);
 }
 
 void Enemy::Tick(float deltaTime)
@@ -45,7 +48,7 @@ void Enemy::Tick(float deltaTime)
 
 void Enemy::DrawColliders() const
 {
-	screen->Box(position.x, position.y, position.x + sprite->GetWidth(), position.y + sprite->GetHeight(), 0xff0000);
+	m_pScreen->Box(m_position.x, m_position.y, m_position.x + m_pSprite->GetWidth(), m_position.y + m_pSprite->GetHeight(), 0xff0000);
 
 	patrolCollider->Draw(2, 0x00ff00);
 }
@@ -54,8 +57,8 @@ void Enemy::UpdatePatrolCollider() const
 {
 	int2 center =
 	{
-		static_cast<int>(position.x) + sprite->GetWidth() / 2,
-		static_cast<int>(position.y) + sprite->GetHeight() / 2
+		static_cast<int>(m_position.x) + m_pSprite->GetWidth() / 2,
+		static_cast<int>(m_position.y) + m_pSprite->GetHeight() / 2
 	};
 
 	int2 feet = center;
@@ -123,13 +126,13 @@ void Enemy::CheckPatrolCollider()
 
 void Enemy::Lookaround(float deltaTime)
 {
-	speed = 0.0f;
+	m_speed = 0.0f;
 
 	if(lookAroundChecksDone >= TOTAL_DIRECTIONS)
 	{
 		lookAroundChecksDone = 0;
 		state = EnemyState::Patrol;
-		speed = SPEED;
+		m_speed = SPEED;
 		movementDirection = movementDirectionAfterLookAround;
 		isOneStageOfLookOutPlaying = false;
 		return;
@@ -167,16 +170,16 @@ void Enemy::UpdatePosition(float deltaTime)
 	switch(movementDirection)
 	{
 		case Direction::Up:
-			position.y -= speed * deltaTime;
+			m_position.y -= m_speed * deltaTime;
 			break;
 		case Direction::Down:
-			position.y += speed * deltaTime;
+			m_position.y += m_speed * deltaTime;
 			break;
 		case Direction::Left:
-			position.x -= speed * deltaTime;
+			m_position.x -= m_speed * deltaTime;
 			break;
 		case Direction::Right:
-			position.x += speed * deltaTime;
+			m_position.x += m_speed * deltaTime;
 			break;
 	}
 }
@@ -187,16 +190,16 @@ void Enemy::UpdateAnimationState()
 	switch(movementDirection)
 	{
 		case Direction::Up:
-			currentAnimationState = AnimationState::Up;
+			m_currentAnimationState = AnimationState::Up;
 			break;
 		case Direction::Down:
-			currentAnimationState = AnimationState::Down;
+			m_currentAnimationState = AnimationState::Down;
 			break;
 		case Direction::Left:
-			currentAnimationState = AnimationState::Left;
+			m_currentAnimationState = AnimationState::Left;
 			break;
 		case Direction::Right:
-			currentAnimationState = AnimationState::Right;
+			m_currentAnimationState = AnimationState::Right;
 			break;
 	}
 }
@@ -205,15 +208,15 @@ void Enemy::Animate(float deltaTime)
 {
 	if(state == EnemyState::LookAround)
 	{
-		sprite->SetFrame(animations[static_cast<int>(currentAnimationState)].startFrame);
+		m_pSprite->SetFrame(animations[static_cast<int>(m_currentAnimationState)].startFrame);
 		animationUpdateTimer = ANIMATION_UPDATE_TIME;
 		return;
 	}
 
-	if(currentAnimationState != lastAnimationState)
+	if(m_currentAnimationState != m_lastAnimationState)
 	{
-		animationFrame = animations[static_cast<int>(currentAnimationState)].startFrame;
-		lastAnimationState = currentAnimationState;
+		m_animationFrame = animations[static_cast<int>(m_currentAnimationState)].startFrame;
+		m_lastAnimationState = m_currentAnimationState;
 		animationUpdateTimer = ANIMATION_UPDATE_TIME;
 	}
 
@@ -223,12 +226,12 @@ void Enemy::Animate(float deltaTime)
 	{
 		animationUpdateTimer = 0.0f;
 
-		animationFrame++;
-		if(animationFrame > animations[static_cast<int>(currentAnimationState)].endFrame)
+		m_animationFrame++;
+		if(m_animationFrame > animations[static_cast<int>(m_currentAnimationState)].endFrame)
 		{
-			animationFrame = animations[static_cast<int>(currentAnimationState)].startFrame;
+			m_animationFrame = animations[static_cast<int>(m_currentAnimationState)].startFrame;
 		}
 
-		sprite->SetFrame(animationFrame);
+		m_pSprite->SetFrame(m_animationFrame);
 	}
 }

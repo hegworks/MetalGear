@@ -5,6 +5,14 @@
 #include "precomp.h"
 #include "game.h"
 
+#include "human/player/player.h"
+#include "managers/enemy/enemySpawner.h"
+#include "managers/room/roomChangeStorage.h"
+#include "managers/room/roomFinder.h"
+#include "spriteStorage/spriteStorage.h"
+#include "tile/tileMap.h"
+#include "tile/tileSet.h"
+
 void Game::Init()
 {
 	tileSet = new TileSet();

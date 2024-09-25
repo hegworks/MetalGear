@@ -4,13 +4,13 @@
 class Collider
 {
 public:
-	Collider(Surface* screen, LevelMaps* levelMaps);
+	Collider(Surface* pScreen, LevelMaps* pLevelMaps);
 	~Collider() {}
 
 	virtual void Draw(const int size) {}
 	virtual void Draw(int size, int color = 0xff0000) {}
 
 protected:
-	Surface* screen;
-	LevelMaps* levelMaps;
+	Surface* m_pScreen = nullptr;
+	LevelMaps* m_pLevelMaps = nullptr;
 };

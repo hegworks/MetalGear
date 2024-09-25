@@ -1,18 +1,19 @@
 ﻿#pragma once
 #include "enemyState.h"
 #include "src/Animation/customAnimation.h"
-#include "src/collider/pointCollider/pointCollider.h"
 #include "src/human/direction.h"
 #include "src/human/human.h"
 #include "src/tile/tileSet.h"
-#include "src/Tools/rng.h"
+
+class PointCollider;
+class Rng;
 
 constexpr int ENEMY_ANIMATION_COUNT = 4;
 
 class Enemy : public Human
 {
 public:
-	Enemy(Surface* screen, LevelMaps* levelMaps, SpriteStorage* spriteStorage, float2 spawnPos, Direction spawnDir);
+	Enemy(Surface* pScreen, LevelMaps* pLevelMaps, SpriteStorage* pSpriteStorage, float2 spawnPos, Direction spawnDir);
 	void Tick(float deltaTime) override;
 	void DrawColliders() const override;
 

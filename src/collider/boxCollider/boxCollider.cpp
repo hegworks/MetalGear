@@ -26,10 +26,10 @@ void BoxCollider::Draw(int visualSize, int color)
 	topRight->Draw(visualSize, color);
 	bottomLeft->Draw(visualSize, color);
 	bottomRight->Draw(visualSize, color);
-	screen->Line(topLeft->GetPos().x, topLeft->GetPos().y, topRight->GetPos().x, topRight->GetPos().y, color);
-	screen->Line(topRight->GetPos().x, topRight->GetPos().y, bottomRight->GetPos().x, bottomRight->GetPos().y, color);
-	screen->Line(bottomRight->GetPos().x, bottomRight->GetPos().y, bottomLeft->GetPos().x, bottomLeft->GetPos().y, color);
-	screen->Line(bottomLeft->GetPos().x, bottomLeft->GetPos().y, topLeft->GetPos().x, topLeft->GetPos().y, color);
+	m_pScreen->Line(topLeft->GetPos().x, topLeft->GetPos().y, topRight->GetPos().x, topRight->GetPos().y, color);
+	m_pScreen->Line(topRight->GetPos().x, topRight->GetPos().y, bottomRight->GetPos().x, bottomRight->GetPos().y, color);
+	m_pScreen->Line(bottomRight->GetPos().x, bottomRight->GetPos().y, bottomLeft->GetPos().x, bottomLeft->GetPos().y, color);
+	m_pScreen->Line(bottomLeft->GetPos().x, bottomLeft->GetPos().y, topLeft->GetPos().x, topLeft->GetPos().y, color);
 #endif
 }
 
@@ -38,12 +38,12 @@ bool BoxCollider::IsSolid(Direction direction)
 	switch(direction)
 	{
 		case Direction::Up:
-			return levelMaps->IsSolid(topLeft->GetPos()) || levelMaps->IsSolid(topRight->GetPos());
+			return m_pLevelMaps->IsSolid(topLeft->GetPos()) || m_pLevelMaps->IsSolid(topRight->GetPos());
 		case Direction::Down:
-			return levelMaps->IsSolid(bottomLeft->GetPos()) || levelMaps->IsSolid(bottomRight->GetPos());
+			return m_pLevelMaps->IsSolid(bottomLeft->GetPos()) || m_pLevelMaps->IsSolid(bottomRight->GetPos());
 		case Direction::Left:
-			return levelMaps->IsSolid(topLeft->GetPos()) || levelMaps->IsSolid(bottomLeft->GetPos());
+			return m_pLevelMaps->IsSolid(topLeft->GetPos()) || m_pLevelMaps->IsSolid(bottomLeft->GetPos());
 		case Direction::Right:
-			return levelMaps->IsSolid(topRight->GetPos()) || levelMaps->IsSolid(bottomRight->GetPos());
+			return m_pLevelMaps->IsSolid(topRight->GetPos()) || m_pLevelMaps->IsSolid(bottomRight->GetPos());
 	}
 }
