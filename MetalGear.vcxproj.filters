@@ -24,8 +24,6 @@
     </ClCompile>
     <ClCompile Include="src\game.cpp" />
     <ClCompile Include="src\tile\tileMap.cpp" />
-    <ClCompile Include="src\actors\human\human.cpp" />
-    <ClCompile Include="src\actors\human\player\player.cpp" />
     <ClCompile Include="src\tile\levelMap\levelMaps.cpp" />
     <ClCompile Include="src\tile\tileSet.cpp" />
     <ClCompile Include="src\collider\pointCollider\pointCollider.cpp" />
@@ -33,8 +31,10 @@
     <ClCompile Include="src\collider\boxCollider\boxCollider.cpp" />
     <ClCompile Include="src\managers\room\roomFinder.cpp" />
     <ClCompile Include="src\spriteStorage\spriteStorage.cpp" />
-    <ClCompile Include="src\actors\human\enemy\enemy.cpp" />
     <ClCompile Include="src\managers\enemy\enemySpawner.cpp" />
+    <ClCompile Include="src\human\enemy\enemy.cpp" />
+    <ClCompile Include="src\human\human.cpp" />
+    <ClCompile Include="src\human\player\player.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="template\common.h">
@@ -66,13 +66,10 @@
     </ClInclude>
     <ClInclude Include="src\game.h" />
     <ClInclude Include="src\tile\tileMap.h" />
-    <ClInclude Include="src\actors\human\human.h" />
-    <ClInclude Include="src\actors\human\player\player.h" />
     <ClInclude Include="src\tile\levelMap\levelMaps.h" />
     <ClInclude Include="src\tile\tileSet.h" />
     <ClInclude Include="src\animation\animationState.h" />
     <ClInclude Include="src\animation\customAnimation.h" />
-    <ClInclude Include="src\actors\direction.h" />
     <ClInclude Include="src\collider\pointCollider\pointCollider.h" />
     <ClInclude Include="src\collider\collider.h" />
     <ClInclude Include="src\collider\boxCollider\boxCollider.h" />
@@ -86,10 +83,13 @@
     <ClInclude Include="src\spriteStorage\spriteData.h" />
     <ClInclude Include="src\spriteStorage\spriteStorage.h" />
     <ClInclude Include="src\spriteStorage\spriteType.h" />
-    <ClInclude Include="src\actors\human\enemy\enemy.h" />
     <ClInclude Include="src\managers\enemy\enemySpawner.h" />
-    <ClInclude Include="src\Tools\rng.h" />
-    <ClInclude Include="src\actors\human\enemy\enemyState.h" />
+    <ClInclude Include="src\tools\rng.h" />
+    <ClInclude Include="src\human\direction.h" />
+    <ClInclude Include="src\human\enemy\enemy.h" />
+    <ClInclude Include="src\human\enemy\enemyState.h" />
+    <ClInclude Include="src\human\human.h" />
+    <ClInclude Include="src\human\player\player.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md">

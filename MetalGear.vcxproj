@@ -174,7 +174,7 @@
     <ClInclude Include="src\spriteStorage\spriteStorage.h" />
     <ClInclude Include="src\spriteStorage\spriteType.h" />
     <ClInclude Include="src\tile\levelMap\levelMaps.h" />
-    <ClInclude Include="src\Tools\rng.h" />
+    <ClInclude Include="src\tools\rng.h" />
     <ClInclude Include="src\tile\tileSet.h" />
     <ClInclude Include="src\tile\tileType.h" />
     <ClInclude Include="template\common.h" />
