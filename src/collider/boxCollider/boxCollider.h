@@ -1,7 +1,7 @@
 ﻿#pragma once
-#include "src/actors/direction.h"
 #include "src/collider/collider.h"
 #include "src/collider/pointCollider/pointCollider.h"
+#include "src/human//direction.h"
 
 class BoxCollider : public Collider
 {

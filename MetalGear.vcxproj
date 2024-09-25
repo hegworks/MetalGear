@@ -121,9 +121,9 @@
   </ItemDefinitionGroup>
   <!-- END Custom section -->
   <ItemGroup>
-    <ClCompile Include="src\actors\human\enemy\enemy.cpp" />
-    <ClCompile Include="src\actors\human\human.cpp" />
-    <ClCompile Include="src\actors\human\player\player.cpp" />
+    <ClCompile Include="src\human\enemy\enemy.cpp" />
+    <ClCompile Include="src\human\human.cpp" />
+    <ClCompile Include="src\human\player\player.cpp" />
     <ClCompile Include="src\collider\boxCollider\boxCollider.cpp" />
     <ClCompile Include="src\collider\collider.cpp" />
     <ClCompile Include="src\collider\pointCollider\pointCollider.cpp" />
@@ -152,12 +152,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cl\tools.cl" />
-    <ClInclude Include="src\actors\direction.h" />
-    <ClInclude Include="src\actors\human\enemy\enemy.h" />
-    <ClInclude Include="src\actors\human\enemy\enemyState.h" />
+    <ClInclude Include="src\human\direction.h" />
+    <ClInclude Include="src\human\enemy\enemy.h" />
+    <ClInclude Include="src\human\enemy\enemyState.h" />
     <ClInclude Include="src\animation\animationState.h" />
-    <ClInclude Include="src\actors\human\human.h" />
-    <ClInclude Include="src\actors\human\player\player.h" />
+    <ClInclude Include="src\human\human.h" />
+    <ClInclude Include="src\human\player\player.h" />
     <ClInclude Include="src\animation\customAnimation.h" />
     <ClInclude Include="src\collider\boxCollider\boxCollider.h" />
     <ClInclude Include="src\collider\collider.h" />

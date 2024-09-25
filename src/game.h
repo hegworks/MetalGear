@@ -3,8 +3,8 @@
 // IGAD/NHTV/BUAS/UU - Jacco Bikker - 2006-2024
 
 #pragma once
-#include "actors/human/enemy/enemy.h"
-#include "actors/human/player/player.h"
+#include "human/enemy/enemy.h"
+#include "human/player/player.h"
 #include "managers/enemy/enemySpawner.h"
 #include "managers/room/roomFinder.h"
 #include "tile/levelMap/levelMaps.h"
