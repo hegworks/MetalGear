@@ -1,9 +1,9 @@
 ﻿#pragma once
 #include "enemyState.h"
-#include "src/actors/direction.h"
-#include "src/actors/human/human.h"
 #include "src/Animation/customAnimation.h"
 #include "src/collider/pointCollider/pointCollider.h"
+#include "src/human/direction.h"
+#include "src/human/human.h"
 #include "src/tile/tileSet.h"
 #include "src/Tools/rng.h"
 

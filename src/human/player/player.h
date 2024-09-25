@@ -1,7 +1,7 @@
 ﻿#pragma once
-#include "src/actors/human/human.h"
 #include "src/Animation/customAnimation.h"
 #include "src/collider/boxCollider/boxCollider.h"
+#include "src/human/human.h"
 #include "src/managers/room/roomChange.h"
 #include "src/managers/room/roomChangeType.h"
 #include "src/tile/tileSet.h"

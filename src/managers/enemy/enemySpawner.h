@@ -1,6 +1,6 @@
 ﻿#pragma once
-#include "src/actors/human/enemy/enemy.h"
-#include "src/actors/human/player/player.h"
+#include "src/human/enemy/enemy.h"
+#include "src/human/player/player.h"
 
 constexpr int MAX_ENEMIES = 2;
 
