@@ -596,3 +596,9 @@ bool LevelMaps::IsSolid(const int2 pos) const
 {
 	return GetTileType(pos) == TileType::Solid;
 }
+
+/// <returns>tile Column as x and tile Row as y</returns>
+int2 LevelMaps::GetTilePos(const int2 pos) const
+{
+	return {pos.x / TILESET_TILEWIDTH, pos.y / TILESET_TILEHEIGHT};
+}

@@ -121,6 +121,7 @@
   </ItemDefinitionGroup>
   <!-- END Custom section -->
   <ItemGroup>
+    <ClCompile Include="src\collider\sightCollider\sightCollider.cpp" />
     <ClCompile Include="src\human\enemy\enemy.cpp" />
     <ClCompile Include="src\human\human.cpp" />
     <ClCompile Include="src\human\player\player.cpp" />
@@ -152,6 +153,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cl\tools.cl" />
+    <ClInclude Include="src\collider\sightCollider\sightCollider.h" />
     <ClInclude Include="src\human\direction.h" />
     <ClInclude Include="src\human\enemy\enemy.h" />
     <ClInclude Include="src\human\enemy\enemyState.h" />

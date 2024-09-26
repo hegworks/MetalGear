@@ -67,7 +67,7 @@ bool EnemySpawner::Spawn()
 					   spawnDir == Direction::Right && !skipRightSpawn)
 					{
 						float2 spawnPos = float2(j * TILESET_TILEWIDTH, i * TILESET_TILEHEIGHT - 96);
-						enemies[enemyCount] = new Enemy(screen, levelMaps, spriteStorage, spawnPos, spawnDir);
+						enemies[enemyCount] = new Enemy(screen, levelMaps, spriteStorage, spawnPos, spawnDir, player);
 						enemyCount++;
 						if(enemyCount >= MAX_ENEMIES)
 						{

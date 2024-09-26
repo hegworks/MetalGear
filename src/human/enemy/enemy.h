@@ -5,6 +5,8 @@
 #include "src/human/human.h"
 #include "src/tile/tileSet.h"
 
+class Player;
+class SightCollider;
 class PointCollider;
 class Rng;
 
@@ -13,15 +15,17 @@ constexpr int ENEMY_ANIMATION_COUNT = 4;
 class Enemy : public Human
 {
 public:
-	Enemy(Surface* pScreen, LevelMaps* pLevelMaps, SpriteStorage* pSpriteStorage, float2 spawnPos, Direction spawnDir);
-	void Tick(float deltaTime) override;
-	void DrawColliders() const override;
+	Enemy(Surface* pScreen, LevelMaps* pLevelMaps, SpriteStorage* pSpriteStorage, float2 spawnPos, Direction spawnDir, Player* pPlayer);
+	virtual void Tick(float deltaTime);
+	virtual void DrawColliders() const;
 
 private:
 	// colliders
 	PointCollider* patrolCollider = nullptr;
 	const int patrolColliderXOffset = 0;
 	const int patrolColliderYOffset = TILESET_TILEWIDTH / 2;
+
+	SightCollider* m_pSightCollider = nullptr;
 
 	// animation
 	const float ANIMATION_UPDATE_TIME = 200.0f;
@@ -39,7 +43,7 @@ private:
 	Direction movementDirectionAfterLookAround = Direction::Up;
 	Direction movementDirectionBeforeLookAround = Direction::Up;
 	const float SPEED = 0.1f;
-	const int LOOKAROUND_CHANGE = 50;
+	const int LOOKAROUND_CHANCE = 50;
 	Rng* rng = nullptr;
 	EnemyState state = EnemyState::Patrol;
 
@@ -52,6 +56,8 @@ private:
 
 	// functions
 	void UpdatePatrolCollider() const;
+	void CheckSightCollider();
+	void UpdateSightCollider() const;
 	void CheckPatrolCollider();
 	void Lookaround(float deltaTime);
 	void UpdatePosition(float deltaTime);

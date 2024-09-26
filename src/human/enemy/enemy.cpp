@@ -2,11 +2,12 @@
 #include "enemy.h"
 
 #include "src/collider/pointCollider/pointCollider.h"
+#include "src/collider/sightCollider/sightCollider.h"
 #include "src/spriteStorage/spriteStorage.h"
 #include "src/spriteStorage/spriteType.h"
 #include "src/Tools/rng.h"
 
-Enemy::Enemy(Surface* pScreen, LevelMaps* pLevelMaps, SpriteStorage* pSpriteStorage, float2 spawnPos, Direction spawnDir) : Human(pScreen, pLevelMaps, pSpriteStorage)
+Enemy::Enemy(Surface* pScreen, LevelMaps* pLevelMaps, SpriteStorage* pSpriteStorage, float2 spawnPos, Direction spawnDir, Player* pPlayer) : Human(pScreen, pLevelMaps, pSpriteStorage)
 {
 	m_pSprite = new Sprite(*pSpriteStorage->GetSpriteData(SpriteType::Enemy)->sprite);
 	m_pSprite->SetFrame(0);
@@ -23,10 +24,15 @@ Enemy::Enemy(Surface* pScreen, LevelMaps* pLevelMaps, SpriteStorage* pSpriteStor
 	UpdateAnimationState();
 
 	patrolCollider = new PointCollider(pScreen, pLevelMaps);
+
+	m_pSightCollider = new SightCollider(pScreen, pLevelMaps, pPlayer);
 }
 
 void Enemy::Tick(float deltaTime)
 {
+	UpdateSightCollider();
+	CheckSightCollider();
+
 	if(state == EnemyState::Patrol)
 	{
 		UpdatePatrolCollider();
@@ -51,6 +57,8 @@ void Enemy::DrawColliders() const
 	m_pScreen->Box(m_position.x, m_position.y, m_position.x + m_pSprite->GetWidth(), m_position.y + m_pSprite->GetHeight(), 0xff0000);
 
 	patrolCollider->Draw(2, 0x00ff00);
+
+	m_pSightCollider->Draw(5, 0x35b0fc);
 }
 
 void Enemy::UpdatePatrolCollider() const
@@ -82,6 +90,24 @@ void Enemy::UpdatePatrolCollider() const
 	}
 
 	patrolCollider->UpdatePosition(feet + offset);
+}
+
+void Enemy::CheckSightCollider()
+{
+	if(m_pSightCollider->IsPlayerInSight())
+	{
+		m_pScreen->Bar(50, 50, 150, 150, 0xeb8e0c);
+	}
+}
+
+void Enemy::UpdateSightCollider() const
+{
+	int2 feet =
+	{
+		static_cast<int>(m_position.x) + m_pSprite->GetWidth() / 2,
+		static_cast<int>(m_position.y + TILESET_TILEHEIGHT * 1.5f) + m_pSprite->GetHeight() / 2
+	};
+	m_pSightCollider->UpdatePosition(feet, movementDirection);
 }
 
 void Enemy::CheckPatrolCollider()
@@ -150,7 +176,7 @@ void Enemy::Lookaround(float deltaTime)
 	else
 	{
 		int chance = rng->BetweenInclusive(0, 100);
-		if(chance > LOOKAROUND_CHANGE &&
+		if(chance > LOOKAROUND_CHANCE &&
 		   static_cast<Direction>(lookAroundChecksDone) != movementDirectionBeforeLookAround &&
 		   static_cast<Direction>(lookAroundChecksDone) != movementDirectionAfterLookAround)
 		{

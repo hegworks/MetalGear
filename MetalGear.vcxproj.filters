@@ -35,6 +35,7 @@
     <ClCompile Include="src\human\enemy\enemy.cpp" />
     <ClCompile Include="src\human\human.cpp" />
     <ClCompile Include="src\human\player\player.cpp" />
+    <ClCompile Include="src\collider\sightCollider\sightCollider.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="template\common.h">
@@ -90,6 +91,7 @@
     <ClInclude Include="src\human\enemy\enemyState.h" />
     <ClInclude Include="src\human\human.h" />
     <ClInclude Include="src\human\player\player.h" />
+    <ClInclude Include="src\collider\sightCollider\sightCollider.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md">

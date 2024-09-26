@@ -31,6 +31,7 @@ struct ALIGN( 8 ) int2
 	int2( const int a ) : x( a ), y( a ) {}
 	union { struct { int x, y; }; int cell[2]; };
 	int& operator [] ( const int n ) { return cell[n]; }
+	bool operator==(const int2& int2) const;
 };
 struct ALIGN( 8 ) uint2
 {

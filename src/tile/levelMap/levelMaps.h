@@ -16,6 +16,7 @@ public:
 	TileType GetTileType(int2 pos) const;
 	TileType GetTileType(int tileIndex) const;
 	bool IsSolid(int2 pos) const;
+	int2 GetTilePos(int2 pos) const;
 
 private:
 	int tiles[TOTAL_LEVEL_MAPS][LEVELMAP_ROWS][LEVELMAP_COLS];

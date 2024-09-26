@@ -142,6 +142,12 @@ float4::float4( const float3& a )
 	x = a.x, y = a.y, z = a.z;
 	w = 0;
 }
+
+bool int2::operator==(const int2& int2) const
+{
+	return x == int2.x && y == int2.y;
+}
+
 int4::int4( const int3& a, const int d )
 {
 	x = a.x, y = a.y, z = a.z;

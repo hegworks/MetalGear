@@ -256,3 +256,13 @@ float2 Player::GetPosition() const
 {
 	return m_position;
 }
+
+int2 Player::GetFeetTilePosition() const
+{
+	const int2 feet =
+	{
+		static_cast<int>(m_position.x) + m_pSprite->GetWidth() / 2,
+		static_cast<int>(m_position.y) + TILESET_TILEHEIGHT * 3
+	};
+	return m_pLevelMaps->GetTilePos(feet);
+}
