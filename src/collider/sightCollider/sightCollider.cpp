@@ -58,7 +58,6 @@ bool SightCollider::IsPlayerInSight()
 
 	if(playerTilePos.y != sightStartTilePos.y && playerTilePos.x != sightStartTilePos.x)
 	{
-		printf("different tile\n");
 		return false;
 	}
 
@@ -67,7 +66,6 @@ bool SightCollider::IsPlayerInSight()
 	   (m_dir == Direction::Up && playerTilePos.y > sightStartTilePos.y) ||
 	   (m_dir == Direction::Down && playerTilePos.y < sightStartTilePos.y))
 	{
-		printf("wrong direction\n");
 		return false;
 	}
 
@@ -77,18 +75,15 @@ bool SightCollider::IsPlayerInSight()
 		{
 			if(m_pLevelMaps->IsSolid(m_pPoints[i]->GetPos()))
 			{
-				printf("solid\n");
 				return false;
 			}
 
 			if(playerTilePos == m_pLevelMaps->GetTilePos(m_pPoints[i]->GetPos()))
 			{
-				printf("FOUND PLAYER\n");
 				return true;
 			}
 		}
 	}
-	printf("not in sight\n");
 	return false;
 }
 
