@@ -3,6 +3,7 @@
 
 #include "src/collider/pointCollider/pointCollider.h"
 #include "src/collider/sightCollider/sightCollider.h"
+#include "src/human/player/player.h"
 #include "src/spriteStorage/spriteStorage.h"
 #include "src/spriteStorage/spriteType.h"
 #include "src/Tools/rng.h"
@@ -17,6 +18,8 @@ Enemy::Enemy(Surface* pScreen, LevelMaps* pLevelMaps, SpriteStorage* pSpriteStor
 	m_animationFrame = 0;
 	m_position = spawnPos;
 	m_speed = SPEED;
+
+	m_pPlayer = pPlayer;
 
 	movementDirection = spawnDir;
 	movementDirectionAfterLookAround = spawnDir;
@@ -33,19 +36,21 @@ void Enemy::Tick(float deltaTime)
 	UpdateSightCollider();
 	CheckSightCollider();
 
-	if(state == EnemyState::Patrol)
+	switch(state)
 	{
-		UpdatePatrolCollider();
-		CheckPatrolCollider();
-	}
-	else if(state == EnemyState::LookAround)
-	{
-		Lookaround(deltaTime);
-	}
-
-	if(state == EnemyState::Patrol)
-	{
-		UpdatePosition(deltaTime);
+		case EnemyState::Patrol:
+			UpdatePatrolCollider();
+			CheckPatrolCollider();
+			MoveInDirection(deltaTime);
+			break;
+		case EnemyState::LookAround:
+			Lookaround(deltaTime);
+			break;
+		case EnemyState::Alarm:
+			ChasePlayer(deltaTime);
+			break;
+		default:
+			throw exception("Invalid enemy state");
 	}
 
 	UpdateAnimationState();
@@ -96,6 +101,7 @@ void Enemy::CheckSightCollider()
 {
 	if(m_pSightCollider->IsPlayerInSight())
 	{
+		state = EnemyState::Alarm;
 		m_pScreen->Bar(50, 50, 150, 150, 0xeb8e0c);
 	}
 }
@@ -191,7 +197,7 @@ void Enemy::Lookaround(float deltaTime)
 	}
 }
 
-void Enemy::UpdatePosition(float deltaTime)
+void Enemy::MoveInDirection(float deltaTime)
 {
 	switch(movementDirection)
 	{
@@ -260,4 +266,30 @@ void Enemy::Animate(float deltaTime)
 
 		m_pSprite->SetFrame(m_animationFrame);
 	}
+}
+
+void Enemy::ChasePlayer(float deltaTime)
+{
+	m_speed = SPEED * 2.0f;
+
+	float2 playerPos = m_pPlayer->GetPosition();
+
+	if(playerPos.y >= m_position.y + 20)
+	{
+		movementDirection = Direction::Down;
+	}
+	else if(playerPos.y < m_position.y)
+	{
+		movementDirection = Direction::Up;
+	}
+	else if(playerPos.x >= m_position.x + 20)
+	{
+		movementDirection = Direction::Right;
+	}
+	else if(playerPos.x < m_position.x)
+	{
+		movementDirection = Direction::Left;
+	}
+
+	MoveInDirection(deltaTime);
 }

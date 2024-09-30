@@ -3,4 +3,5 @@ enum class EnemyState
 {
 	Patrol,
 	LookAround,
+	Alarm,
 };

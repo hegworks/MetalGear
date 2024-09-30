@@ -46,6 +46,7 @@ private:
 	const int LOOKAROUND_CHANCE = 50;
 	Rng* rng = nullptr;
 	EnemyState state = EnemyState::Patrol;
+	Player* m_pPlayer = nullptr;
 
 	// LookAround
 	float lookaroundTimer = 0.0f;
@@ -60,7 +61,8 @@ private:
 	void UpdateSightCollider() const;
 	void CheckPatrolCollider();
 	void Lookaround(float deltaTime);
-	void UpdatePosition(float deltaTime);
+	void MoveInDirection(float deltaTime);
 	void UpdateAnimationState();
 	void Animate(float deltaTime);
+	void ChasePlayer(float deltaTime);
 };
