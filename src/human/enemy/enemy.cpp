@@ -63,6 +63,7 @@ void Enemy::Tick(float deltaTime)
 
 void Enemy::DrawColliders() const
 {
+	// a debug box around the enemy sprite
 	//m_pScreen->Box(m_position.x, m_position.y, m_position.x + m_pSprite->GetWidth(), m_position.y + m_pSprite->GetHeight(), 0xff0000);
 
 	patrolCollider->Draw(2, 0x00ff00);
@@ -315,9 +316,9 @@ void Enemy::ChasePlayer(float deltaTime)
 		else
 		{
 			// we count the times that the direction has changed but the enemy couldn't move.
-			// if this number gets bigger than 1, it means that the enemy is stuck,
-			// so we change the logic of the direction change.
-			movementDirection = static_cast<Direction>((static_cast<int>(movementDirection) + 1) % TOTAL_DIRECTIONS);
+			// if this number gets bigger than a certain number, it means that the enemy is stuck,
+			// so we change to a new direction somewhat randomly.
+			movementDirection = static_cast<Direction>((static_cast<int>(movementDirection) + rng->BetweenInclusive(1, 2)) % TOTAL_DIRECTIONS);
 		}
 
 		return;
