@@ -44,7 +44,6 @@ void Game::Tick(float deltaTime)
 	{
 		enemySpawner->enemies[i]->Tick(deltaTime);
 		enemySpawner->enemies[i]->Draw();
-		//enemySpawner->enemies[i]->DrawColliders();
 	}
 
 #ifdef _PHYSICS_DEBUG

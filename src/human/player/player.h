@@ -1,10 +1,10 @@
 ﻿#pragma once
 #include "src/Animation/customAnimation.h"
-#include "src/collider/boxCollider/boxCollider.h"
 #include "src/human/human.h"
 #include "src/managers/room/roomChange.h"
 #include "src/managers/room/roomChangeType.h"
-#include "src/tile/tileSet.h"
+
+class PointCollider;
 
 constexpr int PLAYER_ANIMATION_COUNT = 4;
 
@@ -32,12 +32,6 @@ private:
 
 	const float ANIMATION_UPDATE_TIME = 100.0f;
 	float animationUpdateTimer = 0.0f;
-	Direction movementDirection = Direction::Down;
-
-	BoxCollider* tileBoxCollider = nullptr;
-	const int tileBoxColliderXOffset = TILESET_TILEWIDTH - 8;
-	const int tileBoxColliderYOffset = TILESET_TILEHEIGHT * 3 - 8;
-	const int tileCollisionPreventPixels = 1;
 
 	PointCollider* roomChangeCollider = nullptr;
 	const int roomChangeColliderXOffset = -5;
@@ -47,7 +41,6 @@ private:
 	void UpdatePosition(float deltaTime);
 	void UpdateColliders() const;
 	void UpdateRoomChangeCollider() const;
-	void UpdateTileBoxCollider() const;
 	void UpdateAnimationState();
 	void Animate(float deltaTime);
 };

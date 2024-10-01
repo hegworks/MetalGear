@@ -1,6 +1,9 @@
 ﻿#pragma once
+#include "direction.h"
 #include "src/animation/animationState.h"
+#include "src/tile/tileSet.h"
 
+class BoxCollider;
 class SpriteStorage;
 class LevelMaps;
 
@@ -25,7 +28,16 @@ protected:
 
 	Sprite* m_pSprite = nullptr;
 
+	Direction movementDirection = Direction::Down;
+
 	float2 m_position;
 	float m_speed;
 	int m_animationFrame;
+
+	BoxCollider* tileBoxCollider = nullptr;
+	const int tileBoxColliderXOffset = TILESET_TILEWIDTH - 8;
+	const int tileBoxColliderYOffset = TILESET_TILEHEIGHT * 3 - 8;
+	const int tileCollisionPreventPixels = 1;
+
+	virtual void UpdateTileBoxCollider() const;
 };

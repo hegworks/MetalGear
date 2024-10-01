@@ -1,6 +1,7 @@
 ﻿#include "precomp.h"
 #include "enemy.h"
 
+#include "src/collider/boxCollider/boxCollider.h"
 #include "src/collider/pointCollider/pointCollider.h"
 #include "src/collider/sightCollider/sightCollider.h"
 #include "src/human/player/player.h"
@@ -29,6 +30,8 @@ Enemy::Enemy(Surface* pScreen, LevelMaps* pLevelMaps, SpriteStorage* pSpriteStor
 	patrolCollider = new PointCollider(pScreen, pLevelMaps);
 
 	m_pSightCollider = new SightCollider(pScreen, pLevelMaps, pPlayer);
+
+	tileBoxCollider = new BoxCollider(pScreen, pLevelMaps, {30, 30});
 }
 
 void Enemy::Tick(float deltaTime)
@@ -47,6 +50,7 @@ void Enemy::Tick(float deltaTime)
 			Lookaround(deltaTime);
 			break;
 		case EnemyState::Alarm:
+			UpdateTileBoxCollider();
 			ChasePlayer(deltaTime);
 			break;
 		default:
@@ -59,11 +63,13 @@ void Enemy::Tick(float deltaTime)
 
 void Enemy::DrawColliders() const
 {
-	m_pScreen->Box(m_position.x, m_position.y, m_position.x + m_pSprite->GetWidth(), m_position.y + m_pSprite->GetHeight(), 0xff0000);
+	//m_pScreen->Box(m_position.x, m_position.y, m_position.x + m_pSprite->GetWidth(), m_position.y + m_pSprite->GetHeight(), 0xff0000);
 
 	patrolCollider->Draw(2, 0x00ff00);
 
 	m_pSightCollider->Draw(5, 0x35b0fc);
+
+	tileBoxCollider->Draw(2, 0xff0000);
 }
 
 void Enemy::UpdatePatrolCollider() const
@@ -270,7 +276,7 @@ void Enemy::Animate(float deltaTime)
 
 void Enemy::ChasePlayer(float deltaTime)
 {
-	m_speed = SPEED * 2.0f;
+	m_speed = SPEED_CHASE;
 
 	float2 playerPos = m_pPlayer->GetPosition();
 

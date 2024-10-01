@@ -1,8 +1,11 @@
 ﻿#include "precomp.h"
 #include "player.h"
 
+#include "src/collider/boxCollider/boxCollider.h"
+#include "src/collider/pointCollider/pointCollider.h"
 #include "src/spriteStorage/spriteStorage.h"
 #include "src/spriteStorage/spriteType.h"
+#include "src/tile/tileType.h"
 
 Player::Player(Surface* screen, LevelMaps* levelMaps, SpriteStorage* spriteStorage) : Human(screen, levelMaps, spriteStorage)
 {
@@ -111,32 +114,6 @@ void Player::UpdateRoomChangeCollider() const
 	}
 
 	roomChangeCollider->UpdatePosition(center);
-}
-
-void Player::UpdateTileBoxCollider() const
-{
-	int2 feet =
-	{
-		static_cast<int>(m_position.x) + tileBoxColliderXOffset,
-		static_cast<int>(m_position.y) + tileBoxColliderYOffset
-	};
-	switch(movementDirection)
-	{
-		case Direction::Up:
-			feet.y -= tileCollisionPreventPixels;
-			break;
-		case Direction::Down:
-			feet.y += tileCollisionPreventPixels;
-			break;
-		case Direction::Left:
-			feet.x -= tileCollisionPreventPixels;
-			break;
-		case Direction::Right:
-			feet.x += tileCollisionPreventPixels;
-			break;
-	}
-
-	tileBoxCollider->UpdatePosition(feet);
 }
 
 void Player::UpdateAnimationState()

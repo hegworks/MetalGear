@@ -1,6 +1,7 @@
 ﻿#include "precomp.h"
 #include "enemySpawner.h"
 
+#include "src/tile/levelMap/levelMaps.h"
 #include "src/tile/tileSet.h"
 
 EnemySpawner::EnemySpawner(Surface* screen, LevelMaps* levelMaps, SpriteStorage* spriteStorage, Player* player)

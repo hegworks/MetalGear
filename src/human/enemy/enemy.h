@@ -39,10 +39,10 @@ private:
 	};
 
 	// else
-	Direction movementDirection = Direction::Up;
 	Direction movementDirectionAfterLookAround = Direction::Up;
 	Direction movementDirectionBeforeLookAround = Direction::Up;
 	const float SPEED = 0.1f;
+	const float SPEED_CHASE = 0.15f;
 	const int LOOKAROUND_CHANCE = 50;
 	Rng* rng = nullptr;
 	EnemyState state = EnemyState::Patrol;
