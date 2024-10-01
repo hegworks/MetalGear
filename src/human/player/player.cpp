@@ -168,6 +168,16 @@ void Player::Animate(float deltaTime)
 	}
 }
 
+int2 Player::GetFeetPos() const
+{
+	const int2 feet =
+	{
+		static_cast<int>(m_position.x) + m_pSprite->GetWidth() / 2,
+		static_cast<int>(m_position.y) + TILESET_TILEHEIGHT * 3
+	};
+	return feet;
+}
+
 RoomChangeType Player::ReportRoomChange() const
 {
 	TileType tileType = roomChangeCollider->GetTileType();
@@ -236,10 +246,5 @@ float2 Player::GetPosition() const
 
 int2 Player::GetFeetTilePosition() const
 {
-	const int2 feet =
-	{
-		static_cast<int>(m_position.x) + m_pSprite->GetWidth() / 2,
-		static_cast<int>(m_position.y) + TILESET_TILEHEIGHT * 3
-	};
-	return m_pLevelMaps->GetTilePos(feet);
+	return m_pLevelMaps->GetTilePos(GetFeetPos());
 }

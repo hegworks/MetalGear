@@ -114,12 +114,12 @@ void Enemy::CheckSightCollider()
 
 void Enemy::UpdateSightCollider() const
 {
-	int2 feet =
-	{
-		static_cast<int>(m_position.x) + m_pSprite->GetWidth() / 2,
-		static_cast<int>(m_position.y + TILESET_TILEHEIGHT * 1.5f) + m_pSprite->GetHeight() / 2
-	};
-	m_pSightCollider->UpdatePosition(feet, movementDirection);
+	m_pSightCollider->UpdatePosition(GetSightColliderPos(), movementDirection);
+}
+
+void Enemy::UpdateSightCollider(Direction direction) const
+{
+	m_pSightCollider->UpdatePosition(GetSightColliderPos(), direction);
 }
 
 void Enemy::CheckPatrolCollider()
@@ -244,7 +244,7 @@ void Enemy::UpdateAnimationState()
 
 void Enemy::Animate(float deltaTime)
 {
-	if(state == EnemyState::LookAround)
+	if(m_speed == 0.0f)
 	{
 		m_pSprite->SetFrame(animations[static_cast<int>(m_currentAnimationState)].startFrame);
 		animationUpdateTimer = ANIMATION_UPDATE_TIME;
@@ -278,24 +278,137 @@ void Enemy::ChasePlayer(float deltaTime)
 {
 	m_speed = SPEED_CHASE;
 
-	float2 playerPos = m_pPlayer->GetPosition();
+	// set positions to player and enemy's feet
+	const float2 playerPos = m_pPlayer->GetFeetPos();
+	const float2 pos = GetSightColliderPos();
 
-	if(playerPos.y >= m_position.y + 20)
+	// calculate distance
+	const float yDistance = abs(playerPos.y - pos.y);
+	const float xDistance = abs(playerPos.x - pos.x);
+
+	// stop (and shoot) if player is in sight
+	if(m_pSightCollider->IsPlayerInSight())
 	{
-		movementDirection = Direction::Down;
-	}
-	else if(playerPos.y < m_position.y)
-	{
-		movementDirection = Direction::Up;
-	}
-	else if(playerPos.x >= m_position.x + 20)
-	{
-		movementDirection = Direction::Right;
-	}
-	else if(playerPos.x < m_position.x)
-	{
-		movementDirection = Direction::Left;
+		m_speed = 0.0f;
+		return;
 	}
 
+	chaseNoMovementCount++;
+
+	// if hit a wall, change direction
+	if(tileBoxCollider->IsSolid(movementDirection))
+	{
+		if(chaseNoMovementCount < 2)
+		{
+			switch(movementDirection)
+			{
+				case Direction::Up:
+				case Direction::Down:
+					movementDirection = playerPos.x >= pos.x ? Direction::Right : Direction::Left;
+					break;
+				case Direction::Left:
+				case Direction::Right:
+					movementDirection = playerPos.y >= pos.y ? Direction::Down : Direction::Up;
+					break;
+			}
+		}
+		else
+		{
+			// we count the times that the direction has changed but the enemy couldn't move.
+			// if this number gets bigger than 1, it means that the enemy is stuck,
+			// so we change the logic of the direction change.
+			movementDirection = static_cast<Direction>((static_cast<int>(movementDirection) + 1) % TOTAL_DIRECTIONS);
+		}
+
+		return;
+	}
+
+	// if enemy is near the edge of the screen, change direction
+	// moving enemy back a little is to prevent it from getting stuck
+	int screenEdgeSize = TILESET_TILEWIDTH * 2;
+	if(pos.x < screenEdgeSize)
+	{
+		movementDirection = playerPos.y >= pos.y ? Direction::Down : Direction::Up;
+		m_position.x += 1;
+		return;
+	}
+	if(pos.x > SCRWIDTH - screenEdgeSize)
+	{
+		movementDirection = playerPos.y >= pos.y ? Direction::Down : Direction::Up;
+		m_position.x -= 1;
+		return;
+	}
+	if(pos.y < screenEdgeSize)
+	{
+		movementDirection = playerPos.x >= pos.x ? Direction::Right : Direction::Left;
+		m_position.y += 1;
+		return;
+	}
+	if(pos.y > SCRHEIGHT - screenEdgeSize)
+	{
+		movementDirection = playerPos.x >= pos.x ? Direction::Right : Direction::Left;
+		m_position.y -= 1;
+		return;
+	}
+
+	// if player's x or y is close enough, and player is in sight in that direction, change direction
+	if(xDistance < 1 && (movementDirection == Direction::Left || movementDirection == Direction::Right))
+	{
+		if(playerPos.y >= pos.y)
+		{
+			UpdateSightCollider(Direction::Down);
+			if(m_pSightCollider->IsPlayerInSight())
+			{
+				movementDirection = Direction::Down;
+				m_speed = 0.0f;
+				return;
+			}
+		}
+		else
+		{
+			UpdateSightCollider(Direction::Up);
+			if(m_pSightCollider->IsPlayerInSight())
+			{
+				movementDirection = Direction::Up;
+				m_speed = 0.0f;
+				return;
+			}
+		}
+	}
+	else if(yDistance < 1 && (movementDirection == Direction::Up || movementDirection == Direction::Down))
+	{
+		if(playerPos.x >= pos.x)
+		{
+			UpdateSightCollider(Direction::Right);
+			if(m_pSightCollider->IsPlayerInSight())
+			{
+				movementDirection = Direction::Right;
+				m_speed = 0.0f;
+				return;
+			}
+		}
+		else
+		{
+			UpdateSightCollider(Direction::Left);
+			if(m_pSightCollider->IsPlayerInSight())
+			{
+				movementDirection = Direction::Left;
+				m_speed = 0.0f;
+				return;
+			}
+		}
+	}
+
+	chaseNoMovementCount = 0;
 	MoveInDirection(deltaTime);
+}
+
+int2 Enemy::GetSightColliderPos() const
+{
+	const int2 feet =
+	{
+		static_cast<int>(m_position.x) + m_pSprite->GetWidth() / 2,
+		static_cast<int>(m_position.y + TILESET_TILEHEIGHT * 1.5f) + m_pSprite->GetHeight() / 2
+	};
+	return feet;
 }

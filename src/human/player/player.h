@@ -18,6 +18,7 @@ public:
 	void DrawColliders() const override;
 	float2 GetPosition() const;
 	int2 GetFeetTilePosition() const;
+	int2 GetFeetPos() const;
 
 private:
 	CustomAnimation animations[PLAYER_ANIMATION_COUNT] =

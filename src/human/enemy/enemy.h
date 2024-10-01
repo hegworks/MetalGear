@@ -47,6 +47,9 @@ private:
 	Rng* rng = nullptr;
 	EnemyState state = EnemyState::Patrol;
 	Player* m_pPlayer = nullptr;
+	Direction chaseDirectionBeforeCollision = Direction::Up;
+	bool chaseHasEverCollided = false;
+	int chaseNoMovementCount = 0;
 
 	// LookAround
 	float lookaroundTimer = 0.0f;
@@ -59,10 +62,12 @@ private:
 	void UpdatePatrolCollider() const;
 	void CheckSightCollider();
 	void UpdateSightCollider() const;
+	void UpdateSightCollider(Direction direction) const;
 	void CheckPatrolCollider();
 	void Lookaround(float deltaTime);
 	void MoveInDirection(float deltaTime);
 	void UpdateAnimationState();
 	void Animate(float deltaTime);
 	void ChasePlayer(float deltaTime);
+	int2 GetSightColliderPos() const;
 };
