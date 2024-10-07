@@ -5,6 +5,7 @@
 #include "src/human/human.h"
 #include "src/tile/tileSet.h"
 
+class BoxAabb;
 class Player;
 class SightCollider;
 class PointCollider;
@@ -18,6 +19,8 @@ public:
 	Enemy(Surface* pScreen, LevelMaps* pLevelMaps, SpriteStorage* pSpriteStorage, float2 spawnPos, Direction spawnDir, Player* pPlayer);
 	virtual void Tick(float deltaTime);
 	virtual void DrawColliders() const;
+	virtual void Draw() const;
+	void PlayerPunched();
 
 private:
 	// colliders
@@ -51,6 +54,12 @@ private:
 	bool chaseHasEverCollided = false;
 	int chaseNoMovementCount = 0;
 
+	BoxAabb* m_boxAabb = nullptr;
+
+	// HP
+	const int MAX_HP = 3;
+	int m_hp = MAX_HP;
+
 	// LookAround
 	float lookaroundTimer = 0.0f;
 	const float LOOKAROUND_TIME = 500.0f;
@@ -70,4 +79,5 @@ private:
 	void Animate(float deltaTime);
 	void ChasePlayer(float deltaTime);
 	int2 GetSightColliderPos() const;
+	void UpdateBoxAabb() const;
 };

@@ -73,6 +73,19 @@ void Game::Tick(float deltaTime)
 		default:
 			throw exception("Invalid room change type");
 	}
+
+	if(player->ReportPunch())
+	{
+		for(int i = 0; i < enemySpawner->enemyCount; i++)
+		{
+			enemySpawner->enemies[i]->PlayerPunched();
+		}
+	}
+}
+
+void Tmpl8::Game::KeyDown(int glfwKey)
+{
+	player->KeyDown(glfwKey);
 }
 
 void Game::ChangeRoom()

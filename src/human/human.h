@@ -13,7 +13,7 @@ public:
 	Human(Surface* pScreen, LevelMaps* pLevelMaps, SpriteStorage* pSpriteStorage);
 	~Human();
 
-	void Draw() const;
+	virtual void Draw() const;
 	virtual void DrawColliders() const {}
 	virtual void Move(int2 direction) {}
 	virtual void Tick(float deltaTime) {}

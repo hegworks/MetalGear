@@ -1,6 +1,7 @@
 ﻿#include "precomp.h"
 #include "player.h"
 
+#include "src/collider/aabb/boxAabb.h"
 #include "src/collider/boxCollider/boxCollider.h"
 #include "src/collider/pointCollider/pointCollider.h"
 #include "src/spriteStorage/spriteStorage.h"
@@ -19,6 +20,8 @@ Player::Player(Surface* screen, LevelMaps* levelMaps, SpriteStorage* spriteStora
 	tileBoxCollider = new BoxCollider(screen, levelMaps, {30, 30});
 	roomChangeCollider = new PointCollider(screen, levelMaps);
 	UpdateRoomChangeCollider();
+
+	m_punchBoxAabb = new BoxAabb(GetFeetPos(), {40,40});
 }
 
 void Player::Tick(float deltaTime)
@@ -54,6 +57,10 @@ void Player::HandleInput()
 	{
 		isIdle = true;
 	}
+}
+
+void Player::CheckPunch()
+{
 }
 
 void Player::UpdatePosition(float deltaTime)
@@ -178,6 +185,28 @@ int2 Player::GetFeetPos() const
 	return feet;
 }
 
+void Player::KeyDown(int glfwKey)
+{
+	switch(glfwKey)
+	{
+		case GLFW_KEY_F:
+			m_isPunchKeyDownAndHaveNotPunched = true;
+			break;
+	}
+}
+
+bool Player::ReportPunch()
+{
+	if(m_isPunchKeyDownAndHaveNotPunched)
+	{
+		m_punchBoxAabb->UpdatePosition(m_position);
+		m_punchBoxAabb->Draw(m_pScreen, 0xffff00);
+		m_isPunchKeyDownAndHaveNotPunched = false;
+		return true;
+	}
+	return false;
+}
+
 RoomChangeType Player::ReportRoomChange() const
 {
 	TileType tileType = roomChangeCollider->GetTileType();
@@ -234,8 +263,6 @@ void Player::RoomChangePos(RoomChange roomChange)
 
 void Player::DrawColliders() const
 {
-	m_pScreen->Circle(GetFeetPos().x, GetFeetPos().y, 40, 0xff0000);
-
 	if(isIdle) return;
 	tileBoxCollider->Draw(2);
 	roomChangeCollider->Draw(5, 0x00FF00FF);

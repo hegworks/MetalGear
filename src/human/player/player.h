@@ -4,6 +4,7 @@
 #include "src/managers/room/roomChange.h"
 #include "src/managers/room/roomChangeType.h"
 
+class BoxAabb;
 class PointCollider;
 
 constexpr int PLAYER_ANIMATION_COUNT = 4;
@@ -19,6 +20,9 @@ public:
 	float2 GetPosition() const;
 	int2 GetFeetTilePosition() const;
 	int2 GetFeetPos() const;
+	BoxAabb* GetPunchBoxAabb() const { return m_punchBoxAabb; }
+	void KeyDown(int glfwKey);
+	bool ReportPunch();
 
 private:
 	CustomAnimation animations[PLAYER_ANIMATION_COUNT] =
@@ -38,7 +42,11 @@ private:
 	const int roomChangeColliderXOffset = -5;
 	const int roomChangeColliderYOffset = -5;
 
+	BoxAabb* m_punchBoxAabb = nullptr;
+	bool m_isPunchKeyDownAndHaveNotPunched = false;
+
 	void HandleInput();
+	void CheckPunch();
 	void UpdatePosition(float deltaTime);
 	void UpdateColliders() const;
 	void UpdateRoomChangeCollider() const;

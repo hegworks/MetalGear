@@ -36,6 +36,8 @@
     <ClCompile Include="src\human\human.cpp" />
     <ClCompile Include="src\human\player\player.cpp" />
     <ClCompile Include="src\collider\sightCollider\sightCollider.cpp" />
+    <ClCompile Include="src\collider\aabb\aabb.cpp" />
+    <ClCompile Include="src\collider\aabb\boxAabb.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="template\common.h">
@@ -92,6 +94,8 @@
     <ClInclude Include="src\human\human.h" />
     <ClInclude Include="src\human\player\player.h" />
     <ClInclude Include="src\collider\sightCollider\sightCollider.h" />
+    <ClInclude Include="src\collider\aabb\aabb.h" />
+    <ClInclude Include="src\collider\aabb\boxAabb.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md">

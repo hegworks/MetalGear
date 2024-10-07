@@ -1,6 +1,7 @@
 ﻿#include "precomp.h"
 #include "enemy.h"
 
+#include "src/collider/aabb/boxAabb.h"
 #include "src/collider/boxCollider/boxCollider.h"
 #include "src/collider/pointCollider/pointCollider.h"
 #include "src/collider/sightCollider/sightCollider.h"
@@ -32,12 +33,20 @@ Enemy::Enemy(Surface* pScreen, LevelMaps* pLevelMaps, SpriteStorage* pSpriteStor
 	m_pSightCollider = new SightCollider(pScreen, pLevelMaps, pPlayer);
 
 	tileBoxCollider = new BoxCollider(pScreen, pLevelMaps, {30, 30});
+
+	m_boxAabb = new BoxAabb(m_position, {static_cast<float>(m_pSprite->GetWidth()),static_cast<float>(m_pSprite->GetHeight())});
 }
 
 void Enemy::Tick(float deltaTime)
 {
+	if(state == EnemyState::Dead)
+	{
+		return;
+	}
+
 	UpdateSightCollider();
 	CheckSightCollider();
+	UpdateBoxAabb();
 
 	switch(state)
 	{
@@ -53,6 +62,8 @@ void Enemy::Tick(float deltaTime)
 			UpdateTileBoxCollider();
 			ChasePlayer(deltaTime);
 			break;
+		case EnemyState::Dead:
+			return;
 		default:
 			throw exception("Invalid enemy state");
 	}
@@ -71,6 +82,31 @@ void Enemy::DrawColliders() const
 	m_pSightCollider->Draw(5, 0x35b0fc);
 
 	tileBoxCollider->Draw(2, 0xff0000);
+
+	m_boxAabb->Draw(m_pScreen);
+}
+
+void Enemy::Draw() const
+{
+	if(state == EnemyState::Dead)
+	{
+		return;
+	}
+	Human::Draw();
+}
+
+void Enemy::PlayerPunched()
+{
+	if(m_boxAabb->IsColliding(m_pPlayer->GetPunchBoxAabb()))
+	{
+		printf("PLAYER PUNCHED ENEMY!\n");
+		m_boxAabb->Draw(m_pScreen, 0xffff00);
+		m_hp--;
+		if(m_hp <= 0)
+		{
+			state = EnemyState::Dead;
+		}
+	}
 }
 
 void Enemy::UpdatePatrolCollider() const
@@ -411,4 +447,9 @@ int2 Enemy::GetSightColliderPos() const
 		static_cast<int>(m_position.y + TILESET_TILEHEIGHT * 1.5f) + m_pSprite->GetHeight() / 2
 	};
 	return feet;
+}
+
+void Enemy::UpdateBoxAabb() const
+{
+	m_boxAabb->UpdatePosition(m_position);
 }

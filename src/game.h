@@ -31,7 +31,7 @@ public:
 	void MouseMove(int x, int y) { mousePos.x = x, mousePos.y = y; }
 	void MouseWheel(float) { /* implement if you want to handle the mouse wheel */ }
 	void KeyUp(int) { /* implement if you want to handle keys */ }
-	void KeyDown(int) { /* implement if you want to handle keys */ }
+	void KeyDown(int glfwKey);
 	// data members
 	int2 mousePos;
 
