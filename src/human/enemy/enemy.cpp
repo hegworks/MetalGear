@@ -109,7 +109,6 @@ void Enemy::CheckSightCollider()
 	if(m_pSightCollider->IsPlayerInSight())
 	{
 		state = EnemyState::Alarm;
-		m_pScreen->Bar(50, 50, 150, 150, 0xeb8e0c);
 	}
 }
 
