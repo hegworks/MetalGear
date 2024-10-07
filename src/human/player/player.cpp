@@ -234,6 +234,8 @@ void Player::RoomChangePos(RoomChange roomChange)
 
 void Player::DrawColliders() const
 {
+	m_pScreen->Circle(GetFeetPos().x, GetFeetPos().y, 40, 0xff0000);
+
 	if(isIdle) return;
 	tileBoxCollider->Draw(2);
 	roomChangeCollider->Draw(5, 0x00FF00FF);
