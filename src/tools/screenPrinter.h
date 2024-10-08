@@ -9,6 +9,7 @@ public:
 		sprintf(text, "%s %f", prefix, value);
 		int2 posInt = {static_cast<int>(pos.x), static_cast<int>(pos.y)};
 		screen->Print(text, posInt.x, posInt.y, color);
+		delete[] text;
 #endif
 	}
 
@@ -19,6 +20,7 @@ public:
 		sprintf(text, "%s %i", prefix, value);
 		int2 posInt = {static_cast<int>(pos.x), static_cast<int>(pos.y)};
 		screen->Print(text, posInt.x, posInt.y, color);
+		delete[] text;
 #endif
 	}
 
@@ -29,6 +31,7 @@ public:
 		sprintf(text, "%s %s", prefix, value);
 		int2 posInt = {static_cast<int>(pos.x), static_cast<int>(pos.y)};
 		screen->Print(text, posInt.x, posInt.y, color);
+		delete[] text;
 #endif
 	}
 
@@ -39,6 +42,7 @@ public:
 		sprintf(text, "%s %s", prefix, value.c_str());
 		int2 posInt = {static_cast<int>(pos.x), static_cast<int>(pos.y)};
 		screen->Print(text, posInt.x, posInt.y, color);
+		delete[] text;
 #endif
 	}
 };
