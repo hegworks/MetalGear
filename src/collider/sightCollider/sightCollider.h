@@ -13,7 +13,7 @@ public:
 	SightCollider(Surface* pScreen, LevelMaps* pLevelMaps, Player* pPlayer);
 
 	void UpdatePosition(int2 startPos, Direction dir);
-	virtual void Draw(int visualSize, int color = 0xff0000) const;
+	virtual void Draw(int visualSize, int color = 0xff0000);
 	bool IsPlayerInSight();
 
 private:

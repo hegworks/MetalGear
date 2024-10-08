@@ -11,12 +11,10 @@ class Human
 {
 public:
 	Human(Surface* pScreen, LevelMaps* pLevelMaps, SpriteStorage* pSpriteStorage);
-	~Human();
 
 	virtual void Draw() const;
 	virtual void DrawColliders() {}
-	virtual void Move(int2 direction) {}
-	virtual void Tick(float deltaTime) {}
+	virtual void Tick(float /* deltatime */) {}
 
 protected:
 	Surface* m_pScreen = nullptr;

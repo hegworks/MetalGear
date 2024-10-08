@@ -9,7 +9,7 @@ public:
 	BoxCollider(Surface* screen, LevelMaps* levelMaps, int2 size);
 
 	void UpdatePosition(int2 pos);
-	void Draw(int visualSize, int color = 0xff0000) override;
+	virtual void Draw(int visualSize, int color = 0xff0000);
 	int2 GetSize() const { return size; }
 	bool IsSolid(Direction direction);
 

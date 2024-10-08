@@ -17,7 +17,9 @@ void BoxAabb::UpdatePosition(float2 pos)
 void BoxAabb::Draw(Surface* pScreen, uint color)
 {
 #ifdef _PHYSICS_DEBUG
-	pScreen->Box(m_pos.x, m_pos.y, m_pos.x + m_size.x, m_pos.y + m_size.y, color);
+	const int2 pos = {static_cast<int>(m_pos.x),static_cast<int>(m_pos.y)};
+	const int2 size = {static_cast<int>(m_size.x),static_cast<int>(m_size.y)};
+	pScreen->Box(pos.x, pos.y, pos.x + size.x, pos.y + size.y, color);
 #endif
 }
 

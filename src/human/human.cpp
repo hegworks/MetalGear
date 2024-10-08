@@ -10,8 +10,6 @@ Human::Human(Surface* pScreen, LevelMaps* pLevelMaps, SpriteStorage* pSpriteStor
 	m_pSpriteStorage = pSpriteStorage;
 }
 
-Human::~Human() = default;
-
 void Human::Draw() const
 {
 	if(!m_pSprite)

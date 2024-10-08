@@ -93,5 +93,5 @@ void Game::ChangeRoom()
 	levelMaps->SetCurrentLevelId(roomFinder->GetCurrentLevelId());
 	currentLevelTiles = levelMaps->GetLevelMapPointers();
 	currentLevelColliders = levelMaps->GetLevelColliderPointers();
-	bool haveEnemies = enemySpawner->Spawn();
+	enemySpawner->Spawn();
 }
