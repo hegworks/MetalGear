@@ -10,15 +10,15 @@ public:
 
 	void UpdatePosition(float2 pos);
 	virtual void Draw(float visualSize, int color = 0xff0000);
-	int2 GetSize() const { return size; }
+	int2 GetSize() const { return m_size; }
 	bool IsSolid(Direction direction);
 
 private:
-	float2 pos;
-	int2 size;
+	float2 m_pos;
+	int2 m_size;
 
-	PointCollider* topLeft;
-	PointCollider* topRight;
-	PointCollider* bottomLeft;
-	PointCollider* bottomRight;
+	PointCollider* m_topLeft;
+	PointCollider* m_topRight;
+	PointCollider* m_bottomLeft;
+	PointCollider* m_bottomRight;
 };
