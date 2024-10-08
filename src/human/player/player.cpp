@@ -200,8 +200,9 @@ bool Player::ReportPunch()
 	if(m_isPunchKeyDownAndHaveNotPunched)
 	{
 		m_punchBoxAabb->UpdatePosition(m_position);
-		m_punchBoxAabb->Draw(m_pScreen, 0xffff00);
 		m_isPunchKeyDownAndHaveNotPunched = false;
+		int debug_punchFrameCount = 10;
+		m_debug_punchFrameCounter = debug_punchFrameCount;
 		return true;
 	}
 	return false;
@@ -262,7 +263,14 @@ void Player::RoomChangePos(RoomChange roomChange)
 
 void Player::DrawColliders()
 {
+	if(m_debug_punchFrameCounter > 0)
+	{
+		m_debug_punchFrameCounter--;
+		m_punchBoxAabb->Draw(m_pScreen, 0xffff00);
+	}
+
 	if(isIdle) return;
+
 	tileBoxCollider->Draw(2);
 	roomChangeCollider->Draw(5, 0x00FF00FF);
 }

@@ -85,16 +85,10 @@ void Enemy::DrawColliders()
 
 	tileBoxCollider->Draw(2, 0xff0000);
 
-	if(m_debug_gotPunched)
+	if(m_debug_gotPunchedFrameCounter > 0)
 	{
 		m_boxAabb->Draw(m_pScreen, 0xffff00);
-
-		m_debug_gotPunchedFrameCounter++;
-		if(m_debug_gotPunchedFrameCounter >= m_debug_gotPunchedFrameCount)
-		{
-			m_debug_gotPunchedFrameCounter = 0;
-			m_debug_gotPunched = false;
-		}
+		m_debug_gotPunchedFrameCounter--;
 	}
 	else
 	{
@@ -124,7 +118,8 @@ void Enemy::PlayerPunchReported()
 		printf("PLAYER PUNCHED ENEMY!\n");
 		m_boxAabb->Draw(m_pScreen, 0xffff00);
 		m_hp--;
-		m_debug_gotPunched = true;
+		int debug_gotPunchedFrameCount = 10;
+		m_debug_gotPunchedFrameCounter = debug_gotPunchedFrameCount;
 		if(m_hp <= 0)
 		{
 			state = EnemyState::Dead;

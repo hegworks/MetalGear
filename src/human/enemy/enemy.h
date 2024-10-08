@@ -60,9 +60,7 @@ private:
 	int chaseNoMovementCount = 0;
 
 	// punch
-	bool m_debug_gotPunched = false;
-	int m_debug_gotPunchedFrameCounter = 0;
-	int m_debug_gotPunchedFrameCount = 10;
+	int m_debug_gotPunchedFrameCounter = 10;
 	BoxAabb* m_boxAabb = nullptr;
 
 	// HP

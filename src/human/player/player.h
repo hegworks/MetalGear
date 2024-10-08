@@ -13,18 +13,25 @@ class Player : public Human
 {
 public:
 	Player(Surface* screen, LevelMaps* levelMaps, SpriteStorage* spriteStorage);
-	void Tick(float deltaTime) override;
-	RoomChangeType ReportRoomChange() const;
-	void RoomChangePos(RoomChange roomChange);
+	virtual void Tick(float deltaTime);
 	virtual void DrawColliders();
+
+	// report
+	RoomChangeType ReportRoomChange() const;
+	bool ReportPunch();
+
+	// getter
 	float2 GetPosition() const;
 	int2 GetFeetTilePosition() const;
 	int2 GetFeetPos() const;
 	BoxAabb* GetPunchBoxAabb() const { return m_punchBoxAabb; }
+
+	// else
+	void RoomChangePos(RoomChange roomChange);
 	void KeyDown(int glfwKey);
-	bool ReportPunch();
 
 private:
+	// animation
 	CustomAnimation animations[PLAYER_ANIMATION_COUNT] =
 	{
 		{AnimationState::Up, 6, 8 },
@@ -32,19 +39,22 @@ private:
 		{AnimationState::Left, 3, 5 },
 		{AnimationState::Right, 9, 11 },
 	};
-
-	bool isIdle = true;
-
 	const float ANIMATION_UPDATE_TIME = 100.0f;
 	float animationUpdateTimer = 0.0f;
+	bool isIdle = true;
 
+	// room change
 	PointCollider* roomChangeCollider = nullptr;
 	const int roomChangeColliderXOffset = -5;
 	const int roomChangeColliderYOffset = -5;
 
+	// punch
 	BoxAabb* m_punchBoxAabb = nullptr;
 	bool m_isPunchKeyDownAndHaveNotPunched = false;
+	float m_debug_punchFrameCounter = 0;
 
+
+	// functions
 	void HandleInput();
 	void CheckPunch();
 	void UpdatePosition(float deltaTime);
