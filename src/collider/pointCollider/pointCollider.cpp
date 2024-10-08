@@ -1,7 +1,7 @@
 ﻿#include "precomp.h"
 #include "pointCollider.h"
 
-void PointCollider::UpdatePosition(int2 pos)
+void PointCollider::UpdatePosition(float2 pos)
 {
 	this->m_pos = pos;
 }

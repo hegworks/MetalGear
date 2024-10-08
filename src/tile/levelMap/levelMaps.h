@@ -13,15 +13,15 @@ public:
 	int** GetLevelColliderPointers();
 	int GetCurrentLevelId() const { return currentLevelId; }
 	void SetCurrentLevelId(const int id) { currentLevelId = id; }
-	TileType GetTileType(int2 pos) const;
+	TileType GetTileType(float2 pos) const;
 	TileType GetTileType(int tileIndex) const;
-	bool IsSolid(int2 pos) const;
-	int2 GetTilePos(int2 pos) const;
+	bool IsSolid(float2 pos) const;
+	int2 GetTilePos(float2 pos) const;
 
 private:
 	int tiles[TOTAL_LEVEL_MAPS][LEVELMAP_ROWS][LEVELMAP_COLS];
 	int colls[TOTAL_LEVEL_MAPS][LEVELMAP_ROWS][LEVELMAP_COLS];
 	int currentLevelId = 0;
 
-	int GetCollValue(int2 pos) const;
+	int GetCollValue(float2 pos) const;
 };

@@ -8,13 +8,13 @@ class BoxCollider : public Collider
 public:
 	BoxCollider(Surface* screen, LevelMaps* levelMaps, int2 size);
 
-	void UpdatePosition(int2 pos);
+	void UpdatePosition(float2 pos);
 	virtual void Draw(int visualSize, int color = 0xff0000);
 	int2 GetSize() const { return size; }
 	bool IsSolid(Direction direction);
 
 private:
-	int2 pos;
+	float2 pos;
 	int2 size;
 
 	PointCollider* topLeft;

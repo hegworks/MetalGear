@@ -23,8 +23,8 @@ public:
 private:
 	// colliders
 	PointCollider* patrolCollider = nullptr;
-	const int patrolColliderXOffset = 0;
-	const int patrolColliderYOffset = TILESET_TILEWIDTH / 2;
+	const float patrolColliderXOffset = 0;
+	const float patrolColliderYOffset = TILESET_TILEWIDTH / 2.0f;
 
 	SightCollider* m_pSightCollider = nullptr;
 
@@ -88,4 +88,5 @@ private:
 	int2 GetSightColliderPos() const;
 	void UpdateBoxAabb() const;
 	void Debug_PrintValues() const;
+	float2 GetCenter() const;
 };

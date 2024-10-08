@@ -14,7 +14,7 @@ SightCollider::SightCollider(Surface* pScreen, LevelMaps* pLevelMaps, Player* pP
 	}
 }
 
-void SightCollider::UpdatePosition(const int2 startPos, Direction dir)
+void SightCollider::UpdatePosition(const float2 startPos, Direction dir)
 {
 	m_dir = dir;
 	int2 dir_val = {0,0};
@@ -87,7 +87,7 @@ bool SightCollider::IsPlayerInSight()
 	return false;
 }
 
-bool SightCollider::IsOutOfScreen(int2 pos) const
+bool SightCollider::IsOutOfScreen(float2 pos) const
 {
 	return pos.x < TILESET_TILEWIDTH || pos.x > SCRWIDTH - TILESET_TILEWIDTH || pos.y < TILESET_TILEWIDTH || pos.y > SCRHEIGHT - TILESET_TILEHEIGHT;
 }

@@ -12,7 +12,7 @@ class SightCollider : public Collider
 public:
 	SightCollider(Surface* pScreen, LevelMaps* pLevelMaps, Player* pPlayer);
 
-	void UpdatePosition(int2 startPos, Direction dir);
+	void UpdatePosition(float2 startPos, Direction dir);
 	virtual void Draw(int visualSize, int color = 0xff0000);
 	bool IsPlayerInSight();
 
@@ -21,5 +21,5 @@ private:
 	Player* m_pPlayer = nullptr;
 	Direction m_dir;
 
-	bool IsOutOfScreen(int2 pos) const;
+	bool IsOutOfScreen(float2 pos) const;
 };

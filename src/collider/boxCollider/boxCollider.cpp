@@ -10,7 +10,7 @@ BoxCollider::BoxCollider(Surface* screen, LevelMaps* levelMaps, int2 size) : Col
 	bottomRight = new PointCollider(screen, levelMaps);
 }
 
-void BoxCollider::UpdatePosition(int2 pos)
+void BoxCollider::UpdatePosition(float2 pos)
 {
 	this->pos = pos;
 	topLeft->UpdatePosition(pos);

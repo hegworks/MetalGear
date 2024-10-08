@@ -577,7 +577,7 @@ int** LevelMaps::GetLevelColliderPointers()
 	return colliders;
 }
 
-TileType LevelMaps::GetTileType(const int2 pos) const
+TileType LevelMaps::GetTileType(const float2 pos) const
 {
 	return static_cast<TileType>(GetCollValue(pos));
 }
@@ -587,18 +587,18 @@ TileType LevelMaps::GetTileType(int tileIndex) const
 	return static_cast<TileType>(tileIndex);
 }
 
-int LevelMaps::GetCollValue(const int2 pos) const
+int LevelMaps::GetCollValue(const float2 pos) const
 {
-	return colls[currentLevelId][pos.y / TILESET_TILEHEIGHT][pos.x / TILESET_TILEWIDTH];
+	return colls[currentLevelId][static_cast<int>(pos.y / TILESET_TILEHEIGHT)][static_cast<int>(pos.x / TILESET_TILEWIDTH)];
 }
 
-bool LevelMaps::IsSolid(const int2 pos) const
+bool LevelMaps::IsSolid(const float2 pos) const
 {
 	return GetTileType(pos) == TileType::Solid;
 }
 
 /// <returns>tile Column as x and tile Row as y</returns>
-int2 LevelMaps::GetTilePos(const int2 pos) const
+int2 LevelMaps::GetTilePos(const float2 pos) const
 {
-	return {pos.x / TILESET_TILEWIDTH, pos.y / TILESET_TILEHEIGHT};
+	return {static_cast<int>(pos.x / TILESET_TILEWIDTH), static_cast<int>(pos.y / TILESET_TILEHEIGHT)};
 }

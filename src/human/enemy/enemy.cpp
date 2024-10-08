@@ -123,6 +123,15 @@ void Enemy::Debug_PrintValues() const
 
 }
 
+float2 Enemy::GetCenter() const
+{
+	return
+	{
+		m_position.x + static_cast<float>(m_pSprite->GetWidth()) / 2.0f,
+		m_position.y + static_cast<float>(m_pSprite->GetHeight()) / 2.0f
+	};
+}
+
 
 void Enemy::Draw() const
 {
@@ -157,16 +166,11 @@ void Enemy::PlayerPunchReported()
 
 void Enemy::UpdatePatrolCollider() const
 {
-	int2 center =
-	{
-		static_cast<int>(m_position.x) + m_pSprite->GetWidth() / 2,
-		static_cast<int>(m_position.y) + m_pSprite->GetHeight() / 2
-	};
-
-	int2 feet = center;
+	float2 center = GetCenter();
+	float2 feet = center;
 	feet.y += TILESET_TILEHEIGHT * 1.5f;
 
-	int2 offset = {0, 0};
+	float2 offset = {0, 0};
 	switch(movementDirection)
 	{
 		case Direction::Up:
