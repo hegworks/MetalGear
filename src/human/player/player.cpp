@@ -21,7 +21,7 @@ Player::Player(Surface* screen, LevelMaps* levelMaps, SpriteStorage* spriteStora
 	roomChangeCollider = new PointCollider(screen, levelMaps);
 	UpdateRoomChangeCollider();
 
-	m_punchBoxAabb = new BoxAabb(GetFeetPos(), {40,40});
+	m_punchBoxAabb = new BoxAabb(GetFeetPos(), {PUNCH_SIZE,PUNCH_SIZE});
 }
 
 void Player::Tick(float deltaTime)
@@ -171,6 +171,14 @@ void Player::Animate(float deltaTime)
 	}
 }
 
+float2 Player::GetCenterPos() const
+{
+	const float width = static_cast<float>(m_pSprite->GetWidth());
+	const float height = static_cast<float>(m_pSprite->GetHeight());
+	return  {m_position.x + width / 2.0f, m_position.y + height / 2.0f};
+}
+
+
 int2 Player::GetFeetPos() const
 {
 	const int2 feet =
@@ -195,10 +203,35 @@ bool Player::ReportPunch()
 {
 	if(m_isPunchKeyDownAndHaveNotPunched)
 	{
-		m_punchBoxAabb->UpdatePosition(m_position);
-		m_isPunchKeyDownAndHaveNotPunched = false;
+		// set punch position
+		const float2 center = GetCenterPos();
+		constexpr float upperBodyYOffset = -20;
+		constexpr float punchOffset = 20;
+		float2 offset = {0,0};
+		switch(movementDirection)
+		{
+			case Direction::Up:
+				offset.y -= punchOffset;
+				break;
+			case Direction::Down:
+				offset.y += punchOffset;
+				break;
+			case Direction::Left:
+				offset.x -= punchOffset;
+				break;
+			case Direction::Right:
+				offset.x += punchOffset;
+				break;
+		}
+		float2 punchPos = center + offset - PUNCH_SIZE / 2;
+		punchPos.y += upperBodyYOffset;
+		m_punchBoxAabb->UpdatePosition(punchPos);
+
+		// debug
 		int debug_punchFrameCount = 10;
 		m_debug_punchFrameCounter = debug_punchFrameCount;
+
+		m_isPunchKeyDownAndHaveNotPunched = false;
 		return true;
 	}
 	return false;

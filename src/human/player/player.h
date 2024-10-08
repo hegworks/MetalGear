@@ -52,7 +52,7 @@ private:
 	BoxAabb* m_punchBoxAabb = nullptr;
 	bool m_isPunchKeyDownAndHaveNotPunched = false;
 	int m_debug_punchFrameCounter = 0;
-
+	const float PUNCH_SIZE = 32;
 
 	// functions
 	void HandleInput();
@@ -61,4 +61,5 @@ private:
 	void UpdateRoomChangeCollider() const;
 	void UpdateAnimationState();
 	void Animate(float deltaTime);
+	float2 GetCenterPos() const;
 };
