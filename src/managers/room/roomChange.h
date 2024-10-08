@@ -4,8 +4,8 @@
 
 struct RoomChange
 {
+	float2 newPlayerPos;
 	RoomChangeType type;
 	int nextRoomId;
 	RoomChangePositionType positionType;
-	float2 newPlayerPos;
 };

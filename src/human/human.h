@@ -17,6 +17,8 @@ public:
 	virtual void Tick(float /* deltatime */) {}
 
 protected:
+	float2 m_position;
+
 	Surface* m_pScreen = nullptr;
 	LevelMaps* m_pLevelMaps = nullptr;
 	SpriteStorage* m_pSpriteStorage = nullptr;
@@ -28,7 +30,6 @@ protected:
 
 	Direction movementDirection = Direction::Down;
 
-	float2 m_position;
 	float m_speed;
 	int m_animationFrame;
 

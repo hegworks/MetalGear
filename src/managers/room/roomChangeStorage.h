@@ -13,48 +13,48 @@ public:
 	RoomChange roomChanges[TOTAL_LEVEL_MAPS][ROOMCHANGE_TYPE_COUNT] =
 	{
 		{ // 0
-			{ RoomChangeType::RC0, 1, RoomChangePositionType::TOP, { 0, RCS_TOP_Y } },
+			{{0,			RCS_TOP_Y},		RoomChangeType::RC0, 1, RoomChangePositionType::TOP },
 		},
 		{ // 1
-			{ RoomChangeType::RC0, 0, RoomChangePositionType::BOTTOM, { 0, RCS_BOTTOM_Y } },
-			{ RoomChangeType::RC1, 2, RoomChangePositionType::RIGHT, { RCS_RIGHT_X, 0 } },
-			{ RoomChangeType::RC2, 4, RoomChangePositionType::TOP, { 0, RCS_TOP_Y } },
+			{{0,			RCS_BOTTOM_Y},	RoomChangeType::RC0, 0, RoomChangePositionType::BOTTOM		},
+			{{RCS_RIGHT_X,	0			},	RoomChangeType::RC1, 2, RoomChangePositionType::RIGHT		},
+			{{0,			RCS_TOP_Y	},	RoomChangeType::RC2, 4, RoomChangePositionType::TOP			},
 		},
 		{ // 2
-			{ RoomChangeType::RC0, 1, RoomChangePositionType::LEFT, { RCS_LEFT_X, 0 } },
-			{ RoomChangeType::RC1, 3, RoomChangePositionType::RIGHT, { RCS_RIGHT_X, 0 } },
+			{{RCS_LEFT_X,	0			},	RoomChangeType::RC0, 1, RoomChangePositionType::LEFT		},
+			{{RCS_RIGHT_X,	0			},	RoomChangeType::RC1, 3, RoomChangePositionType::RIGHT		},
 		},
 		{ // 3
-			{ RoomChangeType::RC0, 2, RoomChangePositionType::LEFT, { RCS_LEFT_X, 0 } },
+			{{RCS_LEFT_X,	0			},	RoomChangeType::RC0, 2, RoomChangePositionType::LEFT		},
 		},
 		{ // 4
-			{ RoomChangeType::RC0, 1, RoomChangePositionType::BOTTOM, { 0, RCS_BOTTOM_Y } },
-			{ RoomChangeType::RC1, 5, RoomChangePositionType::RIGHT, { RCS_RIGHT_X, 0 } },
-			{ RoomChangeType::RC2, 7, RoomChangePositionType::TOP, { 0, RCS_TOP_Y } },
+			{{0,			RCS_BOTTOM_Y},	RoomChangeType::RC0, 1, RoomChangePositionType::BOTTOM		},
+			{{RCS_RIGHT_X,	0			},	RoomChangeType::RC1, 5, RoomChangePositionType::RIGHT		},
+			{{0,			RCS_TOP_Y	},	RoomChangeType::RC2, 7, RoomChangePositionType::TOP			},
 		},
 		{ // 5
-			{ RoomChangeType::RC0, 4, RoomChangePositionType::LEFT, { RCS_LEFT_X, 0 } },
-			{ RoomChangeType::RC1, 6, RoomChangePositionType::TOP, { 0, RCS_TOP_Y } },
-			{ RoomChangeType::RC2, -1, RoomChangePositionType::EXCEPTION, { -1, -1 } },
-			{ RoomChangeType::RC3, -1, RoomChangePositionType::EXCEPTION, { -1, -1 } },
-			{ RoomChangeType::RC4, -1, RoomChangePositionType::EXCEPTION, { -1, -1 } },
+			{{ RCS_LEFT_X,	0			},	RoomChangeType::RC0, 4,	RoomChangePositionType::LEFT		},
+			{{ 0,			RCS_TOP_Y	},	RoomChangeType::RC1, 6,	RoomChangePositionType::TOP			},
+			{{-1,			-1			},	RoomChangeType::RC2, -1,RoomChangePositionType::EXCEPTION	},
+			{{-1,			-1			},	RoomChangeType::RC3, -1,RoomChangePositionType::EXCEPTION	},
+			{{-1,			-1			},	RoomChangeType::RC4, -1,RoomChangePositionType::EXCEPTION	},
 		},
 		{ // 6
-			{ RoomChangeType::RC0, 5, RoomChangePositionType::BOTTOM, { 0, RCS_BOTTOM_Y } },
+			{{0,			RCS_BOTTOM_Y},	RoomChangeType::RC0, 5, RoomChangePositionType::BOTTOM		},
 		},
 		{ // 7
-			{ RoomChangeType::RC0, 4, RoomChangePositionType::BOTTOM, { 0, RCS_BOTTOM_Y } },
-			{ RoomChangeType::RC1, 8, RoomChangePositionType::TOP, { 0, RCS_TOP_Y } },
+			{{0,			RCS_BOTTOM_Y},	RoomChangeType::RC0, 4, RoomChangePositionType::BOTTOM		},
+			{{0,			RCS_TOP_Y},		RoomChangeType::RC1, 8, RoomChangePositionType::TOP			},
 		},
 		{ // 8
-			{ RoomChangeType::RC0, 7, RoomChangePositionType::BOTTOM, { 0, RCS_BOTTOM_Y } },
-			{ RoomChangeType::RC1, 9, RoomChangePositionType::RIGHT, { RCS_RIGHT_X, 0 } },
+			{{0,			RCS_BOTTOM_Y}, RoomChangeType::RC0, 7, RoomChangePositionType::BOTTOM		},
+			{{RCS_RIGHT_X,	0			}, RoomChangeType::RC1, 9, RoomChangePositionType::RIGHT		},
 		},
 		{ // 9
-			{ RoomChangeType::RC0, 8, RoomChangePositionType::LEFT, { RCS_LEFT_X, 0 } },
-			{ RoomChangeType::RC1, -1, RoomChangePositionType::EXCEPTION, { -1, -1 } },
-			{ RoomChangeType::RC2, -1, RoomChangePositionType::EXCEPTION, { -1, -1 } },
-			{ RoomChangeType::RC3, -1, RoomChangePositionType::EXCEPTION, { -1, -1 } },
+			{{RCS_LEFT_X,	0			}, RoomChangeType::RC0, 8, RoomChangePositionType::LEFT			},
+			{{-1,			-1			}, RoomChangeType::RC1, -1, RoomChangePositionType::EXCEPTION	},
+			{{-1,			-1			}, RoomChangeType::RC2, -1, RoomChangePositionType::EXCEPTION	},
+			{{-1,			-1			}, RoomChangeType::RC3, -1, RoomChangePositionType::EXCEPTION	},
 		},
 	};
 };
