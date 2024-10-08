@@ -18,7 +18,7 @@ BulletManager::BulletManager(Surface* pScreen, LevelMaps* pLevelMaps, Player* pP
 	}
 }
 
-void BulletManager::Tick(float deltaTime)
+void BulletManager::Tick(const float deltaTime)
 {
 	for(int i = 0; i < MAX_BULLETS; ++i)
 	{
@@ -47,7 +47,7 @@ void BulletManager::Draw() const
 	}
 }
 
-Bullet* BulletManager::SpawnNewBullet(const float2 startPos, const float2 direction)
+Bullet* BulletManager::SpawnNewBullet(const float2 startPos, const float2 direction) const
 {
 	Bullet* newBullet = GetFirstInactiveBullet();
 	newBullet->Activate(startPos, direction);

@@ -1,13 +1,13 @@
 ﻿#include "precomp.h"
 #include "boxAabb.h"
 
-BoxAabb::BoxAabb(float2 pos, float2 size)
+BoxAabb::BoxAabb(const float2 pos, const float2 size)
 {
 	m_size = size;
 	UpdatePosition(pos);
 }
 
-void BoxAabb::UpdatePosition(float2 pos)
+void BoxAabb::UpdatePosition(const float2 pos)
 {
 	m_pos = pos;
 	m_min = m_pos;
@@ -15,7 +15,7 @@ void BoxAabb::UpdatePosition(float2 pos)
 }
 
 #ifdef _PHYSICS_DEBUG
-void BoxAabb::Draw(Surface* pScreen, uint color)
+void BoxAabb::Draw(Surface* pScreen, uint color) const
 {
 	const int2 pos = {static_cast<int>(m_pos.x),static_cast<int>(m_pos.y)};
 	const int2 size = {static_cast<int>(m_size.x),static_cast<int>(m_size.y)};
@@ -23,7 +23,7 @@ void BoxAabb::Draw(Surface* pScreen, uint color)
 }
 #endif
 
-bool BoxAabb::IsColliding(const BoxAabb* other)
+bool BoxAabb::IsColliding(const BoxAabb* other) const
 {
 	return
 		m_min.x <= other->GetMax().x &&

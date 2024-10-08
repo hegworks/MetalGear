@@ -4,13 +4,13 @@
 #include "src/tile/levelMap/levelMaps.h"
 #include "src/tile/tileSet.h"
 
-EnemySpawner::EnemySpawner(Surface* screen, LevelMaps* levelMaps, SpriteStorage* spriteStorage, Player* player, BulletManager* pBulletManager)
+EnemySpawner::EnemySpawner(Surface* pScreen, LevelMaps* pLevelMaps, SpriteStorage* pSpriteStorage, Player* pPlayer, BulletManager* pBulletManager)
 {
-	this->screen = screen;
-	this->levelMaps = levelMaps;
-	this->spriteStorage = spriteStorage;
-	this->player = player;
-	this->bulletManager = pBulletManager;
+	m_screen = pScreen;
+	m_levelMaps = pLevelMaps;
+	m_spriteStorage = pSpriteStorage;
+	m_player = pPlayer;
+	m_bulletManager = pBulletManager;
 }
 
 bool EnemySpawner::Spawn()
@@ -20,8 +20,8 @@ bool EnemySpawner::Spawn()
 		enemies[i] = nullptr;
 	}
 
-	bool isExceptionLevel4 = levelMaps->GetCurrentLevelId() == 4;
-	bool isPlayerCloserToBottom = player->GetPosition().y > SCRHEIGHT / 2;
+	bool isExceptionLevel4 = m_levelMaps->GetCurrentLevelId() == 4;
+	bool isPlayerCloserToBottom = m_player->GetPosition().y > SCRHEIGHT / 2;
 	bool skipLeftSpawn = false;
 	bool skipRightSpawn = false;
 
@@ -31,9 +31,9 @@ bool EnemySpawner::Spawn()
 		skipRightSpawn = !skipLeftSpawn;
 	}
 
-	enemyCount = 0;
+	m_enemyCount = 0;
 
-	int** levelColls = levelMaps->GetLevelColliderPointers();
+	int** levelColls = m_levelMaps->GetLevelColliderPointers();
 	for(int i = 0; i < LEVELMAP_ROWS; i++)
 	{
 		for(int j = 0; j < LEVELMAP_COLS; j++)
@@ -41,7 +41,7 @@ bool EnemySpawner::Spawn()
 			int tileIndex = levelColls[i][j];
 			if(tileIndex != -1)
 			{
-				TileType tileType = levelMaps->GetTileType(levelColls[i][j]);
+				const TileType tileType = m_levelMaps->GetTileType(levelColls[i][j]);
 
 				if(tileType == TileType::ESD || tileType == TileType::ESL || tileType == TileType::ESR || tileType == TileType::ESU)
 				{
@@ -69,9 +69,9 @@ bool EnemySpawner::Spawn()
 					   spawnDir == Direction::Right && !skipRightSpawn)
 					{
 						float2 spawnPos = {static_cast<float>(j * TILESET_TILEWIDTH), static_cast<float>(i * TILESET_TILEHEIGHT - 96)};
-						enemies[enemyCount] = new Enemy(screen, levelMaps, spriteStorage, spawnPos, spawnDir, player, bulletManager);
-						enemyCount++;
-						if(enemyCount >= MAX_ENEMIES)
+						enemies[m_enemyCount] = new Enemy(m_screen, m_levelMaps, m_spriteStorage, spawnPos, spawnDir, m_player, m_bulletManager);
+						m_enemyCount++;
+						if(m_enemyCount >= MAX_ENEMIES)
 						{
 							return true;
 						}
@@ -80,5 +80,5 @@ bool EnemySpawner::Spawn()
 			}
 		}
 	}
-	return enemyCount > 0;
+	return m_enemyCount > 0;
 }

@@ -13,7 +13,7 @@ public:
 	BulletManager(Surface* pScreen, LevelMaps* pLevelMaps, Player* pPlayer, SpriteStorage* pSpriteStorage);
 	void Tick(float deltaTime);
 	void Draw() const;
-	Bullet* SpawnNewBullet(float2 startPos, float2 direction);
+	Bullet* SpawnNewBullet(float2 startPos, float2 direction) const;
 
 private:
 	Surface* m_pScreen = nullptr;

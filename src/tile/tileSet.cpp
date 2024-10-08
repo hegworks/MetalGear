@@ -3,5 +3,5 @@
 
 TileSet::TileSet()
 {
-	graphic = new Surface(TILESET_ADDRESS);
+	m_graphic = new Surface(TILESET_ADDRESS);
 }

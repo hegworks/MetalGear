@@ -1,12 +1,14 @@
 ﻿#include "precomp.h"
 #include "roomFinder.h"
 
+#include "roomChangeStorage.h"
+
 RoomFinder::RoomFinder(RoomChangeStorage* roomChangeStorage)
 {
-	this->roomChangeStorage = roomChangeStorage;
+	m_roomChangeStorage = roomChangeStorage;
 }
 
 RoomChange RoomFinder::FindNextRoom(RoomChangeType roomChangeType) const
 {
-	return roomChangeStorage->roomChanges[currentLevelId][static_cast<int>(roomChangeType)];
+	return m_roomChangeStorage->roomChanges[m_currentLevelId][static_cast<int>(roomChangeType)];
 }

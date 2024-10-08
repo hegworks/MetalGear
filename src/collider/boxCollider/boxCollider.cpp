@@ -1,13 +1,13 @@
 ﻿#include "precomp.h"
 #include "boxCollider.h"
 
-BoxCollider::BoxCollider(Surface* screen, LevelMaps* levelMaps, int2 size) : Collider(screen, levelMaps)
+BoxCollider::BoxCollider(Surface* pScreen, LevelMaps* pLevelMaps, int2 size) : Collider(pScreen, pLevelMaps)
 {
 	m_size = size;
-	m_topLeft = new PointCollider(screen, levelMaps);
-	m_topRight = new PointCollider(screen, levelMaps);
-	m_bottomLeft = new PointCollider(screen, levelMaps);
-	m_bottomRight = new PointCollider(screen, levelMaps);
+	m_topLeft = new PointCollider(pScreen, pLevelMaps);
+	m_topRight = new PointCollider(pScreen, pLevelMaps);
+	m_bottomLeft = new PointCollider(pScreen, pLevelMaps);
+	m_bottomRight = new PointCollider(pScreen, pLevelMaps);
 }
 
 void BoxCollider::UpdatePosition(float2 pos)
@@ -33,7 +33,7 @@ void BoxCollider::Draw(const float visualSize, const int color)
 }
 #endif
 
-bool BoxCollider::IsSolid(Direction direction)
+bool BoxCollider::IsSolid(const Direction direction) const
 {
 	switch(direction)
 	{
@@ -46,5 +46,5 @@ bool BoxCollider::IsSolid(Direction direction)
 		case Direction::Right:
 			return m_pLevelMaps->IsSolid(m_topRight->GetPos()) || m_pLevelMaps->IsSolid(m_bottomRight->GetPos());
 	}
-	throw new exception("invalid direction");
+	throw exception("invalid direction");
 }

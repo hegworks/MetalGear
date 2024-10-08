@@ -1,16 +1,17 @@
 ﻿#pragma once
 #include "roomChange.h"
-#include "roomChangeStorage.h"
+
+class RoomChangeStorage;
 
 class RoomFinder
 {
 public:
 	RoomFinder(RoomChangeStorage* roomChangeStorage);
 	RoomChange FindNextRoom(RoomChangeType roomChangeType) const;
-	void SetCurrentLevelId(int levelId) { currentLevelId = levelId; }
-	int GetCurrentLevelId() const { return currentLevelId; }
+	void SetCurrentLevelId(const int levelId) { m_currentLevelId = levelId; }
+	int GetCurrentLevelId() const { return m_currentLevelId; }
 
 private:
-	RoomChangeStorage* roomChangeStorage;
-	int currentLevelId = 0;
+	RoomChangeStorage* m_roomChangeStorage;
+	int m_currentLevelId = 0;
 };

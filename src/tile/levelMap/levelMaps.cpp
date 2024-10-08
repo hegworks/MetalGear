@@ -540,7 +540,7 @@ LevelMaps::LevelMaps()
 		{
 			for(int k = 0; k < LEVELMAP_COLS; ++k)
 			{
-				tiles[i][j][k] = levelMapsTemp[i][j][k];
+				m_tiles[i][j][k] = levelMapsTemp[i][j][k];
 			}
 		}
 	}
@@ -551,7 +551,7 @@ LevelMaps::LevelMaps()
 		{
 			for(int k = 0; k < LEVELMAP_COLS; ++k)
 			{
-				colls[i][j][k] = levelCollidersTemp[i][j][k];
+				m_colls[i][j][k] = levelCollidersTemp[i][j][k];
 			}
 		}
 	}
@@ -562,7 +562,7 @@ int** LevelMaps::GetLevelMapPointers()
 	int** maps = new int* [LEVELMAP_ROWS];
 	for(int i = 0; i < LEVELMAP_ROWS; ++i)
 	{
-		maps[i] = tiles[currentLevelId][i];
+		maps[i] = m_tiles[m_currentLevelId][i];
 	}
 	return maps;
 }
@@ -572,7 +572,7 @@ int** LevelMaps::GetLevelColliderPointers()
 	int** colliders = new int* [LEVELMAP_ROWS];
 	for(int i = 0; i < LEVELMAP_ROWS; ++i)
 	{
-		colliders[i] = colls[currentLevelId][i];
+		colliders[i] = m_colls[m_currentLevelId][i];
 	}
 	return colliders;
 }
@@ -589,7 +589,7 @@ TileType LevelMaps::GetTileType(int tileIndex) const
 
 int LevelMaps::GetCollValue(const float2 pos) const
 {
-	return colls[currentLevelId][static_cast<int>(pos.y / TILESET_TILEHEIGHT)][static_cast<int>(pos.x / TILESET_TILEWIDTH)];
+	return m_colls[m_currentLevelId][static_cast<int>(pos.y / TILESET_TILEHEIGHT)][static_cast<int>(pos.x / TILESET_TILEWIDTH)];
 }
 
 bool LevelMaps::IsSolid(const float2 pos) const

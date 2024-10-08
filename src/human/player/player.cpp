@@ -17,14 +17,14 @@ Player::Player(Surface* screen, LevelMaps* levelMaps, SpriteStorage* spriteStora
 	m_position = float2(512, 256);
 	m_speed = 0.25f;
 
-	tileBoxCollider = new BoxCollider(screen, levelMaps, {30, 30});
-	roomChangeCollider = new PointCollider(screen, levelMaps);
+	m_tileBoxCollider = new BoxCollider(screen, levelMaps, {30, 30});
+	m_roomChangeCollider = new PointCollider(screen, levelMaps);
 	UpdateRoomChangeCollider();
 
 	m_punchBoxAabb = new BoxAabb(GetFeetPos(), {PUNCH_SIZE,PUNCH_SIZE});
 }
 
-void Player::Tick(float deltaTime)
+void Player::Tick(const float deltaTime)
 {
 	HandleInput();
 	UpdateColliders();
@@ -35,40 +35,40 @@ void Player::Tick(float deltaTime)
 
 void Player::HandleInput()
 {
-	hasDirectionInput = true;
+	m_hasDirectionInput = true;
 
 	if(GetAsyncKeyState(VK_UP))
 	{
-		movementDirection = Direction::Up;
+		m_movementDirection = Direction::Up;
 	}
 	else if(GetAsyncKeyState(VK_DOWN))
 	{
-		movementDirection = Direction::Down;
+		m_movementDirection = Direction::Down;
 	}
 	else if(GetAsyncKeyState(VK_LEFT))
 	{
-		movementDirection = Direction::Left;
+		m_movementDirection = Direction::Left;
 	}
 	else if(GetAsyncKeyState(VK_RIGHT))
 	{
-		movementDirection = Direction::Right;
+		m_movementDirection = Direction::Right;
 	}
 	else
 	{
-		hasDirectionInput = false;
+		m_hasDirectionInput = false;
 	}
 }
 
 void Player::UpdatePosition(float deltaTime)
 {
-	if(!hasDirectionInput || m_punchAnimationRemaining > 0) return;
+	if(!m_hasDirectionInput || m_punchAnimationRemaining > 0) return;
 
-	if(tileBoxCollider->IsSolid(movementDirection))
+	if(m_tileBoxCollider->IsSolid(m_movementDirection))
 	{
 		return;
 	}
 
-	switch(movementDirection)
+	switch(m_movementDirection)
 	{
 		case Direction::Up:
 			m_position.y -= m_speed * deltaTime;
@@ -87,7 +87,7 @@ void Player::UpdatePosition(float deltaTime)
 
 void Player::UpdateColliders() const
 {
-	if(!hasDirectionInput || m_punchAnimationRemaining > 0) return;
+	if(!m_hasDirectionInput || m_punchAnimationRemaining > 0) return;
 
 	UpdateRoomChangeCollider();
 	UpdateTileBoxCollider();
@@ -100,26 +100,26 @@ void Player::UpdateRoomChangeCollider() const
 		static_cast<int>(m_position.x) + tileBoxColliderXOffset + 15,
 		static_cast<int>(m_position.y) + tileBoxColliderYOffset + 15
 	};
-	switch(movementDirection)
+	switch(m_movementDirection)
 	{
 		case Direction::Up:
-			center.y -= roomChangeColliderYOffset;
+			center.y -= m_roomChangeColliderYOffset;
 			break;
 		case Direction::Down:
-			center.y += roomChangeColliderYOffset;
+			center.y += m_roomChangeColliderYOffset;
 			break;
 		case Direction::Left:
-			center.x -= roomChangeColliderXOffset;
+			center.x -= m_roomChangeColliderXOffset;
 			break;
 		case Direction::Right:
-			center.x += roomChangeColliderXOffset;
+			center.x += m_roomChangeColliderXOffset;
 			break;
 	}
 
-	roomChangeCollider->UpdatePosition(center);
+	m_roomChangeCollider->UpdatePosition(center);
 }
 
-void Player::UpdateAnimationState(float deltaTime)
+void Player::UpdateAnimationState(const float deltaTime)
 {
 	bool shouldResetToIdleAnimation = false;
 
@@ -140,7 +140,7 @@ void Player::UpdateAnimationState(float deltaTime)
 		m_shouldStartPunchAnimation = false;
 		m_punchAnimationRemaining = PUNCH_ANIMATION_DURATION;
 
-		switch(movementDirection)
+		switch(m_movementDirection)
 		{
 			case Direction::Up:
 				m_currentAnimationState = AnimationState::PunchUp;
@@ -156,9 +156,9 @@ void Player::UpdateAnimationState(float deltaTime)
 				break;
 		}
 	}
-	else if(hasDirectionInput && m_punchAnimationRemaining <= 0 || shouldResetToIdleAnimation)
+	else if(m_hasDirectionInput && m_punchAnimationRemaining <= 0 || shouldResetToIdleAnimation)
 	{
-		switch(movementDirection)
+		switch(m_movementDirection)
 		{
 			case Direction::Up:
 				m_currentAnimationState = AnimationState::Up;
@@ -176,12 +176,12 @@ void Player::UpdateAnimationState(float deltaTime)
 	}
 }
 
-void Player::Animate(float deltaTime)
+void Player::Animate(const float deltaTime)
 {
-	if(!hasDirectionInput && m_punchAnimationRemaining <= 0)
+	if(!m_hasDirectionInput && m_punchAnimationRemaining <= 0)
 	{
 		m_pSprite->SetFrame(animations[static_cast<int>(m_currentAnimationState)].startFrame);
-		animationUpdateTimer = ANIMATION_UPDATE_TIME;
+		m_animationUpdateTimer = ANIMATION_UPDATE_TIME;
 		return;
 	}
 
@@ -191,11 +191,11 @@ void Player::Animate(float deltaTime)
 		m_lastAnimationState = m_currentAnimationState;
 	}
 
-	animationUpdateTimer += deltaTime;
+	m_animationUpdateTimer += deltaTime;
 
-	if(animationUpdateTimer > ANIMATION_UPDATE_TIME)
+	if(m_animationUpdateTimer > ANIMATION_UPDATE_TIME)
 	{
-		animationUpdateTimer = 0.0f;
+		m_animationUpdateTimer = 0.0f;
 
 		m_animationFrame++;
 		if(m_animationFrame > animations[static_cast<int>(m_currentAnimationState)].endFrame)
@@ -225,7 +225,7 @@ int2 Player::GetFeetPos() const
 	return feet;
 }
 
-void Player::KeyDown(int glfwKey)
+void Player::KeyDown(const int glfwKey)
 {
 	switch(glfwKey)
 	{
@@ -245,7 +245,7 @@ bool Player::ReportPunch()
 		constexpr float upperBodyYOffset = -20;
 		constexpr float punchOffset = 20;
 		float2 offset = {0,0};
-		switch(movementDirection)
+		switch(m_movementDirection)
 		{
 			case Direction::Up:
 				offset.y -= punchOffset;
@@ -277,8 +277,7 @@ bool Player::ReportPunch()
 
 RoomChangeType Player::ReportRoomChange() const
 {
-	TileType tileType = roomChangeCollider->GetTileType();
-	switch(tileType)
+	switch(m_roomChangeCollider->GetTileType())
 	{
 		case TileType::Empty:
 		case TileType::Solid:
@@ -308,7 +307,7 @@ RoomChangeType Player::ReportRoomChange() const
 	}
 }
 
-void Player::RoomChangePos(RoomChange roomChange)
+void Player::RoomChangePos(const RoomChange& roomChange)
 {
 	switch(roomChange.positionType)
 	{
@@ -337,10 +336,10 @@ void Player::DrawColliders()
 		m_punchBoxAabb->Draw(m_pScreen, 0xffff00);
 	}
 
-	if(!hasDirectionInput) return;
+	if(!m_hasDirectionInput) return;
 
-	tileBoxCollider->Draw(2);
-	roomChangeCollider->Draw(5, 0x00FF00FF);
+	m_tileBoxCollider->Draw(2);
+	m_roomChangeCollider->Draw(5, 0x00FF00FF);
 }
 #endif
 

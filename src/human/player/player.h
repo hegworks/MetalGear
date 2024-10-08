@@ -30,7 +30,7 @@ public:
 	float2 GetCenterPos() const;
 
 	// else
-	void RoomChangePos(RoomChange roomChange);
+	void RoomChangePos(const RoomChange& roomChange);
 	void KeyDown(int glfwKey);
 
 private:
@@ -47,13 +47,13 @@ private:
 		{AnimationState::PunchRight, 28, 28 },
 	};
 	const float ANIMATION_UPDATE_TIME = 100.0f;
-	float animationUpdateTimer = 0.0f;
-	bool hasDirectionInput = false;
+	float m_animationUpdateTimer = 0.0f;
+	bool m_hasDirectionInput = false;
 
 	// room change
-	PointCollider* roomChangeCollider = nullptr;
-	const int roomChangeColliderXOffset = -5;
-	const int roomChangeColliderYOffset = -5;
+	PointCollider* m_roomChangeCollider = nullptr;
+	const int m_roomChangeColliderXOffset = -5;
+	const int m_roomChangeColliderYOffset = -5;
 
 	// punch
 	BoxAabb* m_punchBoxAabb = nullptr;

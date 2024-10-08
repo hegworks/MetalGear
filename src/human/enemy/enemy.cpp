@@ -17,7 +17,7 @@ Enemy::Enemy(Surface* pScreen, LevelMaps* pLevelMaps, SpriteStorage* pSpriteStor
 	m_pSprite = new Sprite(*pSpriteStorage->GetSpriteData(SpriteType::Enemy)->sprite);
 	m_pSprite->SetFrame(0);
 
-	rng = new Rng();
+	m_pRng = new Rng();
 
 	m_animationFrame = 0;
 	m_position = spawnPos;
@@ -26,23 +26,23 @@ Enemy::Enemy(Surface* pScreen, LevelMaps* pLevelMaps, SpriteStorage* pSpriteStor
 	m_pPlayer = pPlayer;
 	m_pBulletManager = pBulletManager;
 
-	movementDirection = spawnDir;
-	movementDirectionAfterLookAround = spawnDir;
-	movementDirectionBeforeLookAround = spawnDir;
+	m_movementDirection = spawnDir;
+	m_movementDirectionAfterLookAround = spawnDir;
+	m_movementDirectionBeforeLookAround = spawnDir;
 	UpdateAnimationState();
 
 	patrolCollider = new PointCollider(pScreen, pLevelMaps);
 
 	m_pSightCollider = new SightCollider(pScreen, pLevelMaps, pPlayer);
 
-	tileBoxCollider = new BoxCollider(pScreen, pLevelMaps, {30, 30});
+	m_tileBoxCollider = new BoxCollider(pScreen, pLevelMaps, {30, 30});
 
 	m_boxAabb = new BoxAabb(m_position, {static_cast<float>(m_pSprite->GetWidth()),static_cast<float>(m_pSprite->GetHeight())});
 }
 
 void Enemy::Tick(float deltaTime)
 {
-	if(state == EnemyState::Dead)
+	if(m_state == EnemyState::Dead)
 	{
 		return;
 	}
@@ -51,7 +51,7 @@ void Enemy::Tick(float deltaTime)
 	CheckSightCollider();
 	UpdateBoxAabb();
 
-	switch(state)
+	switch(m_state)
 	{
 		case EnemyState::Patrol:
 			UpdatePatrolCollider();
@@ -79,13 +79,13 @@ void Enemy::Tick(float deltaTime)
 #ifdef _PHYSICS_DEBUG
 void Enemy::DrawColliders()
 {
-	if(state != EnemyState::Dead)
+	if(m_state != EnemyState::Dead)
 	{
 		patrolCollider->Draw(2, 0x00ff00);
 
 		m_pSightCollider->Draw(5, 0x35b0fc);
 
-		tileBoxCollider->Draw(2, 0xff0000);
+		m_tileBoxCollider->Draw(2, 0xff0000);
 
 		if(m_debug_gotPunchedFrameCounter > 0)
 		{
@@ -101,10 +101,11 @@ void Enemy::DrawColliders()
 }
 #endif
 
+#ifdef _PHYSICS_DEBUG
 void Enemy::Debug_PrintValues() const
 {
 	string stateString = {};
-	switch(state)
+	switch(m_state)
 	{
 		case EnemyState::Patrol:
 			stateString = "Patrol";
@@ -121,13 +122,12 @@ void Enemy::Debug_PrintValues() const
 		default:
 			throw new exception("invalid state");
 	}
-#ifdef _PHYSICS_DEBUG
 	ScreenPrinter* screenPrinter = new ScreenPrinter();
 	screenPrinter->Print(m_pScreen, "state:", stateString, m_position);
 	screenPrinter->Print(m_pScreen, "hp:", m_hp, {m_position.x,m_position.y + 10});
 	screenPrinter->Print(m_pScreen, "speed:", m_speed, {m_position.x,m_position.y + 20});
-#endif
 }
+#endif
 
 float2 Enemy::GetCenterPos() const
 {
@@ -141,7 +141,7 @@ float2 Enemy::GetCenterPos() const
 
 void Enemy::Draw() const
 {
-	if(state == EnemyState::Dead)
+	if(m_state == EnemyState::Dead)
 	{
 		return;
 	}
@@ -151,7 +151,7 @@ void Enemy::Draw() const
 
 void Enemy::PlayerPunchReported()
 {
-	if(state == EnemyState::Dead)
+	if(m_state == EnemyState::Dead)
 	{
 		return;
 	}
@@ -167,7 +167,7 @@ void Enemy::PlayerPunchReported()
 		m_debug_gotPunchedFrameCounter = debug_gotPunchedFrameCount;
 		if(m_hp <= 0)
 		{
-			state = EnemyState::Dead;
+			m_state = EnemyState::Dead;
 		}
 	}
 }
@@ -179,7 +179,7 @@ void Enemy::UpdatePatrolCollider() const
 	feet.y += TILESET_TILEHEIGHT * 1.5f;
 
 	float2 offset = {0, 0};
-	switch(movementDirection)
+	switch(m_movementDirection)
 	{
 		case Direction::Up:
 			offset.y = patrolColliderYOffset;
@@ -202,13 +202,13 @@ void Enemy::CheckSightCollider()
 {
 	if(m_pSightCollider->IsPlayerInSight())
 	{
-		state = EnemyState::Alarm;
+		m_state = EnemyState::Alarm;
 	}
 }
 
 void Enemy::UpdateSightCollider() const
 {
-	m_pSightCollider->UpdatePosition(GetSightColliderPos(), movementDirection);
+	m_pSightCollider->UpdatePosition(GetSightColliderPos(), m_movementDirection);
 }
 
 void Enemy::UpdateSightCollider(Direction direction) const
@@ -231,75 +231,77 @@ void Enemy::CheckPatrolCollider()
 		case TileType::ESD:
 		case TileType::ESL:
 		case TileType::ESR:
+		case TileType::Door:
+		case TileType::Elevator:
 			// do nothing
 			break;
 		case TileType::EPU:
-			movementDirectionAfterLookAround = Direction::Up;
+			m_movementDirectionAfterLookAround = Direction::Up;
 			break;
 		case TileType::EPD:
-			movementDirectionAfterLookAround = Direction::Down;
+			m_movementDirectionAfterLookAround = Direction::Down;
 			break;
 		case TileType::EPL:
-			movementDirectionAfterLookAround = Direction::Left;
+			m_movementDirectionAfterLookAround = Direction::Left;
 			break;
 		case TileType::EPR:
-			movementDirectionAfterLookAround = Direction::Right;
+			m_movementDirectionAfterLookAround = Direction::Right;
 			break;
 		default:
 			throw exception("Invalid tile type");
 	}
 
-	if(movementDirectionAfterLookAround != movementDirection)
+	if(m_movementDirectionAfterLookAround != m_movementDirection)
 	{
-		movementDirectionBeforeLookAround = movementDirection;
-		state = EnemyState::LookAround;
+		m_movementDirectionBeforeLookAround = m_movementDirection;
+		m_state = EnemyState::LookAround;
 	}
 }
 
-void Enemy::Lookaround(float deltaTime)
+void Enemy::Lookaround(const float deltaTime)
 {
 	m_speed = 0.0f;
 
-	if(lookAroundChecksDone >= TOTAL_DIRECTIONS)
+	if(m_lookAroundChecksDone >= TOTAL_DIRECTIONS)
 	{
-		lookAroundChecksDone = 0;
-		state = EnemyState::Patrol;
+		m_lookAroundChecksDone = 0;
+		m_state = EnemyState::Patrol;
 		m_speed = SPEED;
-		movementDirection = movementDirectionAfterLookAround;
-		isOneStageOfLookOutPlaying = false;
+		m_movementDirection = m_movementDirectionAfterLookAround;
+		m_isOneStageOfLookOutPlaying = false;
 		return;
 	}
 
-	if(isOneStageOfLookOutPlaying)
+	if(m_isOneStageOfLookOutPlaying)
 	{
-		lookaroundTimer += deltaTime;
-		if(lookaroundTimer > LOOKAROUND_TIME)
+		m_lookaroundTimer += deltaTime;
+		if(m_lookaroundTimer > LOOKAROUND_TIME)
 		{
-			lookaroundTimer = 0.0f;
-			isOneStageOfLookOutPlaying = false;
+			m_lookaroundTimer = 0.0f;
+			m_isOneStageOfLookOutPlaying = false;
 		}
 	}
 	else
 	{
-		int chance = rng->BetweenInclusive(0, 100);
+		int chance = m_pRng->BetweenInclusive(0, 100);
 		if(chance > LOOKAROUND_CHANCE &&
-		   static_cast<Direction>(lookAroundChecksDone) != movementDirectionBeforeLookAround &&
-		   static_cast<Direction>(lookAroundChecksDone) != movementDirectionAfterLookAround)
+		   static_cast<Direction>(m_lookAroundChecksDone) != m_movementDirectionBeforeLookAround &&
+		   static_cast<Direction>(m_lookAroundChecksDone) != m_movementDirectionAfterLookAround)
 		{
-			movementDirection = static_cast<Direction>(lookAroundChecksDone);
-			isOneStageOfLookOutPlaying = true;
+			m_movementDirection = static_cast<Direction>(m_lookAroundChecksDone);
+			m_isOneStageOfLookOutPlaying = true;
 		}
 		else
 		{
-			isOneStageOfLookOutPlaying = false;
+			m_isOneStageOfLookOutPlaying = false;
 		}
-		lookAroundChecksDone++;
+		m_lookAroundChecksDone++;
 	}
 }
 
-void Enemy::MoveInDirection(float deltaTime)
+void Enemy::MoveInDirection(const float deltaTime)
 {
-	switch(movementDirection)
+	switch(m_movementDirection)
 	{
 		case Direction::Up:
 			m_position.y -= m_speed * deltaTime;
@@ -319,7 +321,7 @@ void Enemy::MoveInDirection(float deltaTime)
 
 void Enemy::UpdateAnimationState()
 {
-	switch(movementDirection)
+	switch(m_movementDirection)
 	{
 		case Direction::Up:
 			m_currentAnimationState = AnimationState::Up;
@@ -336,7 +338,7 @@ void Enemy::UpdateAnimationState()
 	}
 }
 
-void Enemy::Animate(float deltaTime)
+void Enemy::Animate(const float deltaTime)
 {
 	if(m_speed == 0.0f)
 	{
@@ -368,7 +370,7 @@ void Enemy::Animate(float deltaTime)
 	}
 }
 
-void Enemy::ChasePlayer(float deltaTime)
+void Enemy::ChasePlayer(const float deltaTime)
 {
 	m_speed = SPEED_CHASE;
 
@@ -387,22 +389,22 @@ void Enemy::ChasePlayer(float deltaTime)
 		return;
 	}
 
-	chaseNoMovementCount++;
+	m_chaseNoMovementCount++;
 
 	// if hit a wall, change direction
-	if(tileBoxCollider->IsSolid(movementDirection))
+	if(m_tileBoxCollider->IsSolid(m_movementDirection))
 	{
-		if(chaseNoMovementCount < 2)
+		if(m_chaseNoMovementCount < 2)
 		{
-			switch(movementDirection)
+			switch(m_movementDirection)
 			{
 				case Direction::Up:
 				case Direction::Down:
-					movementDirection = playerPos.x >= pos.x ? Direction::Right : Direction::Left;
+					m_movementDirection = playerPos.x >= pos.x ? Direction::Right : Direction::Left;
 					break;
 				case Direction::Left:
 				case Direction::Right:
-					movementDirection = playerPos.y >= pos.y ? Direction::Down : Direction::Up;
+					m_movementDirection = playerPos.y >= pos.y ? Direction::Down : Direction::Up;
 					break;
 			}
 		}
@@ -411,7 +413,7 @@ void Enemy::ChasePlayer(float deltaTime)
 			// we count the times that the direction has changed but the enemy couldn't move.
 			// if this number gets bigger than a certain number, it means that the enemy is stuck,
 			// so we change to a new direction somewhat randomly.
-			movementDirection = static_cast<Direction>((static_cast<int>(movementDirection) + rng->BetweenInclusive(1, 2)) % TOTAL_DIRECTIONS);
+			m_movementDirection = static_cast<Direction>((static_cast<int>(m_movementDirection) + m_pRng->BetweenInclusive(1, 2)) % TOTAL_DIRECTIONS);
 		}
 
 		return;
@@ -422,38 +424,38 @@ void Enemy::ChasePlayer(float deltaTime)
 	int screenEdgeSize = TILESET_TILEWIDTH * 2;
 	if(pos.x < screenEdgeSize)
 	{
-		movementDirection = playerPos.y >= pos.y ? Direction::Down : Direction::Up;
+		m_movementDirection = playerPos.y >= pos.y ? Direction::Down : Direction::Up;
 		m_position.x += 1;
 		return;
 	}
 	if(pos.x > SCRWIDTH - screenEdgeSize)
 	{
-		movementDirection = playerPos.y >= pos.y ? Direction::Down : Direction::Up;
+		m_movementDirection = playerPos.y >= pos.y ? Direction::Down : Direction::Up;
 		m_position.x -= 1;
 		return;
 	}
 	if(pos.y < screenEdgeSize)
 	{
-		movementDirection = playerPos.x >= pos.x ? Direction::Right : Direction::Left;
+		m_movementDirection = playerPos.x >= pos.x ? Direction::Right : Direction::Left;
 		m_position.y += 1;
 		return;
 	}
 	if(pos.y > SCRHEIGHT - screenEdgeSize)
 	{
-		movementDirection = playerPos.x >= pos.x ? Direction::Right : Direction::Left;
+		m_movementDirection = playerPos.x >= pos.x ? Direction::Right : Direction::Left;
 		m_position.y -= 1;
 		return;
 	}
 
 	// if player's x or y is close enough, and player is in sight in that direction, change direction
-	if(xDistance < 1 && (movementDirection == Direction::Left || movementDirection == Direction::Right))
+	if(xDistance < 1 && (m_movementDirection == Direction::Left || m_movementDirection == Direction::Right))
 	{
 		if(playerPos.y >= pos.y)
 		{
 			UpdateSightCollider(Direction::Down);
 			if(m_pSightCollider->IsPlayerInSight())
 			{
-				movementDirection = Direction::Down;
+				m_movementDirection = Direction::Down;
 				m_speed = 0.0f;
 				return;
 			}
@@ -463,20 +465,20 @@ void Enemy::ChasePlayer(float deltaTime)
 			UpdateSightCollider(Direction::Up);
 			if(m_pSightCollider->IsPlayerInSight())
 			{
-				movementDirection = Direction::Up;
+				m_movementDirection = Direction::Up;
 				m_speed = 0.0f;
 				return;
 			}
 		}
 	}
-	else if(yDistance < 1 && (movementDirection == Direction::Up || movementDirection == Direction::Down))
+	else if(yDistance < 1 && (m_movementDirection == Direction::Up || m_movementDirection == Direction::Down))
 	{
 		if(playerPos.x >= pos.x)
 		{
 			UpdateSightCollider(Direction::Right);
 			if(m_pSightCollider->IsPlayerInSight())
 			{
-				movementDirection = Direction::Right;
+				m_movementDirection = Direction::Right;
 				m_speed = 0.0f;
 				return;
 			}
@@ -486,14 +488,14 @@ void Enemy::ChasePlayer(float deltaTime)
 			UpdateSightCollider(Direction::Left);
 			if(m_pSightCollider->IsPlayerInSight())
 			{
-				movementDirection = Direction::Left;
+				m_movementDirection = Direction::Left;
 				m_speed = 0.0f;
 				return;
 			}
 		}
 	}
 
-	chaseNoMovementCount = 0;
+	m_chaseNoMovementCount = 0;
 	MoveInDirection(deltaTime);
 }
 

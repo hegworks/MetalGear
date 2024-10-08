@@ -43,15 +43,15 @@ private:
 	};
 
 	// references
-	Rng* rng = nullptr;
+	Rng* m_pRng = nullptr;
 	Player* m_pPlayer = nullptr;
 	BulletManager* m_pBulletManager = nullptr;
 
-	EnemyState state = EnemyState::Patrol;
+	EnemyState m_state = EnemyState::Patrol;
 
 	// look around
-	Direction movementDirectionAfterLookAround = Direction::Up;
-	Direction movementDirectionBeforeLookAround = Direction::Up;
+	Direction m_movementDirectionAfterLookAround = Direction::Up;
+	Direction m_movementDirectionBeforeLookAround = Direction::Up;
 	const int LOOKAROUND_CHANCE = 50;
 
 	// speed
@@ -59,9 +59,9 @@ private:
 	const float SPEED_CHASE = 0.15f;
 
 	// chase
-	Direction chaseDirectionBeforeCollision = Direction::Up;
-	bool chaseHasEverCollided = false;
-	int chaseNoMovementCount = 0;
+	Direction m_chaseDirectionBeforeCollision = Direction::Up;
+	bool m_chaseHasEverCollided = false;
+	int m_chaseNoMovementCount = 0;
 
 	// punch
 	BoxAabb* m_boxAabb = nullptr;
@@ -72,11 +72,11 @@ private:
 	int m_hp = MAX_HP;
 
 	// LookAround
-	float lookaroundTimer = 0.0f;
+	float m_lookaroundTimer = 0.0f;
 	const float LOOKAROUND_TIME = 500.0f;
 	Direction lookAroundDirection = Direction::Up;
-	bool isOneStageOfLookOutPlaying = false;
-	int lookAroundChecksDone = 0;
+	bool m_isOneStageOfLookOutPlaying = false;
+	int m_lookAroundChecksDone = 0;
 
 	// shoot
 	float m_shootTimer = 0;
@@ -96,6 +96,8 @@ private:
 	void Shoot(float deltaTime);
 	int2 GetSightColliderPos() const;
 	void UpdateBoxAabb() const;
+#ifdef _PHYSICS_DEBUG
 	void Debug_PrintValues() const;
+#endif
 	float2 GetCenterPos() const;
 };

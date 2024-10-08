@@ -7,16 +7,16 @@ constexpr int MAX_ENEMIES = 2;
 class EnemySpawner
 {
 public:
-	EnemySpawner(Surface* screen, LevelMaps* levelMaps, SpriteStorage* spriteStorage, Player* player, BulletManager* pBulletManager);
+	EnemySpawner(Surface* pScreen, LevelMaps* pLevelMaps, SpriteStorage* pSpriteStorage, Player* pPlayer, BulletManager* pBulletManager);
 	bool Spawn();
-
 	Enemy* enemies[MAX_ENEMIES];
-	int enemyCount = 0;
+	int GetEnemyCount() const { return m_enemyCount; }
 
 private:
-	Surface* screen = nullptr;
-	LevelMaps* levelMaps = nullptr;
-	SpriteStorage* spriteStorage = nullptr;
-	Player* player = nullptr;
-	BulletManager* bulletManager = nullptr;
+	Surface* m_screen = nullptr;
+	LevelMaps* m_levelMaps = nullptr;
+	SpriteStorage* m_spriteStorage = nullptr;
+	Player* m_player = nullptr;
+	BulletManager* m_bulletManager = nullptr;
+	int m_enemyCount = 0;
 };

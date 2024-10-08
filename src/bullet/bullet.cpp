@@ -1,8 +1,8 @@
 ﻿#include "precomp.h"
 #include "bullet.h"
 
-#include "src/managers/bullet/bulletManager.h"
 #include "src/spriteStorage/spriteStorage.h"
+#include "src/spriteStorage/spriteType.h"
 
 Bullet::Bullet(int id, float2 startPos, float2 direction, Surface* pScreen, Player* pPlayer, BulletManager* pBulletManager, SpriteStorage* pSpriteStorage)
 {

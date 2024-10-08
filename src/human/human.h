@@ -30,12 +30,12 @@ protected:
 
 	Sprite* m_pSprite = nullptr;
 
-	Direction movementDirection = Direction::Down;
+	Direction m_movementDirection = Direction::Down;
 
 	float m_speed;
 	int m_animationFrame;
 
-	BoxCollider* tileBoxCollider = nullptr;
+	BoxCollider* m_tileBoxCollider = nullptr;
 	const int tileBoxColliderXOffset = TILESET_TILEWIDTH - 8;
 	const int tileBoxColliderYOffset = TILESET_TILEHEIGHT * 3 - 8;
 	const int tileCollisionPreventPixels = 1;

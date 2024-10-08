@@ -16,52 +16,53 @@
 
 void Game::Init()
 {
-	tileSet = new TileSet();
-	tileMap = new TileMap(screen, tileSet);
-	roomChangeStorage = new RoomChangeStorage;
-	roomFinder = new RoomFinder(roomChangeStorage);
-	levelMaps = new LevelMaps();
-	spriteStorage = new SpriteStorage();
-	player = new Player(screen, levelMaps, spriteStorage);
-	bulletManager = new BulletManager(screen, levelMaps, player, spriteStorage);
-	enemySpawner = new EnemySpawner(screen, levelMaps, spriteStorage, player, bulletManager);
-	roomFinder->SetCurrentLevelId(2);
+	m_tileSet = new TileSet();
+	m_tileMap = new TileMap(screen, m_tileSet);
+	m_roomChangeStorage = new RoomChangeStorage;
+	m_roomFinder = new RoomFinder(m_roomChangeStorage);
+	m_levelMaps = new LevelMaps();
+	m_spriteStorage = new SpriteStorage();
+	m_player = new Player(screen, m_levelMaps, m_spriteStorage);
+	m_bulletManager = new BulletManager(screen, m_levelMaps, m_player, m_spriteStorage);
+	m_enemySpawner = new EnemySpawner(screen, m_levelMaps, m_spriteStorage, m_player, m_bulletManager);
+	m_roomFinder->SetCurrentLevelId(2);
 	ChangeRoom();
 }
 
-void Game::Tick(float deltaTime)
+void Game::Tick(const float deltaTime)
 {
 	// tileMap
-	tileMap->DrawLevel(currentLevelTiles);
+	m_tileMap->DrawLevel(m_currentLevelTiles);
 
 	// player
-	player->Tick(deltaTime);
-	player->Draw();
+	m_player->Tick(deltaTime);
+	m_player->Draw();
 #ifdef _PHYSICS_DEBUG
-	player->DrawColliders();
+	m_player->DrawColliders();
 #endif
 
 	// enemies
-	for(int i = 0; i < enemySpawner->enemyCount; i++)
+	//TODO move the for loop inside the enemySpawner to avoid accessing it directly here (same as bulletManager)
+	for(int i = 0; i < m_enemySpawner->GetEnemyCount(); i++)
 	{
-		enemySpawner->enemies[i]->Tick(deltaTime);
-		enemySpawner->enemies[i]->Draw();
+		m_enemySpawner->enemies[i]->Tick(deltaTime);
+		m_enemySpawner->enemies[i]->Draw();
 	}
 
-	bulletManager->Tick(deltaTime);
-	bulletManager->Draw();
+	m_bulletManager->Tick(deltaTime);
+	m_bulletManager->Draw();
 
 #ifdef _PHYSICS_DEBUG
-	tileMap->DrawLevel(currentLevelColliders);
+	m_tileMap->DrawLevel(m_currentLevelColliders);
 
-	for(int i = 0; i < enemySpawner->enemyCount; i++)
+	for(int i = 0; i < m_enemySpawner->GetEnemyCount(); i++)
 	{
-		enemySpawner->enemies[i]->DrawColliders();
+		m_enemySpawner->enemies[i]->DrawColliders();
 	}
 #endif
 
 	// room
-	switch(RoomChangeType roomChangeType = player->ReportRoomChange())
+	switch(RoomChangeType roomChangeType = m_player->ReportRoomChange())
 	{
 		case RoomChangeType::None:
 			break;
@@ -70,33 +71,33 @@ void Game::Tick(float deltaTime)
 		case RoomChangeType::RC2:
 		case RoomChangeType::RC3:
 		case RoomChangeType::RC4:
-			RoomChange newRoom = roomFinder->FindNextRoom(roomChangeType);
-			roomFinder->SetCurrentLevelId(newRoom.nextRoomId);
-			player->RoomChangePos(newRoom);
+			RoomChange newRoom = m_roomFinder->FindNextRoom(roomChangeType);
+			m_roomFinder->SetCurrentLevelId(newRoom.nextRoomId);
+			m_player->RoomChangePos(newRoom);
 			ChangeRoom();
 			break;
 		default:
 			throw exception("Invalid room change type");
 	}
 
-	if(player->ReportPunch())
+	if(m_player->ReportPunch())
 	{
-		for(int i = 0; i < enemySpawner->enemyCount; i++)
+		for(int i = 0; i < m_enemySpawner->GetEnemyCount(); i++)
 		{
-			enemySpawner->enemies[i]->PlayerPunchReported();
+			m_enemySpawner->enemies[i]->PlayerPunchReported();
 		}
 	}
 }
 
-void Tmpl8::Game::KeyDown(int glfwKey)
+void Tmpl8::Game::KeyDown(const int glfwKey)
 {
-	player->KeyDown(glfwKey);
+	m_player->KeyDown(glfwKey);
 }
 
 void Game::ChangeRoom()
 {
-	levelMaps->SetCurrentLevelId(roomFinder->GetCurrentLevelId());
-	currentLevelTiles = levelMaps->GetLevelMapPointers();
-	currentLevelColliders = levelMaps->GetLevelColliderPointers();
-	enemySpawner->Spawn();
+	m_levelMaps->SetCurrentLevelId(m_roomFinder->GetCurrentLevelId());
+	m_currentLevelTiles = m_levelMaps->GetLevelMapPointers();
+	m_currentLevelColliders = m_levelMaps->GetLevelColliderPointers();
+	m_enemySpawner->Spawn();
 }

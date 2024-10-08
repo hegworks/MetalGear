@@ -9,10 +9,9 @@ constexpr int TILESET_COLUMNS = 18;
 class TileSet
 {
 public:
-	Surface* GetGraphic() const { return graphic; }
-
 	TileSet();
+	Surface* GetGraphic() const { return m_graphic; }
 
 private:
-	Surface* graphic;
+	Surface* m_graphic = nullptr;
 };

@@ -36,18 +36,18 @@ public:
 	// data members
 	int2 mousePos;
 
-	TileSet* tileSet = nullptr;
-	TileMap* tileMap = nullptr;
-	LevelMaps* levelMaps = nullptr;
-	int** currentLevelTiles = nullptr;
-	int** currentLevelColliders = nullptr;
-	Player* player = nullptr;
-	RoomFinder* roomFinder = nullptr;
-	RoomChangeStorage* roomChangeStorage = nullptr;
-	SpriteStorage* spriteStorage;
-	Enemy* enemy = nullptr;
-	EnemySpawner* enemySpawner = nullptr;
-	BulletManager* bulletManager = nullptr;
+private:
+	TileSet* m_tileSet = nullptr;
+	TileMap* m_tileMap = nullptr;
+	LevelMaps* m_levelMaps = nullptr;
+	int** m_currentLevelTiles = nullptr;
+	int** m_currentLevelColliders = nullptr;
+	Player* m_player = nullptr;
+	RoomFinder* m_roomFinder = nullptr;
+	RoomChangeStorage* m_roomChangeStorage = nullptr;
+	SpriteStorage* m_spriteStorage = nullptr;
+	EnemySpawner* m_enemySpawner = nullptr;
+	BulletManager* m_bulletManager = nullptr;
 
 	void ChangeRoom();
 };

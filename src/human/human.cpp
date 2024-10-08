@@ -25,7 +25,7 @@ void Human::UpdateTileBoxCollider() const
 		static_cast<int>(m_position.x) + tileBoxColliderXOffset,
 		static_cast<int>(m_position.y) + tileBoxColliderYOffset
 	};
-	switch(movementDirection)
+	switch(m_movementDirection)
 	{
 		case Direction::Up:
 			feet.y -= tileCollisionPreventPixels;
@@ -41,5 +41,5 @@ void Human::UpdateTileBoxCollider() const
 			break;
 	}
 
-	tileBoxCollider->UpdatePosition(feet);
+	m_tileBoxCollider->UpdatePosition(feet);
 }
