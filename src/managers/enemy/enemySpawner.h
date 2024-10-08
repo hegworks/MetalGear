@@ -7,7 +7,7 @@ constexpr int MAX_ENEMIES = 2;
 class EnemySpawner
 {
 public:
-	EnemySpawner(Surface* screen, LevelMaps* levelMaps, SpriteStorage* spriteStorage, Player* player);
+	EnemySpawner(Surface* screen, LevelMaps* levelMaps, SpriteStorage* spriteStorage, Player* player, BulletManager* pBulletManager);
 	bool Spawn();
 
 	Enemy* enemies[MAX_ENEMIES];
@@ -18,4 +18,5 @@ private:
 	LevelMaps* levelMaps = nullptr;
 	SpriteStorage* spriteStorage = nullptr;
 	Player* player = nullptr;
+	BulletManager* bulletManager = nullptr;
 };

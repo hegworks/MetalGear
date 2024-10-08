@@ -4,6 +4,7 @@
 
 #pragma once
 
+class BulletManager;
 class EnemySpawner;
 class Enemy;
 class SpriteStorage;
@@ -46,6 +47,7 @@ public:
 	SpriteStorage* spriteStorage;
 	Enemy* enemy = nullptr;
 	EnemySpawner* enemySpawner = nullptr;
+	BulletManager* bulletManager = nullptr;
 
 	void ChangeRoom();
 };

@@ -121,6 +121,7 @@
   </ItemDefinitionGroup>
   <!-- END Custom section -->
   <ItemGroup>
+    <ClCompile Include="src\bullet\bullet.cpp" />
     <ClCompile Include="src\collider\aabb\aabb.cpp" />
     <ClCompile Include="src\collider\aabb\boxAabb\boxAabb.cpp" />
     <ClCompile Include="src\collider\sightCollider\sightCollider.cpp" />
@@ -131,6 +132,7 @@
     <ClCompile Include="src\collider\collider.cpp" />
     <ClCompile Include="src\collider\pointCollider\pointCollider.cpp" />
     <ClCompile Include="src\game.cpp" />
+    <ClCompile Include="src\managers\bullet\bulletManager.cpp" />
     <ClCompile Include="src\managers\enemy\enemySpawner.cpp" />
     <ClCompile Include="src\managers\room\roomFinder.cpp" />
     <ClCompile Include="src\spriteStorage\spriteStorage.cpp" />
@@ -155,6 +157,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cl\tools.cl" />
+    <ClInclude Include="src\bullet\bullet.h" />
     <ClInclude Include="src\collider\aabb\aabb.h" />
     <ClInclude Include="src\collider\aabb\boxAabb\boxAabb.h" />
     <ClInclude Include="src\collider\sightCollider\sightCollider.h" />
@@ -169,6 +172,7 @@
     <ClInclude Include="src\collider\collider.h" />
     <ClInclude Include="src\collider\pointCollider\pointCollider.h" />
     <ClInclude Include="src\game.h" />
+    <ClInclude Include="src\managers\bullet\bulletManager.h" />
     <ClInclude Include="src\managers\enemy\enemySpawner.h" />
     <ClInclude Include="src\managers\room\room.h" />
     <ClInclude Include="src\managers\room\roomChange.h" />

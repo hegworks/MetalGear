@@ -4,12 +4,13 @@
 #include "src/tile/levelMap/levelMaps.h"
 #include "src/tile/tileSet.h"
 
-EnemySpawner::EnemySpawner(Surface* screen, LevelMaps* levelMaps, SpriteStorage* spriteStorage, Player* player)
+EnemySpawner::EnemySpawner(Surface* screen, LevelMaps* levelMaps, SpriteStorage* spriteStorage, Player* player, BulletManager* pBulletManager)
 {
 	this->screen = screen;
 	this->levelMaps = levelMaps;
 	this->spriteStorage = spriteStorage;
 	this->player = player;
+	this->bulletManager = pBulletManager;
 }
 
 bool EnemySpawner::Spawn()
@@ -68,7 +69,7 @@ bool EnemySpawner::Spawn()
 					   spawnDir == Direction::Right && !skipRightSpawn)
 					{
 						float2 spawnPos = {static_cast<float>(j * TILESET_TILEWIDTH), static_cast<float>(i * TILESET_TILEHEIGHT - 96)};
-						enemies[enemyCount] = new Enemy(screen, levelMaps, spriteStorage, spawnPos, spawnDir, player);
+						enemies[enemyCount] = new Enemy(screen, levelMaps, spriteStorage, spawnPos, spawnDir, player, bulletManager);
 						enemyCount++;
 						if(enemyCount >= MAX_ENEMIES)
 						{

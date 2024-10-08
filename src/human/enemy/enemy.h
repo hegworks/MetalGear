@@ -3,6 +3,7 @@
 #include "src/Animation/customAnimation.h"
 #include "src/human/human.h"
 
+class BulletManager;
 class BoxAabb;
 class Player;
 class SightCollider;
@@ -14,7 +15,7 @@ constexpr int ENEMY_ANIMATION_COUNT = 4;
 class Enemy : public Human
 {
 public:
-	Enemy(Surface* pScreen, LevelMaps* pLevelMaps, SpriteStorage* pSpriteStorage, float2 spawnPos, Direction spawnDir, Player* pPlayer);
+	Enemy(Surface* pScreen, LevelMaps* pLevelMaps, SpriteStorage* pSpriteStorage, float2 spawnPos, Direction spawnDir, Player* pPlayer, BulletManager* pBulletManager);
 	virtual void Tick(float deltaTime);
 	virtual void DrawColliders();
 	virtual void Draw() const;
@@ -42,6 +43,7 @@ private:
 	// references
 	Rng* rng = nullptr;
 	Player* m_pPlayer = nullptr;
+	BulletManager* m_pBulletManager = nullptr;
 
 	EnemyState state = EnemyState::Patrol;
 
@@ -74,6 +76,10 @@ private:
 	bool isOneStageOfLookOutPlaying = false;
 	int lookAroundChecksDone = 0;
 
+	// shoot
+	float m_shootTimer = 0;
+	const float SHOOT_TIME = 800.0f;
+
 	// functions
 	void UpdatePatrolCollider() const;
 	void CheckSightCollider();
@@ -85,8 +91,9 @@ private:
 	void UpdateAnimationState();
 	void Animate(float deltaTime);
 	void ChasePlayer(float deltaTime);
+	void Shoot(float deltaTime);
 	int2 GetSightColliderPos() const;
 	void UpdateBoxAabb() const;
 	void Debug_PrintValues() const;
-	float2 GetCenter() const;
+	float2 GetCenterPos() const;
 };

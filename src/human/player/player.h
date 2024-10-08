@@ -25,6 +25,7 @@ public:
 	int2 GetFeetTilePosition() const;
 	int2 GetFeetPos() const;
 	BoxAabb* GetPunchBoxAabb() const { return m_punchBoxAabb; }
+	float2 GetCenterPos() const;
 
 	// else
 	void RoomChangePos(RoomChange roomChange);
@@ -68,5 +69,4 @@ private:
 	void UpdateRoomChangeCollider() const;
 	void UpdateAnimationState(float deltaTime);
 	void Animate(float deltaTime);
-	float2 GetCenterPos() const;
 };

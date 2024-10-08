@@ -4,18 +4,21 @@
 
 SpriteStorage::SpriteStorage()
 {
-	playerData = new SpriteData{new Sprite(new Surface("assets/graphics/playerSheet.png"), 42) ,42};
-	enemyData = new SpriteData{new Sprite(new Surface("assets/graphics/enemySheet.png"), 12) ,12};
+	m_playerData = new SpriteData{new Sprite(new Surface("assets/graphics/playerSheet.png"), 42) ,42};
+	m_enemyData = new SpriteData{new Sprite(new Surface("assets/graphics/enemySheet.png"), 12) ,12};
+	m_bulletData = new SpriteData{new Sprite(new Surface("assets/graphics/bullet.png"), 1) ,1};
 }
 
-SpriteData* SpriteStorage::GetSpriteData(SpriteType spriteType)
+SpriteData* SpriteStorage::GetSpriteData(SpriteType spriteType) const
 {
 	switch(spriteType)
 	{
 		case SpriteType::Player:
-			return playerData;
+			return m_playerData;
 		case SpriteType::Enemy:
-			return enemyData;
+			return m_enemyData;
+		case SpriteType::Bullet:
+			return m_bulletData;
 		default:
 			throw exception("Invalid sprite type");
 	}

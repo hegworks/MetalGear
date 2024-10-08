@@ -6,6 +6,7 @@
 #include "game.h"
 
 #include "human/player/player.h"
+#include "managers/bullet/bulletManager.h"
 #include "managers/enemy/enemySpawner.h"
 #include "managers/room/roomChangeStorage.h"
 #include "managers/room/roomFinder.h"
@@ -22,7 +23,8 @@ void Game::Init()
 	levelMaps = new LevelMaps();
 	spriteStorage = new SpriteStorage();
 	player = new Player(screen, levelMaps, spriteStorage);
-	enemySpawner = new EnemySpawner(screen, levelMaps, spriteStorage, player);
+	bulletManager = new BulletManager(screen, levelMaps, player, spriteStorage);
+	enemySpawner = new EnemySpawner(screen, levelMaps, spriteStorage, player, bulletManager);
 	roomFinder->SetCurrentLevelId(2);
 	ChangeRoom();
 }
@@ -45,6 +47,9 @@ void Game::Tick(float deltaTime)
 		enemySpawner->enemies[i]->Tick(deltaTime);
 		enemySpawner->enemies[i]->Draw();
 	}
+
+	bulletManager->Tick(deltaTime);
+	bulletManager->Draw();
 
 #ifdef _PHYSICS_DEBUG
 	tileMap->DrawLevel(currentLevelColliders);

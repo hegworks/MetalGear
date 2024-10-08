@@ -38,6 +38,8 @@
     <ClCompile Include="src\collider\sightCollider\sightCollider.cpp" />
     <ClCompile Include="src\collider\aabb\aabb.cpp" />
     <ClCompile Include="src\collider\aabb\boxAabb\boxAabb.cpp" />
+    <ClCompile Include="src\bullet\bullet.cpp" />
+    <ClCompile Include="src\managers\bullet\bulletManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="template\common.h">
@@ -97,6 +99,8 @@
     <ClInclude Include="src\collider\aabb\aabb.h" />
     <ClInclude Include="src\collider\aabb\boxAabb\boxAabb.h" />
     <ClInclude Include="src\tools\screenPrinter.h" />
+    <ClInclude Include="src\bullet\bullet.h" />
+    <ClInclude Include="src\managers\bullet\bulletManager.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md">

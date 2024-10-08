@@ -5,11 +5,12 @@
 class SpriteStorage
 {
 public:
-	SpriteData* GetSpriteData(SpriteType spriteType);
+	SpriteData* GetSpriteData(SpriteType spriteType) const;
 
 	SpriteStorage();
 
 private:
-	SpriteData* playerData;
-	SpriteData* enemyData;
+	SpriteData* m_playerData;
+	SpriteData* m_enemyData;
+	SpriteData* m_bulletData;
 };

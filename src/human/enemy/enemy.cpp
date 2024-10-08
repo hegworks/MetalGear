@@ -6,12 +6,13 @@
 #include "src/collider/pointCollider/pointCollider.h"
 #include "src/collider/sightCollider/sightCollider.h"
 #include "src/human/player/player.h"
+#include "src/managers/bullet/bulletManager.h"
 #include "src/spriteStorage/spriteStorage.h"
 #include "src/spriteStorage/spriteType.h"
 #include "src/Tools/rng.h"
 #include "src/tools/screenPrinter.h"
 
-Enemy::Enemy(Surface* pScreen, LevelMaps* pLevelMaps, SpriteStorage* pSpriteStorage, float2 spawnPos, Direction spawnDir, Player* pPlayer) : Human(pScreen, pLevelMaps, pSpriteStorage)
+Enemy::Enemy(Surface* pScreen, LevelMaps* pLevelMaps, SpriteStorage* pSpriteStorage, float2 spawnPos, Direction spawnDir, Player* pPlayer, BulletManager* pBulletManager) : Human(pScreen, pLevelMaps, pSpriteStorage)
 {
 	m_pSprite = new Sprite(*pSpriteStorage->GetSpriteData(SpriteType::Enemy)->sprite);
 	m_pSprite->SetFrame(0);
@@ -23,6 +24,7 @@ Enemy::Enemy(Surface* pScreen, LevelMaps* pLevelMaps, SpriteStorage* pSpriteStor
 	m_speed = SPEED;
 
 	m_pPlayer = pPlayer;
+	m_pBulletManager = pBulletManager;
 
 	movementDirection = spawnDir;
 	movementDirectionAfterLookAround = spawnDir;
@@ -60,6 +62,7 @@ void Enemy::Tick(float deltaTime)
 			Lookaround(deltaTime);
 			break;
 		case EnemyState::Alarm:
+			Shoot(deltaTime);
 			UpdateTileBoxCollider();
 			ChasePlayer(deltaTime);
 			break;
@@ -123,7 +126,7 @@ void Enemy::Debug_PrintValues() const
 
 }
 
-float2 Enemy::GetCenter() const
+float2 Enemy::GetCenterPos() const
 {
 	return
 	{
@@ -166,7 +169,7 @@ void Enemy::PlayerPunchReported()
 
 void Enemy::UpdatePatrolCollider() const
 {
-	float2 center = GetCenter();
+	float2 center = GetCenterPos();
 	float2 feet = center;
 	feet.y += TILESET_TILEHEIGHT * 1.5f;
 
@@ -487,6 +490,18 @@ void Enemy::ChasePlayer(float deltaTime)
 
 	chaseNoMovementCount = 0;
 	MoveInDirection(deltaTime);
+}
+
+void Enemy::Shoot(const float deltaTime)
+{
+	m_shootTimer -= deltaTime;
+	if(m_shootTimer <= 0)
+	{
+		m_shootTimer = SHOOT_TIME;
+		float2 bulletDirection = m_pPlayer->GetCenterPos() - GetCenterPos();
+		float2 bulletSpawnPos = GetCenterPos();
+		m_pBulletManager->SpawnNewBullet(bulletSpawnPos, bulletDirection);
+	}
 }
 
 int2 Enemy::GetSightColliderPos() const
