@@ -1,7 +1,7 @@
 ﻿#include "precomp.h"
 #include "player.h"
 
-#include "src/collider/aabb/boxAabb.h"
+#include "src/collider/aabb/boxAabb/boxAabb.h"
 #include "src/collider/boxCollider/boxCollider.h"
 #include "src/collider/pointCollider/pointCollider.h"
 #include "src/spriteStorage/spriteStorage.h"
