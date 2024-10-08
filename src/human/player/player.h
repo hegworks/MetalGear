@@ -14,7 +14,9 @@ class Player : public Human
 public:
 	Player(Surface* screen, LevelMaps* levelMaps, SpriteStorage* spriteStorage);
 	virtual void Tick(float deltaTime);
+#ifdef _PHYSICS_DEBUG
 	virtual void DrawColliders();
+#endif
 
 	// report
 	RoomChangeType ReportRoomChange() const;

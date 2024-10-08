@@ -76,6 +76,7 @@ void Enemy::Tick(float deltaTime)
 	Animate(deltaTime);
 }
 
+#ifdef _PHYSICS_DEBUG
 void Enemy::DrawColliders()
 {
 	if(state != EnemyState::Dead)
@@ -98,10 +99,10 @@ void Enemy::DrawColliders()
 	}
 	Debug_PrintValues();
 }
+#endif
 
 void Enemy::Debug_PrintValues() const
 {
-	ScreenPrinter* screenPrinter = new ScreenPrinter();
 	string stateString = {};
 	switch(state)
 	{
@@ -120,10 +121,12 @@ void Enemy::Debug_PrintValues() const
 		default:
 			throw new exception("invalid state");
 	}
+#ifdef _PHYSICS_DEBUG
+	ScreenPrinter* screenPrinter = new ScreenPrinter();
 	screenPrinter->Print(m_pScreen, "state:", stateString, m_position);
 	screenPrinter->Print(m_pScreen, "hp:", m_hp, {m_position.x,m_position.y + 10});
 	screenPrinter->Print(m_pScreen, "speed:", m_speed, {m_position.x,m_position.y + 20});
-
+#endif
 }
 
 float2 Enemy::GetCenterPos() const
@@ -156,7 +159,9 @@ void Enemy::PlayerPunchReported()
 	if(m_boxAabb->IsColliding(m_pPlayer->GetPunchBoxAabb()))
 	{
 		printf("PLAYER PUNCHED ENEMY!\n");
+#ifdef _PHYSICS_DEBUG
 		m_boxAabb->Draw(m_pScreen, 0xffff00);
+#endif
 		m_hp--;
 		int debug_gotPunchedFrameCount = 10;
 		m_debug_gotPunchedFrameCounter = debug_gotPunchedFrameCount;

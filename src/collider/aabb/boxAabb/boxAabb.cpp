@@ -14,14 +14,14 @@ void BoxAabb::UpdatePosition(float2 pos)
 	m_max = m_pos + m_size;
 }
 
+#ifdef _PHYSICS_DEBUG
 void BoxAabb::Draw(Surface* pScreen, uint color)
 {
-#ifdef _PHYSICS_DEBUG
 	const int2 pos = {static_cast<int>(m_pos.x),static_cast<int>(m_pos.y)};
 	const int2 size = {static_cast<int>(m_size.x),static_cast<int>(m_size.y)};
 	pScreen->Box(pos.x, pos.y, pos.x + size.x, pos.y + size.y, color);
-#endif
 }
+#endif
 
 bool BoxAabb::IsColliding(const BoxAabb* other)
 {

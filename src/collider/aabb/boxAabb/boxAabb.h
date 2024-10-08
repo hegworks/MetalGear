@@ -6,7 +6,9 @@ public:
 	BoxAabb(float2 pos, float2 size);
 
 	void UpdatePosition(float2 pos);
+#ifdef _PHYSICS_DEBUG
 	void Draw(Surface* pScreen, uint color = 0xff0000);
+#endif
 	bool IsColliding(const BoxAabb* other);
 	float2 GetPosition() const { return m_pos; }
 	float2 GetMin() const { return m_min; }

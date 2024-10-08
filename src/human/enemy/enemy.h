@@ -17,7 +17,9 @@ class Enemy : public Human
 public:
 	Enemy(Surface* pScreen, LevelMaps* pLevelMaps, SpriteStorage* pSpriteStorage, float2 spawnPos, Direction spawnDir, Player* pPlayer, BulletManager* pBulletManager);
 	virtual void Tick(float deltaTime);
+#ifdef _PHYSICS_DEBUG
 	virtual void DrawColliders();
+#endif
 	virtual void Draw() const;
 	void PlayerPunchReported();
 

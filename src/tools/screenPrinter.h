@@ -2,9 +2,9 @@
 class ScreenPrinter
 {
 public:
+#ifdef _DEBUG
 	void Print(Surface* screen, const char* prefix, double value, float2 pos, uint color = 0x00ff00)
 	{
-#ifdef _DEBUG
 		if(IsOutOfScreen(pos)) return;
 
 		char* text = new char[100];
@@ -12,12 +12,10 @@ public:
 		int2 posInt = {static_cast<int>(pos.x), static_cast<int>(pos.y)};
 		screen->Print(text, posInt.x, posInt.y, color);
 		delete[] text;
-#endif
 	}
 
 	void Print(Surface* screen, const char* prefix, int value, float2 pos, uint color = 0x00ff00)
 	{
-#ifdef _DEBUG
 		if(IsOutOfScreen(pos)) return;
 
 		char* text = new char[100];
@@ -25,12 +23,10 @@ public:
 		int2 posInt = {static_cast<int>(pos.x), static_cast<int>(pos.y)};
 		screen->Print(text, posInt.x, posInt.y, color);
 		delete[] text;
-#endif
 	}
 
 	void Print(Surface* screen, const char* prefix, const char* value, float2 pos, uint color = 0x00ff00)
 	{
-#ifdef _DEBUG
 		if(IsOutOfScreen(pos)) return;
 
 		char* text = new char[100];
@@ -38,12 +34,10 @@ public:
 		int2 posInt = {static_cast<int>(pos.x), static_cast<int>(pos.y)};
 		screen->Print(text, posInt.x, posInt.y, color);
 		delete[] text;
-#endif
 	}
 
 	void Print(Surface* screen, const char* prefix, const string& value, float2 pos, uint color = 0x00ff00)
 	{
-#ifdef _DEBUG
 		if(IsOutOfScreen(pos)) return;
 
 		char* text = new char[100];
@@ -51,7 +45,6 @@ public:
 		int2 posInt = {static_cast<int>(pos.x), static_cast<int>(pos.y)};
 		screen->Print(text, posInt.x, posInt.y, color);
 		delete[] text;
-#endif
 	}
 
 	bool IsOutOfScreen(const float2 pos) const
@@ -62,4 +55,5 @@ public:
 		}
 		return false;
 	}
+#endif
 };

@@ -25,7 +25,7 @@ void Bullet::Tick(float deltaTime)
 	CheckOutOfScreen();
 }
 
-void Bullet::Activate(float2 startPos, float2 direction)
+void Bullet::Activate(const float2 startPos, const float2 direction)
 {
 	m_pos = startPos;
 	m_dir = normalize(direction);
@@ -46,7 +46,7 @@ void Bullet::Draw() const
 	m_pSprite->Draw(m_pScreen, static_cast<int>(m_pos.x), static_cast<int>(m_pos.y));
 }
 
-void Bullet::Move(float deltaTime)
+void Bullet::Move(const float deltaTime)
 {
 	m_pos += m_dir * m_speed * deltaTime;
 }

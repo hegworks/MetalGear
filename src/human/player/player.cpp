@@ -328,6 +328,7 @@ void Player::RoomChangePos(RoomChange roomChange)
 	}
 }
 
+#ifdef _PHYSICS_DEBUG
 void Player::DrawColliders()
 {
 	if(m_debug_punchFrameCounter > 0)
@@ -341,6 +342,7 @@ void Player::DrawColliders()
 	tileBoxCollider->Draw(2);
 	roomChangeCollider->Draw(5, 0x00FF00FF);
 }
+#endif
 
 float2 Player::GetPosition() const
 {

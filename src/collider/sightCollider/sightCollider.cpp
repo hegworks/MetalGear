@@ -14,7 +14,7 @@ SightCollider::SightCollider(Surface* pScreen, LevelMaps* pLevelMaps, Player* pP
 	}
 }
 
-void SightCollider::UpdatePosition(const float2 startPos, Direction dir)
+void SightCollider::UpdatePosition(const float2 startPos, const Direction dir)
 {
 	m_dir = dir;
 	int2 dir_val = {0,0};
@@ -40,6 +40,7 @@ void SightCollider::UpdatePosition(const float2 startPos, Direction dir)
 	}
 }
 
+#ifdef _PHYSICS_DEBUG
 void SightCollider::Draw(const float visualSize, const int color)
 {
 	for(int i = 0; i < SIGHT_COLL_SIZE; i++)
@@ -50,11 +51,12 @@ void SightCollider::Draw(const float visualSize, const int color)
 		}
 	}
 }
+#endif
 
-bool SightCollider::IsPlayerInSight()
+bool SightCollider::IsPlayerInSight() const
 {
-	int2 playerTilePos = m_pPlayer->GetFeetTilePosition();
-	int2 sightStartTilePos = m_pLevelMaps->GetTilePos(m_pPoints[0]->GetPos());
+	const int2 playerTilePos = m_pPlayer->GetFeetTilePosition();
+	const int2 sightStartTilePos = m_pLevelMaps->GetTilePos(m_pPoints[0]->GetPos());
 
 	if(playerTilePos.y != sightStartTilePos.y && playerTilePos.x != sightStartTilePos.x)
 	{
@@ -87,7 +89,7 @@ bool SightCollider::IsPlayerInSight()
 	return false;
 }
 
-bool SightCollider::IsOutOfScreen(float2 pos) const
+bool SightCollider::IsOutOfScreen(const float2 pos) const
 {
 	return pos.x < TILESET_TILEWIDTH || pos.x > SCRWIDTH - TILESET_TILEWIDTH || pos.y < TILESET_TILEWIDTH || pos.y > SCRHEIGHT - TILESET_TILEHEIGHT;
 }

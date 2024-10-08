@@ -13,13 +13,15 @@ public:
 	SightCollider(Surface* pScreen, LevelMaps* pLevelMaps, Player* pPlayer);
 
 	void UpdatePosition(float2 startPos, Direction dir);
+#ifdef _PHYSICS_DEBUG
 	virtual void Draw(float visualSize, int color = 0xff0000);
-	bool IsPlayerInSight();
+#endif
+	bool IsPlayerInSight() const;
 
 private:
-	PointCollider* m_pPoints[SIGHT_COLL_SIZE];
+	PointCollider* m_pPoints[SIGHT_COLL_SIZE] = {};
 	Player* m_pPlayer = nullptr;
-	Direction m_dir;
+	Direction m_dir{};
 
 	bool IsOutOfScreen(float2 pos) const;
 };
