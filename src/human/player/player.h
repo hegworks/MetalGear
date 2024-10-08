@@ -16,7 +16,7 @@ public:
 	void Tick(float deltaTime) override;
 	RoomChangeType ReportRoomChange() const;
 	void RoomChangePos(RoomChange roomChange);
-	void DrawColliders() const override;
+	virtual void DrawColliders();
 	float2 GetPosition() const;
 	int2 GetFeetTilePosition() const;
 	int2 GetFeetPos() const;

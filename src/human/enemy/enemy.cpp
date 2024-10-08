@@ -72,10 +72,12 @@ void Enemy::Tick(float deltaTime)
 	Animate(deltaTime);
 }
 
-void Enemy::DrawColliders() const
+void Enemy::DrawColliders()
 {
-	// a debug box around the enemy sprite
-	//m_pScreen->Box(m_position.x, m_position.y, m_position.x + m_pSprite->GetWidth(), m_position.y + m_pSprite->GetHeight(), 0xff0000);
+	if(state == EnemyState::Dead)
+	{
+		return;
+	}
 
 	patrolCollider->Draw(2, 0x00ff00);
 
@@ -83,7 +85,21 @@ void Enemy::DrawColliders() const
 
 	tileBoxCollider->Draw(2, 0xff0000);
 
-	m_boxAabb->Draw(m_pScreen);
+	if(m_debug_gotPunched)
+	{
+		m_boxAabb->Draw(m_pScreen, 0xffff00);
+
+		m_debug_gotPunchedFrameCounter++;
+		if(m_debug_gotPunchedFrameCounter >= m_debug_gotPunchedFrameCount)
+		{
+			m_debug_gotPunchedFrameCounter = 0;
+			m_debug_gotPunched = false;
+		}
+	}
+	else
+	{
+		m_boxAabb->Draw(m_pScreen);
+	}
 }
 
 void Enemy::Draw() const
@@ -92,16 +108,23 @@ void Enemy::Draw() const
 	{
 		return;
 	}
+
 	Human::Draw();
 }
 
-void Enemy::PlayerPunched()
+void Enemy::PlayerPunchReported()
 {
+	if(state == EnemyState::Dead)
+	{
+		return;
+	}
+
 	if(m_boxAabb->IsColliding(m_pPlayer->GetPunchBoxAabb()))
 	{
 		printf("PLAYER PUNCHED ENEMY!\n");
 		m_boxAabb->Draw(m_pScreen, 0xffff00);
 		m_hp--;
+		m_debug_gotPunched = true;
 		if(m_hp <= 0)
 		{
 			state = EnemyState::Dead;

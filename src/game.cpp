@@ -78,7 +78,7 @@ void Game::Tick(float deltaTime)
 	{
 		for(int i = 0; i < enemySpawner->enemyCount; i++)
 		{
-			enemySpawner->enemies[i]->PlayerPunched();
+			enemySpawner->enemies[i]->PlayerPunchReported();
 		}
 	}
 }

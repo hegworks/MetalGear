@@ -14,7 +14,7 @@ public:
 	~Human();
 
 	virtual void Draw() const;
-	virtual void DrawColliders() const {}
+	virtual void DrawColliders() {}
 	virtual void Move(int2 direction) {}
 	virtual void Tick(float deltaTime) {}
 

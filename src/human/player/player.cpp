@@ -235,7 +235,6 @@ RoomChangeType Player::ReportRoomChange() const
 			return RoomChangeType::RC3;
 		case TileType::RC4:
 			return RoomChangeType::RC4;
-
 		default:
 			throw exception("Invalid room change type");
 	}
@@ -261,7 +260,7 @@ void Player::RoomChangePos(RoomChange roomChange)
 	}
 }
 
-void Player::DrawColliders() const
+void Player::DrawColliders()
 {
 	if(isIdle) return;
 	tileBoxCollider->Draw(2);

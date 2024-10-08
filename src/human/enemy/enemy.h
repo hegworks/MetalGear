@@ -1,9 +1,7 @@
 ﻿#pragma once
 #include "enemyState.h"
 #include "src/Animation/customAnimation.h"
-#include "src/human/direction.h"
 #include "src/human/human.h"
-#include "src/tile/tileSet.h"
 
 class BoxAabb;
 class Player;
@@ -18,9 +16,9 @@ class Enemy : public Human
 public:
 	Enemy(Surface* pScreen, LevelMaps* pLevelMaps, SpriteStorage* pSpriteStorage, float2 spawnPos, Direction spawnDir, Player* pPlayer);
 	virtual void Tick(float deltaTime);
-	virtual void DrawColliders() const;
+	virtual void DrawColliders();
 	virtual void Draw() const;
-	void PlayerPunched();
+	void PlayerPunchReported();
 
 private:
 	// colliders
@@ -41,19 +39,30 @@ private:
 		{AnimationState::Right, 9, 11 },
 	};
 
-	// else
+	// references
+	Rng* rng = nullptr;
+	Player* m_pPlayer = nullptr;
+
+	EnemyState state = EnemyState::Patrol;
+
+	// look around
 	Direction movementDirectionAfterLookAround = Direction::Up;
 	Direction movementDirectionBeforeLookAround = Direction::Up;
+	const int LOOKAROUND_CHANCE = 50;
+
+	// speed
 	const float SPEED = 0.1f;
 	const float SPEED_CHASE = 0.15f;
-	const int LOOKAROUND_CHANCE = 50;
-	Rng* rng = nullptr;
-	EnemyState state = EnemyState::Patrol;
-	Player* m_pPlayer = nullptr;
+
+	// chase
 	Direction chaseDirectionBeforeCollision = Direction::Up;
 	bool chaseHasEverCollided = false;
 	int chaseNoMovementCount = 0;
 
+	// punch
+	bool m_debug_gotPunched = false;
+	int m_debug_gotPunchedFrameCounter = 0;
+	int m_debug_gotPunchedFrameCount = 10;
 	BoxAabb* m_boxAabb = nullptr;
 
 	// HP
