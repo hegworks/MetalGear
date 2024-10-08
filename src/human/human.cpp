@@ -15,7 +15,7 @@ void Human::Draw() const
 	if(!m_pSprite)
 		throw exception("sprite doesn't exist");
 
-	m_pSprite->Draw(m_pScreen, m_position.x, m_position.y);
+	m_pSprite->Draw(m_pScreen, static_cast<int>(m_position.x), static_cast<int>(m_position.y));
 }
 
 void Human::UpdateTileBoxCollider() const

@@ -40,7 +40,7 @@ void SightCollider::UpdatePosition(const float2 startPos, Direction dir)
 	}
 }
 
-void SightCollider::Draw(const int visualSize, const int color)
+void SightCollider::Draw(const float visualSize, const int color)
 {
 	for(int i = 0; i < SIGHT_COLL_SIZE; i++)
 	{

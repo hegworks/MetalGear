@@ -19,7 +19,7 @@ void BoxCollider::UpdatePosition(float2 pos)
 	bottomRight->UpdatePosition({pos.x + size.x, pos.y + size.y});
 }
 
-void BoxCollider::Draw(int visualSize, int color)
+void BoxCollider::Draw(const float visualSize, const int color)
 {
 #ifdef _PHYSICS_DEBUG
 	topLeft->Draw(visualSize, color);

@@ -7,7 +7,7 @@ public:
 	PointCollider(Surface* pScreen, LevelMaps* pLevelMaps) : Collider(pScreen, pLevelMaps) {}
 
 	void UpdatePosition(float2 pos);
-	virtual void Draw(int size, int color = 0xff0000);
+	virtual void Draw(float visualSize, int color = 0xff0000);
 	float2 GetPos() const { return m_pos; }
 	TileType GetTileType() const { return m_pLevelMaps->GetTileType(m_pos); }
 
