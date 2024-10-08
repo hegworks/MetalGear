@@ -183,6 +183,7 @@
     <ClInclude Include="src\tools\rng.h" />
     <ClInclude Include="src\tile\tileSet.h" />
     <ClInclude Include="src\tile\tileType.h" />
+    <ClInclude Include="src\tools\screenPrinter.h" />
     <ClInclude Include="template\common.h" />
     <ClInclude Include="template\opencl.h" />
     <ClInclude Include="template\opengl.h" />

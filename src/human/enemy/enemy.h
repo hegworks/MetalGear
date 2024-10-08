@@ -87,4 +87,5 @@ private:
 	void ChasePlayer(float deltaTime);
 	int2 GetSightColliderPos() const;
 	void UpdateBoxAabb() const;
+	void Debug_PrintValues() const;
 };

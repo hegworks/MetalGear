@@ -9,6 +9,7 @@
 #include "src/spriteStorage/spriteStorage.h"
 #include "src/spriteStorage/spriteType.h"
 #include "src/Tools/rng.h"
+#include "src/tools/screenPrinter.h"
 
 Enemy::Enemy(Surface* pScreen, LevelMaps* pLevelMaps, SpriteStorage* pSpriteStorage, float2 spawnPos, Direction spawnDir, Player* pPlayer) : Human(pScreen, pLevelMaps, pSpriteStorage)
 {
@@ -74,27 +75,54 @@ void Enemy::Tick(float deltaTime)
 
 void Enemy::DrawColliders()
 {
-	if(state == EnemyState::Dead)
+	if(state != EnemyState::Dead)
 	{
-		return;
+		patrolCollider->Draw(2, 0x00ff00);
+
+		m_pSightCollider->Draw(5, 0x35b0fc);
+
+		tileBoxCollider->Draw(2, 0xff0000);
+
+		if(m_debug_gotPunchedFrameCounter > 0)
+		{
+			m_boxAabb->Draw(m_pScreen, 0xffff00);
+			m_debug_gotPunchedFrameCounter--;
+		}
+		else
+		{
+			m_boxAabb->Draw(m_pScreen);
+		}
 	}
-
-	patrolCollider->Draw(2, 0x00ff00);
-
-	m_pSightCollider->Draw(5, 0x35b0fc);
-
-	tileBoxCollider->Draw(2, 0xff0000);
-
-	if(m_debug_gotPunchedFrameCounter > 0)
-	{
-		m_boxAabb->Draw(m_pScreen, 0xffff00);
-		m_debug_gotPunchedFrameCounter--;
-	}
-	else
-	{
-		m_boxAabb->Draw(m_pScreen);
-	}
+	Debug_PrintValues();
 }
+
+void Enemy::Debug_PrintValues() const
+{
+	ScreenPrinter* screenPrinter = new ScreenPrinter();
+	string stateString = {};
+	switch(state)
+	{
+		case EnemyState::Patrol:
+			stateString = "Patrol";
+			break;
+		case EnemyState::LookAround:
+			stateString = "LookAround";
+			break;
+		case EnemyState::Alarm:
+			stateString = "Alarm";
+			break;
+		case EnemyState::Dead:
+			stateString = "Dead";
+			break;
+		default:
+			throw new exception("invalid state");
+	}
+	screenPrinter->Print(m_pScreen, "state:", stateString, m_position);
+	screenPrinter->Print(m_pScreen, "hp:", m_hp, {m_position.x,m_position.y + 10});
+	screenPrinter->Print(m_pScreen, "speed:", m_speed, {m_position.x,m_position.y + 20});
+
+}
+
 
 void Enemy::Draw() const
 {

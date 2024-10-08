@@ -96,6 +96,7 @@
     <ClInclude Include="src\collider\sightCollider\sightCollider.h" />
     <ClInclude Include="src\collider\aabb\aabb.h" />
     <ClInclude Include="src\collider\aabb\boxAabb.h" />
+    <ClInclude Include="src\tools\screenPrinter.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md">
