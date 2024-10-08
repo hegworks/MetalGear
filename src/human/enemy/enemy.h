@@ -60,8 +60,8 @@ private:
 	int chaseNoMovementCount = 0;
 
 	// punch
-	int m_debug_gotPunchedFrameCounter = 10;
 	BoxAabb* m_boxAabb = nullptr;
+	int m_debug_gotPunchedFrameCounter = 0;
 
 	// HP
 	const int MAX_HP = 3;

@@ -59,10 +59,6 @@ void Player::HandleInput()
 	}
 }
 
-void Player::CheckPunch()
-{
-}
-
 void Player::UpdatePosition(float deltaTime)
 {
 	if(isIdle) return;

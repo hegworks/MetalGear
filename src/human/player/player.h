@@ -51,12 +51,11 @@ private:
 	// punch
 	BoxAabb* m_punchBoxAabb = nullptr;
 	bool m_isPunchKeyDownAndHaveNotPunched = false;
-	float m_debug_punchFrameCounter = 0;
+	int m_debug_punchFrameCounter = 0;
 
 
 	// functions
 	void HandleInput();
-	void CheckPunch();
 	void UpdatePosition(float deltaTime);
 	void UpdateColliders() const;
 	void UpdateRoomChangeCollider() const;
