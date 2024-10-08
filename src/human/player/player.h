@@ -45,7 +45,7 @@ private:
 	};
 	const float ANIMATION_UPDATE_TIME = 100.0f;
 	float animationUpdateTimer = 0.0f;
-	bool isIdle = true;
+	bool hasDirectionInput = false;
 
 	// room change
 	PointCollider* roomChangeCollider = nullptr;
@@ -57,7 +57,7 @@ private:
 	bool m_isPunchKeyDownAndHaveNotPunched = false;
 	int m_debug_punchFrameCounter = 0;
 	const float PUNCH_SIZE = 32;
-	bool m_hasPunchedNowWaitingForAnimation = false;
+	bool m_shouldStartPunchAnimation = false;
 	const float PUNCH_ANIMATION_DURATION = 500.0f;
 	float m_punchAnimationRemaining = 0;
 

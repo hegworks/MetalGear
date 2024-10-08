@@ -35,7 +35,7 @@ void Player::Tick(float deltaTime)
 
 void Player::HandleInput()
 {
-	isIdle = false;
+	hasDirectionInput = true;
 
 	if(GetAsyncKeyState(VK_UP))
 	{
@@ -55,13 +55,13 @@ void Player::HandleInput()
 	}
 	else
 	{
-		isIdle = true;
+		hasDirectionInput = false;
 	}
 }
 
 void Player::UpdatePosition(float deltaTime)
 {
-	if(isIdle) return;
+	if(!hasDirectionInput || m_punchAnimationRemaining > 0) return;
 
 	if(tileBoxCollider->IsSolid(movementDirection))
 	{
@@ -87,7 +87,7 @@ void Player::UpdatePosition(float deltaTime)
 
 void Player::UpdateColliders() const
 {
-	if(isIdle) return;
+	if(!hasDirectionInput || m_punchAnimationRemaining > 0) return;
 
 	UpdateRoomChangeCollider();
 	UpdateTileBoxCollider();
@@ -121,16 +121,23 @@ void Player::UpdateRoomChangeCollider() const
 
 void Player::UpdateAnimationState(float deltaTime)
 {
+	bool shouldResetToIdleAnimation = false;
+
 	// reduce m_punchAnimationRemaining
 	if(m_punchAnimationRemaining > 0)
 	{
 		m_punchAnimationRemaining -= deltaTime;
+		if(m_punchAnimationRemaining < 0)
+		{
+			m_punchAnimationRemaining = 0;
+			shouldResetToIdleAnimation = true;
+		}
 	}
 
 	// if should start punching in this frame
-	if(m_hasPunchedNowWaitingForAnimation)
+	if(m_shouldStartPunchAnimation)
 	{
-		m_hasPunchedNowWaitingForAnimation = false;
+		m_shouldStartPunchAnimation = false;
 		m_punchAnimationRemaining = PUNCH_ANIMATION_DURATION;
 
 		switch(movementDirection)
@@ -149,13 +156,8 @@ void Player::UpdateAnimationState(float deltaTime)
 				break;
 		}
 	}
-	else if(!isIdle || m_punchAnimationRemaining < 0)
+	else if(hasDirectionInput && m_punchAnimationRemaining <= 0 || shouldResetToIdleAnimation)
 	{
-		if(m_punchAnimationRemaining < 0)
-		{
-			m_punchAnimationRemaining = 0;
-		}
-
 		switch(movementDirection)
 		{
 			case Direction::Up:
@@ -176,7 +178,7 @@ void Player::UpdateAnimationState(float deltaTime)
 
 void Player::Animate(float deltaTime)
 {
-	if(isIdle)
+	if(!hasDirectionInput && m_punchAnimationRemaining <= 0)
 	{
 		m_pSprite->SetFrame(animations[static_cast<int>(m_currentAnimationState)].startFrame);
 		animationUpdateTimer = ANIMATION_UPDATE_TIME;
@@ -267,7 +269,7 @@ bool Player::ReportPunch()
 		m_debug_punchFrameCounter = debug_punchFrameCount;
 
 		m_isPunchKeyDownAndHaveNotPunched = false;
-		m_hasPunchedNowWaitingForAnimation = true;
+		m_shouldStartPunchAnimation = true;
 		return true;
 	}
 	return false;
@@ -334,7 +336,7 @@ void Player::DrawColliders()
 		m_punchBoxAabb->Draw(m_pScreen, 0xffff00);
 	}
 
-	if(isIdle) return;
+	if(!hasDirectionInput) return;
 
 	tileBoxCollider->Draw(2);
 	roomChangeCollider->Draw(5, 0x00FF00FF);
