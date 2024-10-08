@@ -54,10 +54,6 @@ Bullet* BulletManager::SpawnNewBullet(const float2 startPos, const float2 direct
 	return newBullet;
 }
 
-void BulletManager::DeactivateBullet(int bulletIndex)
-{
-}
-
 Bullet* BulletManager::GetFirstInactiveBullet() const
 {
 	for(int i = 0; i < MAX_BULLETS; ++i)

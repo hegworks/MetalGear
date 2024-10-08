@@ -14,7 +14,6 @@ public:
 	void Tick(float deltaTime);
 	void Draw() const;
 	Bullet* SpawnNewBullet(float2 startPos, float2 direction);
-	void DeactivateBullet(int bulletIndex);
 
 private:
 	Surface* m_pScreen = nullptr;
