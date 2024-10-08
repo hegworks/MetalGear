@@ -7,7 +7,7 @@
 class BoxAabb;
 class PointCollider;
 
-constexpr int PLAYER_ANIMATION_COUNT = 4;
+constexpr int PLAYER_ANIMATION_COUNT = 8;
 
 class Player : public Human
 {
@@ -38,6 +38,10 @@ private:
 		{AnimationState::Down, 0, 2 },
 		{AnimationState::Left, 3, 5 },
 		{AnimationState::Right, 9, 11 },
+		{AnimationState::PunchUp, 24, 24 },
+		{AnimationState::PunchDown, 16, 16 },
+		{AnimationState::PunchLeft, 20, 20 },
+		{AnimationState::PunchRight, 28, 28 },
 	};
 	const float ANIMATION_UPDATE_TIME = 100.0f;
 	float animationUpdateTimer = 0.0f;
@@ -53,13 +57,16 @@ private:
 	bool m_isPunchKeyDownAndHaveNotPunched = false;
 	int m_debug_punchFrameCounter = 0;
 	const float PUNCH_SIZE = 32;
+	bool m_hasPunchedNowWaitingForAnimation = false;
+	const float PUNCH_ANIMATION_DURATION = 500.0f;
+	float m_punchAnimationRemaining = 0;
 
 	// functions
 	void HandleInput();
 	void UpdatePosition(float deltaTime);
 	void UpdateColliders() const;
 	void UpdateRoomChangeCollider() const;
-	void UpdateAnimationState();
+	void UpdateAnimationState(float deltaTime);
 	void Animate(float deltaTime);
 	float2 GetCenterPos() const;
 };

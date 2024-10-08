@@ -29,7 +29,7 @@ void Player::Tick(float deltaTime)
 	HandleInput();
 	UpdateColliders();
 	UpdatePosition(deltaTime);
-	UpdateAnimationState();
+	UpdateAnimationState(deltaTime);
 	Animate(deltaTime);
 }
 
@@ -119,24 +119,58 @@ void Player::UpdateRoomChangeCollider() const
 	roomChangeCollider->UpdatePosition(center);
 }
 
-void Player::UpdateAnimationState()
+void Player::UpdateAnimationState(float deltaTime)
 {
-	if(isIdle) return;
-
-	switch(movementDirection)
+	// reduce m_punchAnimationRemaining
+	if(m_punchAnimationRemaining > 0)
 	{
-		case Direction::Up:
-			m_currentAnimationState = AnimationState::Up;
-			break;
-		case Direction::Down:
-			m_currentAnimationState = AnimationState::Down;
-			break;
-		case Direction::Left:
-			m_currentAnimationState = AnimationState::Left;
-			break;
-		case Direction::Right:
-			m_currentAnimationState = AnimationState::Right;
-			break;
+		m_punchAnimationRemaining -= deltaTime;
+	}
+
+	// if should start punching in this frame
+	if(m_hasPunchedNowWaitingForAnimation)
+	{
+		m_hasPunchedNowWaitingForAnimation = false;
+		m_punchAnimationRemaining = PUNCH_ANIMATION_DURATION;
+
+		switch(movementDirection)
+		{
+			case Direction::Up:
+				m_currentAnimationState = AnimationState::PunchUp;
+				break;
+			case Direction::Down:
+				m_currentAnimationState = AnimationState::PunchDown;
+				break;
+			case Direction::Left:
+				m_currentAnimationState = AnimationState::PunchLeft;
+				break;
+			case Direction::Right:
+				m_currentAnimationState = AnimationState::PunchRight;
+				break;
+		}
+	}
+	else if(!isIdle || m_punchAnimationRemaining < 0)
+	{
+		if(m_punchAnimationRemaining < 0)
+		{
+			m_punchAnimationRemaining = 0;
+		}
+
+		switch(movementDirection)
+		{
+			case Direction::Up:
+				m_currentAnimationState = AnimationState::Up;
+				break;
+			case Direction::Down:
+				m_currentAnimationState = AnimationState::Down;
+				break;
+			case Direction::Left:
+				m_currentAnimationState = AnimationState::Left;
+				break;
+			case Direction::Right:
+				m_currentAnimationState = AnimationState::Right;
+				break;
+		}
 	}
 }
 
@@ -194,7 +228,8 @@ void Player::KeyDown(int glfwKey)
 	switch(glfwKey)
 	{
 		case GLFW_KEY_F:
-			m_isPunchKeyDownAndHaveNotPunched = true;
+			if(m_punchAnimationRemaining <= 0)
+				m_isPunchKeyDownAndHaveNotPunched = true;
 			break;
 	}
 }
@@ -232,6 +267,7 @@ bool Player::ReportPunch()
 		m_debug_punchFrameCounter = debug_punchFrameCount;
 
 		m_isPunchKeyDownAndHaveNotPunched = false;
+		m_hasPunchedNowWaitingForAnimation = true;
 		return true;
 	}
 	return false;
