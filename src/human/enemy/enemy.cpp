@@ -126,6 +126,7 @@ void Enemy::Debug_PrintValues() const
 	screenPrinter->Print(m_pScreen, "state:", stateString, m_position);
 	screenPrinter->Print(m_pScreen, "hp:", m_hp, {m_position.x,m_position.y + 10});
 	screenPrinter->Print(m_pScreen, "speed:", m_speed, {m_position.x,m_position.y + 20});
+	delete screenPrinter;
 }
 #endif
 

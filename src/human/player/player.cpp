@@ -7,6 +7,7 @@
 #include "src/spriteStorage/spriteStorage.h"
 #include "src/spriteStorage/spriteType.h"
 #include "src/tile/tileType.h"
+#include "src/tools/screenPrinter.h"
 
 Player::Player(Surface* screen, LevelMaps* levelMaps, SpriteStorage* spriteStorage) : Human(screen, levelMaps, spriteStorage)
 {
@@ -353,11 +354,16 @@ void Player::DrawColliders()
 		m_punchBoxAabb->Draw(m_pScreen, 0xffff00);
 	}
 
+	m_enemyBulletBoxAabb->Draw(m_pScreen);
+
+	ScreenPrinter* screenPrinter = new ScreenPrinter();
+	screenPrinter->Print(m_pScreen, "HP:", m_hp, m_position);
+	delete screenPrinter;
+
 	if(!m_hasDirectionInput) return;
 
 	m_tileBoxCollider->Draw(2);
 	m_roomChangeCollider->Draw(5, 0x00FF00FF);
-	m_enemyBulletBoxAabb->Draw(m_pScreen);
 }
 #endif
 
