@@ -135,7 +135,10 @@
     <ClCompile Include="src\game.cpp" />
     <ClCompile Include="src\managers\bullet\bulletManager.cpp" />
     <ClCompile Include="src\managers\enemy\enemySpawner.cpp" />
+    <ClCompile Include="src\managers\gamescreen\loseScreen.cpp" />
+    <ClCompile Include="src\managers\gameState\gameStateManager.cpp" />
     <ClCompile Include="src\managers\room\roomFinder.cpp" />
+    <ClCompile Include="src\managers\gamescreen\winScreen.cpp" />
     <ClCompile Include="src\spriteStorage\spriteStorage.cpp" />
     <ClCompile Include="src\tile\levelMap\levelMaps.cpp" />
     <ClCompile Include="src\tile\tileSet.cpp" />
@@ -176,11 +179,15 @@
     <ClInclude Include="src\game.h" />
     <ClInclude Include="src\managers\bullet\bulletManager.h" />
     <ClInclude Include="src\managers\enemy\enemySpawner.h" />
+    <ClInclude Include="src\managers\gamescreen\loseScreen.h" />
+    <ClInclude Include="src\managers\gameState\gameState.h" />
+    <ClInclude Include="src\managers\gameState\gameStateManager.h" />
     <ClInclude Include="src\managers\room\roomChange.h" />
     <ClInclude Include="src\managers\room\roomChangePositionType.h" />
     <ClInclude Include="src\managers\room\roomChangeType.h" />
     <ClInclude Include="src\managers\room\roomFinder.h" />
     <ClInclude Include="src\managers\room\roomChangeStorage.h" />
+    <ClInclude Include="src\managers\gamescreen\winScreen.h" />
     <ClInclude Include="src\spriteStorage\spriteData.h" />
     <ClInclude Include="src\spriteStorage\spriteStorage.h" />
     <ClInclude Include="src\spriteStorage\spriteType.h" />

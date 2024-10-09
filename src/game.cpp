@@ -8,6 +8,9 @@
 #include "human/player/player.h"
 #include "managers/bullet/bulletManager.h"
 #include "managers/enemy/enemySpawner.h"
+#include "managers/gamescreen/loseScreen.h"
+#include "managers/gamescreen/winScreen.h"
+#include "managers/gameState/gameStateManager.h"
 #include "managers/room/roomChangeStorage.h"
 #include "managers/room/roomFinder.h"
 #include "spriteStorage/spriteStorage.h"
@@ -25,12 +28,25 @@ void Game::Init()
 	m_player = new Player(screen, m_levelMaps, m_spriteStorage);
 	m_bulletManager = new BulletManager(screen, m_levelMaps, m_player, m_spriteStorage);
 	m_enemySpawner = new EnemySpawner(screen, m_levelMaps, m_spriteStorage, m_player, m_bulletManager);
-	m_roomFinder->SetCurrentLevelId(2);
-	ChangeRoom();
+	m_winScreen = new WinScreen();
+	m_loseScreen = new LoseScreen();
+	m_gameStateManager = new GameStateManager(screen, m_winScreen, m_loseScreen, m_player);
 }
 
 void Game::Tick(const float deltaTime)
 {
+	if(m_gameStateManager->GetGameState() == GameState::Lose || m_gameStateManager->GetGameState() == GameState::Win)
+		return;
+
+	if(m_gameStateManager->GetGameState() == GameState::Intro)
+	{
+		//TODO play the real intro
+		m_roomFinder->SetCurrentLevelId(0);
+		ChangeRoom();
+		m_player->Reset();
+		m_gameStateManager->IntroFinished();
+	}
+
 	// tileMap
 	m_tileMap->DrawLevel(m_currentLevelTiles);
 
@@ -64,7 +80,7 @@ void Game::Tick(const float deltaTime)
 		case RoomChangeType::RC2:
 		case RoomChangeType::RC3:
 		case RoomChangeType::RC4:
-			RoomChange newRoom = m_roomFinder->FindNextRoom(roomChangeType);
+			const RoomChange newRoom = m_roomFinder->FindNextRoom(roomChangeType);
 			m_roomFinder->SetCurrentLevelId(newRoom.nextRoomId);
 			m_player->RoomChangePos(newRoom);
 			ChangeRoom();
@@ -77,11 +93,15 @@ void Game::Tick(const float deltaTime)
 	{
 		m_enemySpawner->PlayerPunchReported();
 	}
+
+	m_gameStateManager->Tick(deltaTime);
+	m_gameStateManager->Draw();
 }
 
-void Tmpl8::Game::KeyDown(const int glfwKey)
+void Game::KeyDown(const int glfwKey)
 {
 	m_player->KeyDown(glfwKey);
+	m_gameStateManager->KeyDown(glfwKey);
 }
 
 void Game::ChangeRoom()

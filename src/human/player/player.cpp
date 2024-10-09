@@ -15,7 +15,7 @@ Player::Player(Surface* screen, LevelMaps* levelMaps, SpriteStorage* spriteStora
 	m_pSprite->SetFrame(0);
 
 	m_animationFrame = 0;
-	m_position = float2(512, 256);
+	m_position = float2(100, 200);
 	m_speed = 0.25f;
 
 	m_tileBoxCollider = new BoxCollider(screen, levelMaps, {30, 30});
@@ -259,6 +259,12 @@ void Player::EnemyBulletCollided()
 	}
 }
 
+void Player::Reset()
+{
+	m_hp = HP_MAX;
+	m_position = SPAWN_POS;
+}
+
 bool Player::ReportPunch()
 {
 	if(m_isPunchKeyDownAndHaveNotPunched)
@@ -328,6 +334,16 @@ RoomChangeType Player::ReportRoomChange() const
 		default:
 			throw exception("Invalid room change type");
 	}
+}
+
+bool Player::ReportWin() const
+{
+	return m_roomChangeCollider->GetTileType() == TileType::Elevator;
+}
+
+bool Player::ReportLose() const
+{
+	return m_hp <= 0;
 }
 
 void Player::RoomChangePos(const RoomChange& roomChange)

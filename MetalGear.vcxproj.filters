@@ -41,6 +41,8 @@
     <ClCompile Include="src\bullet\bullet.cpp" />
     <ClCompile Include="src\managers\bullet\bulletManager.cpp" />
     <ClCompile Include="src\collider\aabb\circleAabb\circleAabb.cpp" />
+    <ClCompile Include="src\managers\gamescreen\winScreen.cpp" />
+    <ClCompile Include="src\managers\gameState\gameStateManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="template\common.h">
@@ -102,6 +104,9 @@
     <ClInclude Include="src\bullet\bullet.h" />
     <ClInclude Include="src\managers\bullet\bulletManager.h" />
     <ClInclude Include="src\collider\aabb\circleAabb\circleAabb.h" />
+    <ClInclude Include="src\managers\gamescreen\winScreen.h" />
+    <ClInclude Include="src\managers\gameState\gameState.h" />
+    <ClInclude Include="src\managers\gameState\gameStateManager.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md">

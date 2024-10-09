@@ -4,6 +4,9 @@
 
 #pragma once
 
+class LoseScreen;
+class WinScreen;
+class GameStateManager;
 class BulletManager;
 class EnemySpawner;
 class Enemy;
@@ -48,6 +51,9 @@ private:
 	SpriteStorage* m_spriteStorage = nullptr;
 	EnemySpawner* m_enemySpawner = nullptr;
 	BulletManager* m_bulletManager = nullptr;
+	GameStateManager* m_gameStateManager = nullptr;
+	WinScreen* m_winScreen = nullptr;
+	LoseScreen* m_loseScreen = nullptr;
 
 	void ChangeRoom();
 };

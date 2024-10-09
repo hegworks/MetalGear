@@ -3,6 +3,7 @@
 #include "src/human/human.h"
 #include "src/managers/room/roomChange.h"
 #include "src/managers/room/roomChangeType.h"
+#include "src/tile/tileType.h"
 
 class BoxAabb;
 class PointCollider;
@@ -20,6 +21,8 @@ public:
 
 	// report
 	RoomChangeType ReportRoomChange() const;
+	bool ReportWin() const;
+	bool ReportLose() const;
 	bool ReportPunch();
 
 	// getter
@@ -34,6 +37,7 @@ public:
 	void RoomChangePos(const RoomChange& roomChange);
 	void KeyDown(int glfwKey);
 	void EnemyBulletCollided();
+	void Reset();
 
 private:
 	// animation
@@ -56,6 +60,7 @@ private:
 	PointCollider* m_roomChangeCollider = nullptr;
 	const int m_roomChangeColliderXOffset = -5;
 	const int m_roomChangeColliderYOffset = -5;
+	const float2 SPAWN_POS = {512,256};
 
 	// punch
 	BoxAabb* m_punchBoxAabb = nullptr;
