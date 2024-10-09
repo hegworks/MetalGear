@@ -8,9 +8,13 @@ class EnemySpawner
 {
 public:
 	EnemySpawner(Surface* pScreen, LevelMaps* pLevelMaps, SpriteStorage* pSpriteStorage, Player* pPlayer, BulletManager* pBulletManager);
+	void Tick(float deltaTime) const;
+	void Draw() const;
+#ifdef _DEBUG
+	void DrawColliders() const;
+#endif
 	bool Spawn();
-	Enemy* enemies[MAX_ENEMIES];
-	int GetEnemyCount() const { return m_enemyCount; }
+	void PlayerPunchReported() const;
 
 private:
 	Surface* m_screen = nullptr;
@@ -18,5 +22,7 @@ private:
 	SpriteStorage* m_spriteStorage = nullptr;
 	Player* m_player = nullptr;
 	BulletManager* m_bulletManager = nullptr;
+
+	Enemy* m_enemies[MAX_ENEMIES];
 	int m_enemyCount = 0;
 };

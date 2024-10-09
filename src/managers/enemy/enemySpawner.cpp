@@ -13,11 +13,37 @@ EnemySpawner::EnemySpawner(Surface* pScreen, LevelMaps* pLevelMaps, SpriteStorag
 	m_bulletManager = pBulletManager;
 }
 
+void EnemySpawner::Tick(const float deltaTime) const
+{
+	for(int i = 0; i < m_enemyCount; ++i)
+	{
+		m_enemies[i]->Tick(deltaTime);
+	}
+}
+
+void EnemySpawner::Draw() const
+{
+	for(int i = 0; i < m_enemyCount; ++i)
+	{
+		m_enemies[i]->Draw();
+	}
+}
+
+#ifdef _DEBUG
+void EnemySpawner::DrawColliders() const
+{
+	for(int i = 0; i < m_enemyCount; ++i)
+	{
+		m_enemies[i]->DrawColliders();
+	}
+}
+#endif
+
 bool EnemySpawner::Spawn()
 {
 	for(int i = 0; i < MAX_ENEMIES; i++)
 	{
-		enemies[i] = nullptr;
+		m_enemies[i] = nullptr;
 	}
 
 	bool isExceptionLevel4 = m_levelMaps->GetCurrentLevelId() == 4;
@@ -69,7 +95,7 @@ bool EnemySpawner::Spawn()
 					   spawnDir == Direction::Right && !skipRightSpawn)
 					{
 						float2 spawnPos = {static_cast<float>(j * TILESET_TILEWIDTH), static_cast<float>(i * TILESET_TILEHEIGHT - 96)};
-						enemies[m_enemyCount] = new Enemy(m_screen, m_levelMaps, m_spriteStorage, spawnPos, spawnDir, m_player, m_bulletManager);
+						m_enemies[m_enemyCount] = new Enemy(m_screen, m_levelMaps, m_spriteStorage, spawnPos, spawnDir, m_player, m_bulletManager);
 						m_enemyCount++;
 						if(m_enemyCount >= MAX_ENEMIES)
 						{
@@ -81,4 +107,12 @@ bool EnemySpawner::Spawn()
 		}
 	}
 	return m_enemyCount > 0;
+}
+
+void EnemySpawner::PlayerPunchReported() const
+{
+	for(int i = 0; i < m_enemyCount; ++i)
+	{
+		m_enemies[i]->PlayerPunchReported();
+	}
 }

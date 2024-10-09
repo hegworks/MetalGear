@@ -246,6 +246,11 @@ void Player::KeyDown(const int glfwKey)
 
 void Player::EnemyBulletCollided()
 {
+	if(m_hp == 0)
+	{
+		return;
+	}
+
 	m_hp--;
 	if(m_hp <= 0)
 	{

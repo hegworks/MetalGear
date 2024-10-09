@@ -174,6 +174,16 @@ void Enemy::PlayerPunchReported()
 	}
 }
 
+void Enemy::ForceAlarmState()
+{
+	if(m_state == EnemyState::Dead)
+	{
+		return;
+	}
+
+	m_state = EnemyState::Alarm;
+}
+
 void Enemy::UpdatePatrolCollider() const
 {
 	float2 center = GetCenterPos();

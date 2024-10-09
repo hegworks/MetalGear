@@ -22,6 +22,7 @@ public:
 #endif
 	virtual void Draw() const;
 	void PlayerPunchReported();
+	void ForceAlarmState();
 
 private:
 	// colliders

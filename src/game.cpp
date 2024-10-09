@@ -42,23 +42,16 @@ void Game::Tick(const float deltaTime)
 #endif
 
 	// enemies
-	//TODO move the for loop inside the enemySpawner to avoid accessing it directly here (same as bulletManager)
-	for(int i = 0; i < m_enemySpawner->GetEnemyCount(); i++)
-	{
-		m_enemySpawner->enemies[i]->Tick(deltaTime);
-		m_enemySpawner->enemies[i]->Draw();
-	}
+	m_enemySpawner->Tick(deltaTime);
+	m_enemySpawner->Draw();
 
+	// bullets
 	m_bulletManager->Tick(deltaTime);
 	m_bulletManager->Draw();
 
 #ifdef _PHYSICS_DEBUG
 	m_tileMap->DrawLevel(m_currentLevelColliders);
-
-	for(int i = 0; i < m_enemySpawner->GetEnemyCount(); i++)
-	{
-		m_enemySpawner->enemies[i]->DrawColliders();
-	}
+	m_enemySpawner->DrawColliders();
 #endif
 
 	// room
@@ -82,10 +75,7 @@ void Game::Tick(const float deltaTime)
 
 	if(m_player->ReportPunch())
 	{
-		for(int i = 0; i < m_enemySpawner->GetEnemyCount(); i++)
-		{
-			m_enemySpawner->enemies[i]->PlayerPunchReported();
-		}
+		m_enemySpawner->PlayerPunchReported();
 	}
 }
 
