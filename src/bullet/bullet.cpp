@@ -7,7 +7,7 @@
 #include "src/spriteStorage/spriteStorage.h"
 #include "src/spriteStorage/spriteType.h"
 
-Bullet::Bullet(int id, float2 startPos, float2 direction, Surface* pScreen, Player* pPlayer, BulletManager* pBulletManager, SpriteStorage* pSpriteStorage, LevelMaps* pLevelMaps)
+Bullet::Bullet(int id, float2 startPos, float2 direction, Surface* pScreen, Player* pPlayer, SpriteStorage* pSpriteStorage, LevelMaps* pLevelMaps)
 {
 	m_id = id;
 	m_pos = startPos;
@@ -15,7 +15,6 @@ Bullet::Bullet(int id, float2 startPos, float2 direction, Surface* pScreen, Play
 
 	m_pScreen = pScreen;
 	m_pPlayer = pPlayer;
-	m_pBulletManager = pBulletManager;
 
 	m_pSprite = pSpriteStorage->GetSpriteData(SpriteType::Bullet)->sprite;
 

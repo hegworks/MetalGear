@@ -14,7 +14,7 @@ BulletManager::BulletManager(Surface* pScreen, LevelMaps* pLevelMaps, Player* pP
 
 	for(int i = 0; i < MAX_BULLETS; ++i)
 	{
-		m_pBullets[i] = new Bullet(i, defaultStartPos, defaultDir, m_pScreen, m_pPlayer, this, pSpriteStorage, pLevelMaps);
+		m_pBullets[i] = new Bullet(i, defaultStartPos, defaultDir, m_pScreen, m_pPlayer, pSpriteStorage, pLevelMaps);
 	}
 }
 

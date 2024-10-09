@@ -9,7 +9,7 @@ class PointCollider;
 class Bullet
 {
 public:
-	Bullet(int id, float2 startPos, float2 direction, Surface* pScreen, Player* pPlayer, BulletManager* pBulletManager, SpriteStorage* pSpriteStorage, LevelMaps* pLevelMaps);
+	Bullet(int id, float2 startPos, float2 direction, Surface* pScreen, Player* pPlayer, SpriteStorage* pSpriteStorage, LevelMaps* pLevelMaps);
 	void Tick(float deltaTime);
 	void Activate(float2 startPos, float2 direction);
 	void Deactivate();
@@ -28,7 +28,6 @@ private:
 	PointCollider* m_pPointCollider = nullptr;
 	Player* m_pPlayer = nullptr;
 	Surface* m_pScreen = nullptr;
-	BulletManager* m_pBulletManager = nullptr;
 	Sprite* m_pSprite = nullptr;
 
 	void UpdatePointCollider() const;
