@@ -1,5 +1,6 @@
 ﻿#pragma once
 
+class LevelMaps;
 class SpriteStorage;
 class BulletManager;
 class Player;
@@ -8,7 +9,7 @@ class PointCollider;
 class Bullet
 {
 public:
-	Bullet(int id, float2 startPos, float2 direction, Surface* pScreen, Player* pPlayer, BulletManager* pBulletManager, SpriteStorage* pSpriteStorage);
+	Bullet(int id, float2 startPos, float2 direction, Surface* pScreen, Player* pPlayer, BulletManager* pBulletManager, SpriteStorage* pSpriteStorage, LevelMaps* pLevelMaps);
 	void Tick(float deltaTime);
 	void Activate(float2 startPos, float2 direction);
 	void Deactivate();
@@ -30,6 +31,8 @@ private:
 	BulletManager* m_pBulletManager = nullptr;
 	Sprite* m_pSprite = nullptr;
 
+	void UpdatePointCollider() const;
 	void Move(float deltaTime);
+	void CheckPointCollider();
 	void CheckOutOfScreen(); //TOOD change to check collision
 };

@@ -12,6 +12,7 @@ public:
 #endif
 	float2 GetPos() const { return m_pos; }
 	TileType GetTileType() const { return m_pLevelMaps->GetTileType(m_pos); }
+	bool IsSolid() const;
 
 private:
 	float2 m_pos = {};

@@ -52,11 +52,11 @@ private:
 	// look around
 	Direction m_movementDirectionAfterLookAround = Direction::Up;
 	Direction m_movementDirectionBeforeLookAround = Direction::Up;
-	const int LOOKAROUND_CHANCE = 50;
+	static constexpr  int LOOKAROUND_CHANCE = 50;
 
 	// speed
-	const float SPEED = 0.1f;
-	const float SPEED_CHASE = 0.15f;
+	static constexpr float SPEED = 0.1f;
+	static constexpr float SPEED_CHASE = 0.15f;
 
 	// chase
 	Direction m_chaseDirectionBeforeCollision = Direction::Up;
@@ -74,7 +74,7 @@ private:
 	// LookAround
 	float m_lookaroundTimer = 0.0f;
 	const float LOOKAROUND_TIME = 500.0f;
-	Direction lookAroundDirection = Direction::Up;
+	Direction m_lookAroundDirection = Direction::Up;
 	bool m_isOneStageOfLookOutPlaying = false;
 	int m_lookAroundChecksDone = 0;
 
