@@ -40,6 +40,7 @@
     <ClCompile Include="src\collider\aabb\boxAabb\boxAabb.cpp" />
     <ClCompile Include="src\bullet\bullet.cpp" />
     <ClCompile Include="src\managers\bullet\bulletManager.cpp" />
+    <ClCompile Include="src\collider\aabb\circleAabb\circleAabb.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="template\common.h">
@@ -100,6 +101,7 @@
     <ClInclude Include="src\tools\screenPrinter.h" />
     <ClInclude Include="src\bullet\bullet.h" />
     <ClInclude Include="src\managers\bullet\bulletManager.h" />
+    <ClInclude Include="src\collider\aabb\circleAabb\circleAabb.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md">

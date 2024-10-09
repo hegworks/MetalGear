@@ -124,6 +124,7 @@
     <ClCompile Include="src\bullet\bullet.cpp" />
     <ClCompile Include="src\collider\aabb\aabb.cpp" />
     <ClCompile Include="src\collider\aabb\boxAabb\boxAabb.cpp" />
+    <ClCompile Include="src\collider\aabb\circleAabb\circleAabb.cpp" />
     <ClCompile Include="src\collider\sightCollider\sightCollider.cpp" />
     <ClCompile Include="src\human\enemy\enemy.cpp" />
     <ClCompile Include="src\human\human.cpp" />
@@ -160,6 +161,7 @@
     <ClInclude Include="src\bullet\bullet.h" />
     <ClInclude Include="src\collider\aabb\aabb.h" />
     <ClInclude Include="src\collider\aabb\boxAabb\boxAabb.h" />
+    <ClInclude Include="src\collider\aabb\circleAabb\circleAabb.h" />
     <ClInclude Include="src\collider\sightCollider\sightCollider.h" />
     <ClInclude Include="src\human\direction.h" />
     <ClInclude Include="src\human\enemy\enemy.h" />
