@@ -31,3 +31,12 @@ bool BoxAabb::IsColliding(const BoxAabb* other) const
 		m_min.y <= other->GetMax().y &&
 		m_max.y >= other->GetMin().y;
 }
+
+bool BoxAabb::IsColliding(const float2 point) const
+{
+	return
+		point.x >= m_min.x &&
+		point.x <= m_max.x &&
+		point.y >= m_min.y &&
+		point.y <= m_max.y;
+}

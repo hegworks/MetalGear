@@ -1,7 +1,9 @@
 ﻿#include "precomp.h"
 #include "bullet.h"
 
+#include "src/collider/aabb/boxAabb/boxAabb.h"
 #include "src/collider/pointCollider/pointCollider.h"
+#include "src/human/player/player.h"
 #include "src/spriteStorage/spriteStorage.h"
 #include "src/spriteStorage/spriteType.h"
 
@@ -26,6 +28,7 @@ void Bullet::Tick(float deltaTime)
 
 	UpdatePointCollider();
 	CheckPointCollider();
+	CheckPlayerCollision();
 	Move(deltaTime);
 	CheckOutOfScreen();
 }
@@ -69,6 +72,15 @@ void Bullet::CheckPointCollider()
 {
 	if(m_pPointCollider->IsSolid())
 	{
+		Deactivate();
+	}
+}
+
+void Bullet::CheckPlayerCollision()
+{
+	if(m_pPlayer->GetEnemyBulletBoxAabb()->IsColliding(m_pos))
+	{
+		m_pPlayer->EnemyBulletCollided();
 		Deactivate();
 	}
 }

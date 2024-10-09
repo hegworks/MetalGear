@@ -34,5 +34,6 @@ private:
 	void UpdatePointCollider() const;
 	void Move(float deltaTime);
 	void CheckPointCollider();
-	void CheckOutOfScreen(); //TOOD change to check collision
+	void CheckPlayerCollision();
+	void CheckOutOfScreen();
 };

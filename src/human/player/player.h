@@ -27,11 +27,13 @@ public:
 	int2 GetFeetTilePosition() const;
 	int2 GetFeetPos() const;
 	BoxAabb* GetPunchBoxAabb() const { return m_punchBoxAabb; }
+	BoxAabb* GetEnemyBulletBoxAabb() const { return m_enemyBulletBoxAabb; }
 	float2 GetCenterPos() const;
 
 	// else
 	void RoomChangePos(const RoomChange& roomChange);
 	void KeyDown(int glfwKey);
+	void EnemyBulletCollided();
 
 private:
 	// animation
@@ -64,11 +66,19 @@ private:
 	const float PUNCH_ANIMATION_DURATION = 500.0f;
 	float m_punchAnimationRemaining = 0;
 
+	// enemy bullet
+	BoxAabb* m_enemyBulletBoxAabb = nullptr;
+
+	// HP
+	const int HP_MAX = 5;
+	int m_hp = HP_MAX;
+
 	// functions
 	void HandleInput();
 	void UpdatePosition(float deltaTime);
 	void UpdateColliders() const;
 	void UpdateRoomChangeCollider() const;
+	void UpdateEnemyBulletCollider() const;
 	void UpdateAnimationState(float deltaTime);
 	void Animate(float deltaTime);
 };

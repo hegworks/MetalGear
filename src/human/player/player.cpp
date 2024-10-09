@@ -22,6 +22,7 @@ Player::Player(Surface* screen, LevelMaps* levelMaps, SpriteStorage* spriteStora
 	UpdateRoomChangeCollider();
 
 	m_punchBoxAabb = new BoxAabb(GetFeetPos(), {PUNCH_SIZE,PUNCH_SIZE});
+	m_enemyBulletBoxAabb = new BoxAabb(m_position, {static_cast<float>(m_pSprite->GetWidth()),static_cast<float>(m_pSprite->GetHeight())});
 }
 
 void Player::Tick(const float deltaTime)
@@ -91,6 +92,7 @@ void Player::UpdateColliders() const
 
 	UpdateRoomChangeCollider();
 	UpdateTileBoxCollider();
+	UpdateEnemyBulletCollider();
 }
 
 void Player::UpdateRoomChangeCollider() const
@@ -117,6 +119,11 @@ void Player::UpdateRoomChangeCollider() const
 	}
 
 	m_roomChangeCollider->UpdatePosition(center);
+}
+
+void Player::UpdateEnemyBulletCollider() const
+{
+	m_enemyBulletBoxAabb->UpdatePosition(m_position);
 }
 
 void Player::UpdateAnimationState(const float deltaTime)
@@ -236,6 +243,16 @@ void Player::KeyDown(const int glfwKey)
 	}
 }
 
+void Player::EnemyBulletCollided()
+{
+	m_hp--;
+	if(m_hp <= 0)
+	{
+		//TODO show failed screen
+		printf("PLAYER IS DEAD\n");
+	}
+}
+
 bool Player::ReportPunch()
 {
 	if(m_isPunchKeyDownAndHaveNotPunched)
@@ -340,6 +357,7 @@ void Player::DrawColliders()
 
 	m_tileBoxCollider->Draw(2);
 	m_roomChangeCollider->Draw(5, 0x00FF00FF);
+	m_enemyBulletBoxAabb->Draw(m_pScreen);
 }
 #endif
 

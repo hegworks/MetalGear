@@ -10,6 +10,7 @@ public:
 	void Draw(Surface* pScreen, uint color = 0xff0000) const;
 #endif
 	bool IsColliding(const BoxAabb* other) const;
+	bool IsColliding(float2 point) const;
 	float2 GetPosition() const { return m_pos; }
 	float2 GetMin() const { return m_min; }
 	float2 GetMax() const { return m_max; }
