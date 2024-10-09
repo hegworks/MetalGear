@@ -15,8 +15,20 @@ EnemySpawner::EnemySpawner(Surface* pScreen, LevelMaps* pLevelMaps, SpriteStorag
 
 void EnemySpawner::Tick(const float deltaTime) const
 {
+	bool isOneEnemyAlerted = false;
 	for(int i = 0; i < m_enemyCount; ++i)
 	{
+		if(m_enemies[i]->ReportIsAlerted())
+		{
+			isOneEnemyAlerted = true;
+		}
+	}
+	for(int i = 0; i < m_enemyCount; ++i)
+	{
+		if(isOneEnemyAlerted)
+		{
+			m_enemies[i]->ForceAlarmState();
+		}
 		m_enemies[i]->Tick(deltaTime);
 	}
 }

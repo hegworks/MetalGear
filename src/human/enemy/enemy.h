@@ -23,6 +23,7 @@ public:
 	virtual void Draw() const;
 	void PlayerPunchReported();
 	void ForceAlarmState();
+	bool ReportIsAlerted() const { return m_state == EnemyState::Alarm; }
 
 private:
 	// colliders
@@ -56,8 +57,8 @@ private:
 	static constexpr  int LOOKAROUND_CHANCE = 50;
 
 	// speed
-	static constexpr float SPEED = 0.1f;
-	static constexpr float SPEED_CHASE = 0.15f;
+	const float SPEED = 0.1f;
+	const float SPEED_CHASE = 0.15f;
 
 	// chase
 	Direction m_chaseDirectionBeforeCollision = Direction::Up;
