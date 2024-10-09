@@ -163,6 +163,7 @@ void Enemy::PlayerPunchReported()
 #ifdef _PHYSICS_DEBUG
 		m_boxAabb->Draw(m_pScreen, 0xffff00);
 #endif
+		m_state = EnemyState::Alarm;
 		m_hp--;
 		int debug_gotPunchedFrameCount = 10;
 		m_debug_gotPunchedFrameCounter = debug_gotPunchedFrameCount;
