@@ -54,6 +54,14 @@ Bullet* BulletManager::SpawnNewBullet(const float2 startPos, const float2 direct
 	return newBullet;
 }
 
+void BulletManager::RoomChanged() const
+{
+	for(int i = 0; i < MAX_BULLETS; ++i)
+	{
+		m_pBullets[i]->Deactivate();
+	}
+}
+
 Bullet* BulletManager::GetFirstInactiveBullet() const
 {
 	for(int i = 0; i < MAX_BULLETS; ++i)

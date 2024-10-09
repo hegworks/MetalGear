@@ -100,4 +100,5 @@ void Game::ChangeRoom()
 	m_currentLevelTiles = m_levelMaps->GetLevelMapPointers();
 	m_currentLevelColliders = m_levelMaps->GetLevelColliderPointers();
 	m_enemySpawner->Spawn();
+	m_bulletManager->RoomChanged();
 }
