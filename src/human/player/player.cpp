@@ -61,7 +61,7 @@ void Player::HandleInput()
 	}
 }
 
-void Player::UpdatePosition(float deltaTime)
+void Player::UpdatePosition(const float deltaTime)
 {
 	if(!m_hasDirectionInput || m_punchAnimationRemaining > 0) return;
 
@@ -89,7 +89,7 @@ void Player::UpdatePosition(float deltaTime)
 
 void Player::UpdateColliders() const
 {
-	if(!m_hasDirectionInput || m_punchAnimationRemaining > 0) return;
+	if(!m_hasDirectionInput) return;
 
 	UpdateRoomChangeCollider();
 	UpdateTileBoxCollider();
@@ -254,7 +254,6 @@ void Player::EnemyBulletCollided()
 	m_hp--;
 	if(m_hp <= 0)
 	{
-		//TODO show failed screen
 		printf("PLAYER IS DEAD\n");
 	}
 }
@@ -263,6 +262,8 @@ void Player::Reset()
 {
 	m_hp = HP_MAX;
 	m_position = SPAWN_POS;
+	m_punchAnimationRemaining = 0;
+	m_currentAnimationState = AnimationState::Down;
 }
 
 bool Player::ReportPunch()
