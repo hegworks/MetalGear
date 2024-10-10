@@ -2,6 +2,7 @@
 #include "bullet.h"
 
 #include "src/collider/aabb/boxAabb/boxAabb.h"
+#include "src/collider/aabb/circleAabb/circleAabb.h"
 #include "src/collider/pointCollider/pointCollider.h"
 #include "src/human/player/player.h"
 #include "src/spriteStorage/spriteStorage.h"
@@ -77,6 +78,18 @@ void Bullet::CheckPointCollider()
 
 void Bullet::CheckPlayerCollision()
 {
+	// broad-phase
+	if(!m_pPlayer->GetBroadPhaseCircleAabb()->IsColliding(m_pPointCollider->GetPos()))
+	{
+		return;
+	}
+
+#ifdef _DEBUG
+	const float2 centerPos = m_pPointCollider->GetPos();
+	const int2 centerPosInt = {static_cast<int>(centerPos.x), static_cast<int>(centerPos.y)};
+	m_pScreen->Circle(centerPosInt.x, centerPosInt.y, 7, 0x00ff00);
+#endif
+
 	if(m_pPlayer->GetEnemyBulletBoxAabb()->IsColliding(m_pos))
 	{
 		m_pPlayer->EnemyBulletCollided();

@@ -3,7 +3,6 @@
 #include "src/human/human.h"
 #include "src/managers/room/roomChange.h"
 #include "src/managers/room/roomChangeType.h"
-#include "src/tile/tileType.h"
 
 class BoxAabb;
 class PointCollider;
@@ -75,7 +74,7 @@ private:
 	BoxAabb* m_enemyBulletBoxAabb = nullptr;
 
 	// HP
-	const int HP_MAX = 5;
+	const int HP_MAX = 500;
 	int m_hp = HP_MAX;
 
 	// functions
@@ -86,4 +85,5 @@ private:
 	void UpdateEnemyBulletCollider() const;
 	void UpdateAnimationState(float deltaTime);
 	void Animate(float deltaTime);
+	virtual void UpdateBroadPhaseCircleAabb() const;
 };

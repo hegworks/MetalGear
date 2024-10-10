@@ -3,6 +3,7 @@
 #include "src/animation/animationState.h"
 #include "src/tile/tileSet.h"
 
+class CircleAabb;
 class BoxCollider;
 class SpriteStorage;
 class LevelMaps;
@@ -17,6 +18,7 @@ public:
 	virtual void DrawColliders() {}
 #endif
 	virtual void Tick(float /* deltatime */) {}
+	CircleAabb* GetBroadPhaseCircleAabb() const { return m_broadPhaseCircleAabb; }
 
 protected:
 	float2 m_position;
@@ -39,6 +41,11 @@ protected:
 	const int tileBoxColliderXOffset = TILESET_TILEWIDTH - 8;
 	const int tileBoxColliderYOffset = TILESET_TILEHEIGHT * 3 - 8;
 	const int tileCollisionPreventPixels = 1;
+
+	// broad-phase
+	CircleAabb* m_broadPhaseCircleAabb = nullptr;
+	const float BROAD_PHASE_CIRCLE_AABB_RADIUS = 96;
+	virtual void UpdateBroadPhaseCircleAabb() const = 0;
 
 	virtual void UpdateTileBoxCollider() const;
 };

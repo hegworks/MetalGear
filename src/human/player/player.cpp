@@ -2,6 +2,7 @@
 #include "player.h"
 
 #include "src/collider/aabb/boxAabb/boxAabb.h"
+#include "src/collider/aabb/circleAabb/circleAabb.h"
 #include "src/collider/boxCollider/boxCollider.h"
 #include "src/collider/pointCollider/pointCollider.h"
 #include "src/spriteStorage/spriteStorage.h"
@@ -24,6 +25,8 @@ Player::Player(Surface* screen, LevelMaps* levelMaps, SpriteStorage* spriteStora
 
 	m_punchBoxAabb = new BoxAabb(GetFeetPos(), {PUNCH_SIZE,PUNCH_SIZE});
 	m_enemyBulletBoxAabb = new BoxAabb(m_position, {static_cast<float>(m_pSprite->GetWidth()),static_cast<float>(m_pSprite->GetHeight())});
+
+	m_broadPhaseCircleAabb = new CircleAabb(GetCenterPos(), BROAD_PHASE_CIRCLE_AABB_RADIUS);
 }
 
 void Player::Tick(const float deltaTime)
@@ -94,6 +97,7 @@ void Player::UpdateColliders() const
 	UpdateRoomChangeCollider();
 	UpdateTileBoxCollider();
 	UpdateEnemyBulletCollider();
+	UpdateBroadPhaseCircleAabb();
 }
 
 void Player::UpdateRoomChangeCollider() const
@@ -213,6 +217,11 @@ void Player::Animate(const float deltaTime)
 
 		m_pSprite->SetFrame(m_animationFrame);
 	}
+}
+
+void Player::UpdateBroadPhaseCircleAabb() const
+{
+	m_broadPhaseCircleAabb->UpdatePosition(GetCenterPos());
 }
 
 float2 Player::GetCenterPos() const
@@ -377,6 +386,8 @@ void Player::DrawColliders()
 	}
 
 	m_enemyBulletBoxAabb->Draw(m_pScreen);
+
+	m_broadPhaseCircleAabb->Draw(m_pScreen);
 
 	ScreenPrinter* screenPrinter = new ScreenPrinter();
 	screenPrinter->Print(m_pScreen, "HP:", m_hp, m_position);

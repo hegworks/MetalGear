@@ -2,6 +2,7 @@
 #include "enemy.h"
 
 #include "src/collider/aabb/boxAabb/boxAabb.h"
+#include "src/collider/aabb/circleAabb/circleAabb.h"
 #include "src/collider/boxCollider/boxCollider.h"
 #include "src/collider/pointCollider/pointCollider.h"
 #include "src/collider/sightCollider/sightCollider.h"
@@ -38,6 +39,8 @@ Enemy::Enemy(Surface* pScreen, LevelMaps* pLevelMaps, SpriteStorage* pSpriteStor
 	m_tileBoxCollider = new BoxCollider(pScreen, pLevelMaps, {30, 30});
 
 	m_boxAabb = new BoxAabb(m_position, {static_cast<float>(m_pSprite->GetWidth()),static_cast<float>(m_pSprite->GetHeight())});
+
+	m_broadPhaseCircleAabb = new CircleAabb(GetCenterPos(), BROAD_PHASE_CIRCLE_AABB_RADIUS);
 }
 
 void Enemy::Tick(float deltaTime)
@@ -50,6 +53,7 @@ void Enemy::Tick(float deltaTime)
 	UpdateSightCollider();
 	CheckSightCollider();
 	UpdateBoxAabb();
+	UpdateBroadPhaseCircleAabb();
 
 	switch(m_state)
 	{
@@ -96,6 +100,8 @@ void Enemy::DrawColliders()
 		{
 			m_boxAabb->Draw(m_pScreen);
 		}
+
+		m_broadPhaseCircleAabb->Draw(m_pScreen);
 	}
 	Debug_PrintValues();
 }
@@ -137,6 +143,11 @@ float2 Enemy::GetCenterPos() const
 		m_position.x + static_cast<float>(m_pSprite->GetWidth()) / 2.0f,
 		m_position.y + static_cast<float>(m_pSprite->GetHeight()) / 2.0f
 	};
+}
+
+void Enemy::UpdateBroadPhaseCircleAabb() const
+{
+	m_broadPhaseCircleAabb->UpdatePosition(GetCenterPos());
 }
 
 

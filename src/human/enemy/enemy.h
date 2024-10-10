@@ -102,4 +102,5 @@ private:
 	void Debug_PrintValues() const;
 #endif
 	float2 GetCenterPos() const;
+	virtual void UpdateBroadPhaseCircleAabb() const;
 };
