@@ -71,6 +71,7 @@ void Game::Tick(const float deltaTime)
 #endif
 
 	// room
+	//TODO explain this
 	switch(RoomChangeType roomChangeType = m_player->ReportRoomChange())
 	{
 		case RoomChangeType::None:
