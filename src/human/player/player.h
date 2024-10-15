@@ -31,6 +31,7 @@ public:
 	BoxAabb* GetPunchBoxAabb() const { return m_punchBoxAabb; }
 	BoxAabb* GetEnemyBulletBoxAabb() const { return m_enemyBulletBoxAabb; }
 	float2 GetCenterPos() const;
+	int GetAnimationFrame() const { return m_animationFrame; }
 
 	// else
 	void RoomChangePos(const RoomChange& roomChange);
@@ -54,6 +55,7 @@ private:
 	const float ANIMATION_UPDATE_TIME = 100.0f;
 	float m_animationUpdateTimer = 0.0f;
 	bool m_hasDirectionInput = false;
+	int m_animationFrame = 0;
 
 	// room change
 	PointCollider* m_roomChangeCollider = nullptr;
@@ -86,4 +88,5 @@ private:
 	void UpdateAnimationState(float deltaTime);
 	void Animate(float deltaTime);
 	virtual void UpdateBroadPhaseCircleAabb() const;
+	void SetFrame(int index);
 };

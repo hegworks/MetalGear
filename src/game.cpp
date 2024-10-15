@@ -5,6 +5,7 @@
 #include "precomp.h"
 #include "game.h"
 
+#include "collider/pixelPerfect/pixelPerfectCollisionChecker.h"
 #include "human/player/player.h"
 #include "managers/bullet/bulletManager.h"
 #include "managers/enemy/enemySpawner.h"
@@ -26,7 +27,8 @@ void Game::Init()
 	m_levelMaps = new LevelMaps();
 	m_spriteStorage = new SpriteStorage();
 	m_player = new Player(screen, m_levelMaps, m_spriteStorage);
-	m_bulletManager = new BulletManager(screen, m_levelMaps, m_player, m_spriteStorage);
+	m_pixelPerfectCollisionChecker = new PixelPerfectCollisionChecker(screen);
+	m_bulletManager = new BulletManager(screen, m_levelMaps, m_player, m_spriteStorage, m_pixelPerfectCollisionChecker);
 	m_enemySpawner = new EnemySpawner(screen, m_levelMaps, m_spriteStorage, m_player, m_bulletManager);
 	m_winScreen = new WinScreen();
 	m_loseScreen = new LoseScreen();
@@ -41,7 +43,7 @@ void Game::Tick(const float deltaTime)
 	if(m_gameStateManager->GetGameState() == GameState::Intro)
 	{
 		//TODO play the real intro
-		m_roomFinder->SetCurrentLevelId(0);
+		m_roomFinder->SetCurrentLevelId(2);
 		ChangeRoom();
 		m_player->Reset();
 		m_gameStateManager->IntroFinished();
@@ -62,8 +64,8 @@ void Game::Tick(const float deltaTime)
 	m_enemySpawner->Draw();
 
 	// bullets
-	m_bulletManager->Tick(deltaTime);
 	m_bulletManager->Draw();
+	m_bulletManager->Tick(deltaTime);
 
 #ifdef _PHYSICS_DEBUG
 	m_tileMap->DrawLevel(m_currentLevelColliders);

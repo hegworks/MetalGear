@@ -1,5 +1,6 @@
 ﻿#pragma once
 
+class PixelPerfectCollisionChecker;
 class LevelMaps;
 class SpriteStorage;
 class BulletManager;
@@ -9,7 +10,7 @@ class PointCollider;
 class Bullet
 {
 public:
-	Bullet(int id, float2 startPos, float2 direction, Surface* pScreen, Player* pPlayer, SpriteStorage* pSpriteStorage, LevelMaps* pLevelMaps);
+	Bullet(int id, float2 startPos, float2 direction, Surface* pScreen, Player* pPlayer, SpriteStorage* pSpriteStorage, LevelMaps* pLevelMaps, PixelPerfectCollisionChecker* pPixelPerfectCollisionChecker);
 	void Tick(float deltaTime);
 	void Activate(float2 startPos, float2 direction);
 	void Deactivate();
@@ -29,6 +30,7 @@ private:
 	Player* m_pPlayer = nullptr;
 	Surface* m_pScreen = nullptr;
 	Sprite* m_pSprite = nullptr;
+	PixelPerfectCollisionChecker* m_pPixelPerfectCollisionChecker = nullptr;
 
 	void UpdatePointCollider() const;
 	void Move(float deltaTime);

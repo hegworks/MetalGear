@@ -43,6 +43,8 @@
     <ClCompile Include="src\collider\aabb\circleAabb\circleAabb.cpp" />
     <ClCompile Include="src\managers\gamescreen\winScreen.cpp" />
     <ClCompile Include="src\managers\gameState\gameStateManager.cpp" />
+    <ClCompile Include="src\managers\gamescreen\loseScreen.cpp" />
+    <ClCompile Include="src\collider\pixelPerfect\pixelPerfectCollisionChecker.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="template\common.h">
@@ -107,6 +109,8 @@
     <ClInclude Include="src\managers\gamescreen\winScreen.h" />
     <ClInclude Include="src\managers\gameState\gameState.h" />
     <ClInclude Include="src\managers\gameState\gameStateManager.h" />
+    <ClInclude Include="src\managers\gamescreen\loseScreen.h" />
+    <ClInclude Include="src\collider\pixelPerfect\pixelPerfectCollisionChecker.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md">

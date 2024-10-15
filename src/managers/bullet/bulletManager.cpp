@@ -2,8 +2,9 @@
 #include "bulletManager.h"
 
 #include "src/bullet/bullet.h"
+#include "src/collider/pixelPerfect/pixelPerfectCollisionChecker.h"
 
-BulletManager::BulletManager(Surface* pScreen, LevelMaps* pLevelMaps, Player* pPlayer, SpriteStorage* pSpriteStorage)
+BulletManager::BulletManager(Surface* pScreen, LevelMaps* pLevelMaps, Player* pPlayer, SpriteStorage* pSpriteStorage, PixelPerfectCollisionChecker* pPixelPerfectCollisionChecker)
 {
 	m_pScreen = pScreen;
 	m_pLevelMaps = pLevelMaps;
@@ -14,7 +15,7 @@ BulletManager::BulletManager(Surface* pScreen, LevelMaps* pLevelMaps, Player* pP
 
 	for(int i = 0; i < MAX_BULLETS; ++i)
 	{
-		m_pBullets[i] = new Bullet(i, defaultStartPos, defaultDir, m_pScreen, m_pPlayer, pSpriteStorage, pLevelMaps);
+		m_pBullets[i] = new Bullet(i, defaultStartPos, defaultDir, m_pScreen, m_pPlayer, pSpriteStorage, pLevelMaps, pPixelPerfectCollisionChecker);
 	}
 }
 

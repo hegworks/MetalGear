@@ -4,6 +4,7 @@
 
 #pragma once
 
+class PixelPerfectCollisionChecker;
 class LoseScreen;
 class WinScreen;
 class GameStateManager;
@@ -54,6 +55,7 @@ private:
 	GameStateManager* m_gameStateManager = nullptr;
 	WinScreen* m_winScreen = nullptr;
 	LoseScreen* m_loseScreen = nullptr;
+	PixelPerfectCollisionChecker* m_pixelPerfectCollisionChecker = nullptr;
 
 	void ChangeRoom();
 };

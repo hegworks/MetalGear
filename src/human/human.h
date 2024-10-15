@@ -19,6 +19,7 @@ public:
 #endif
 	virtual void Tick(float /* deltatime */) {}
 	CircleAabb* GetBroadPhaseCircleAabb() const { return m_broadPhaseCircleAabb; }
+	Sprite* GetSprite() const { return  m_pSprite; }
 
 protected:
 	float2 m_position;

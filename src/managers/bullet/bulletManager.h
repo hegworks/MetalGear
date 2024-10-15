@@ -1,5 +1,6 @@
 ﻿#pragma once
 
+class PixelPerfectCollisionChecker;
 class SpriteStorage;
 class Bullet;
 class LevelMaps;
@@ -10,7 +11,7 @@ constexpr int MAX_BULLETS = 20;
 class BulletManager
 {
 public:
-	BulletManager(Surface* pScreen, LevelMaps* pLevelMaps, Player* pPlayer, SpriteStorage* pSpriteStorage);
+	BulletManager(Surface* pScreen, LevelMaps* pLevelMaps, Player* pPlayer, SpriteStorage* pSpriteStorage, PixelPerfectCollisionChecker* pPixelPerfectCollisionChecker);
 	void Tick(float deltaTime);
 	void Draw() const;
 	Bullet* SpawnNewBullet(float2 startPos, float2 direction) const;
