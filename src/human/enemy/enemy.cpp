@@ -50,6 +50,7 @@ void Enemy::Tick(float deltaTime)
 		return;
 	}
 
+	UpdateTimers(deltaTime);
 	UpdateSightCollider();
 	CheckSightCollider();
 	UpdateBoxAabb();
@@ -395,6 +396,12 @@ void Enemy::Animate(const float deltaTime)
 
 void Enemy::ChasePlayer(const float deltaTime)
 {
+	// should not move for a while after shooting
+	if(m_shootStopRemaining >= 0)
+	{
+		return;
+	}
+
 	m_speed = SPEED_CHASE;
 
 	// set positions to player and enemy's feet
@@ -528,6 +535,7 @@ void Enemy::Shoot(const float deltaTime)
 	if(m_shootTimer <= 0)
 	{
 		m_shootTimer = SHOOT_TIME;
+		m_shootStopRemaining = SHOOT_STOP_DURATION;
 		float2 bulletDirection = m_pPlayer->GetCenterPos() - GetCenterPos();
 		float2 bulletSpawnPos = GetCenterPos();
 		m_pBulletManager->SpawnNewBullet(bulletSpawnPos, bulletDirection);
@@ -547,4 +555,9 @@ int2 Enemy::GetSightColliderPos() const
 void Enemy::UpdateBoxAabb() const
 {
 	m_boxAabb->UpdatePosition(m_position);
+}
+
+void Enemy::UpdateTimers(const float deltaTime)
+{
+	m_shootStopRemaining -= deltaTime;
 }

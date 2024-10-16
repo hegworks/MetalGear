@@ -58,7 +58,7 @@ private:
 
 	// speed
 	const float SPEED = 0.1f;
-	const float SPEED_CHASE = 0.15f;
+	const float SPEED_CHASE = 0.2f;
 
 	// chase
 	Direction m_chaseDirectionBeforeCollision = Direction::Up;
@@ -81,8 +81,10 @@ private:
 	int m_lookAroundChecksDone = 0;
 
 	// shoot
+	const float SHOOT_TIME = 1500.0f; // the time between each shoot
 	float m_shootTimer = 0;
-	const float SHOOT_TIME = 800.0f;
+	const float SHOOT_STOP_DURATION = 300.0f; // the time to stop moving after shoot
+	float m_shootStopRemaining = 0;
 
 	// functions
 	void UpdatePatrolCollider() const;
@@ -98,6 +100,7 @@ private:
 	void Shoot(float deltaTime);
 	int2 GetSightColliderPos() const;
 	void UpdateBoxAabb() const;
+	void UpdateTimers(float deltaTime);
 #ifdef _DEBUG
 	void Debug_PrintValues() const;
 #endif
