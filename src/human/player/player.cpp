@@ -1,5 +1,5 @@
-﻿#include "player.h"
-#include "precomp.h"
+﻿#include "precomp.h"
+#include "player.h"
 
 #include "src/collider/aabb/boxAabb/boxAabb.h"
 #include "src/collider/aabb/circleAabb/circleAabb.h"
