@@ -68,7 +68,7 @@ private:
 	// punch
 	BoxAabb* m_boxAabb = nullptr;
 	int m_debug_gotPunchedFrameCounter = 0;
-	const float PUNCH_STOP_DURATION = 300.0f;
+	const float PUNCH_STOP_DURATION = 700.0f;
 	float m_punchStopRemaining = 0;
 
 	// HP

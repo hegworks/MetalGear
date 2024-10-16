@@ -133,6 +133,7 @@ void Enemy::Debug_PrintValues() const
 	screenPrinter->Print(m_pScreen, "state:", stateString, m_position);
 	screenPrinter->Print(m_pScreen, "hp:", m_hp, {m_position.x,m_position.y + 10});
 	screenPrinter->Print(m_pScreen, "speed:", m_speed, {m_position.x,m_position.y + 20});
+	screenPrinter->Print(m_pScreen, "punchStopRemaining:", m_punchStopRemaining, {m_position.x,m_position.y + 30});
 	delete screenPrinter;
 }
 #endif
@@ -401,6 +402,7 @@ void Enemy::ChasePlayer(const float deltaTime)
 	// should not move for a while after shooting
 	if(m_shootStopRemaining >= 0 || m_punchStopRemaining >= 0)
 	{
+		m_speed = 0.0f;
 		return;
 	}
 
@@ -533,7 +535,8 @@ void Enemy::ChasePlayer(const float deltaTime)
 
 void Enemy::Shoot(const float deltaTime)
 {
-	m_shootTimer -= deltaTime;
+	if(m_punchStopRemaining >= 0) return;
+
 	if(m_shootTimer <= 0)
 	{
 		m_shootTimer = SHOOT_TIME;
@@ -561,6 +564,7 @@ void Enemy::UpdateBoxAabb() const
 
 void Enemy::UpdateTimers(const float deltaTime)
 {
+	m_shootTimer -= deltaTime;
 	m_shootStopRemaining -= deltaTime;
 	m_punchStopRemaining -= deltaTime;
 }
