@@ -35,8 +35,8 @@ protected:
 
 	Direction m_movementDirection = Direction::Down;
 
-	float m_speed;
-	int m_animationFrame;
+	float m_speed = 0;
+	int m_animationFrame = 0;
 
 	BoxCollider* m_tileBoxCollider = nullptr;
 	const int tileBoxColliderXOffset = TILESET_TILEWIDTH - 8;

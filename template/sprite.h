@@ -26,6 +26,7 @@ public:
 	unsigned int Frames() { return numFrames; }
 	Surface* GetSurface() { return surface; }
 	void InitializeStartData();
+	unsigned int GetCurrentFrame() const {return currentFrame;}
 private:
 	// attributes
 	int width, height;

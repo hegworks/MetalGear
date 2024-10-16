@@ -13,7 +13,7 @@
 Player::Player(Surface* screen, LevelMaps* levelMaps, SpriteStorage* spriteStorage) : Human(screen, levelMaps, spriteStorage)
 {
 	m_pSprite = spriteStorage->GetSpriteData(SpriteType::Player)->sprite;
-	SetFrame(0);
+	m_pSprite->SetFrame(0);
 
 	m_animationFrame = 0;
 	m_position = float2(100, 200);
@@ -192,7 +192,7 @@ void Player::Animate(const float deltaTime)
 {
 	if(!m_hasDirectionInput && m_punchAnimationRemaining <= 0)
 	{
-		SetFrame(animations[static_cast<int>(m_currentAnimationState)].startFrame);
+		m_pSprite->SetFrame(animations[static_cast<int>(m_currentAnimationState)].startFrame);
 		m_animationUpdateTimer = ANIMATION_UPDATE_TIME;
 		return;
 	}
@@ -215,19 +215,13 @@ void Player::Animate(const float deltaTime)
 			m_animationFrame = animations[static_cast<int>(m_currentAnimationState)].startFrame;
 		}
 
-		SetFrame(m_animationFrame);
+		m_pSprite->SetFrame(m_animationFrame);
 	}
 }
 
 void Player::UpdateBroadPhaseCircleAabb() const
 {
 	m_broadPhaseCircleAabb->UpdatePosition(GetCenterPos());
-}
-
-void Player::SetFrame(int index)
-{
-	m_pSprite->SetFrame(index);
-	m_animationFrame = index;
 }
 
 float2 Player::GetCenterPos() const

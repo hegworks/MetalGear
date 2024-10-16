@@ -17,10 +17,10 @@ Enemy::Enemy(Surface* pScreen, LevelMaps* pLevelMaps, SpriteStorage* pSpriteStor
 {
 	m_pSprite = new Sprite(*pSpriteStorage->GetSpriteData(SpriteType::Enemy)->sprite);
 	m_pSprite->SetFrame(0);
+	m_animationFrame = 0;
 
 	m_pRng = new Rng();
 
-	m_animationFrame = 0;
 	m_position = spawnPos;
 	m_speed = SPEED;
 
@@ -367,7 +367,8 @@ void Enemy::Animate(const float deltaTime)
 {
 	if(m_speed == 0.0f)
 	{
-		m_pSprite->SetFrame(animations[static_cast<int>(m_currentAnimationState)].startFrame);
+		m_animationFrame = animations[static_cast<int>(m_currentAnimationState)].startFrame;
+		m_pSprite->SetFrame(m_animationFrame);
 		animationUpdateTimer = ANIMATION_UPDATE_TIME;
 		return;
 	}
