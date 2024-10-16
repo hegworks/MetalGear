@@ -175,6 +175,7 @@ void Enemy::PlayerPunchReported()
 #ifdef _DEBUG
 		m_boxAabb->Draw(m_pScreen, 0xffff00);
 #endif
+		m_punchStopRemaining = PUNCH_STOP_DURATION;
 		m_state = EnemyState::Alarm;
 		m_hp--;
 		int debug_gotPunchedFrameCount = 10;
@@ -397,7 +398,7 @@ void Enemy::Animate(const float deltaTime)
 void Enemy::ChasePlayer(const float deltaTime)
 {
 	// should not move for a while after shooting
-	if(m_shootStopRemaining >= 0)
+	if(m_shootStopRemaining >= 0 || m_punchStopRemaining >= 0)
 	{
 		return;
 	}
@@ -560,4 +561,5 @@ void Enemy::UpdateBoxAabb() const
 void Enemy::UpdateTimers(const float deltaTime)
 {
 	m_shootStopRemaining -= deltaTime;
+	m_punchStopRemaining -= deltaTime;
 }
