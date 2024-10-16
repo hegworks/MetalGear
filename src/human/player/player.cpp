@@ -279,6 +279,7 @@ void Player::Reset()
 	m_position = SPAWN_POS;
 	m_punchAnimationRemaining = 0;
 	m_currentAnimationState = AnimationState::Down;
+	m_animationFrame = 0;
 }
 
 bool Player::ReportPunch()
