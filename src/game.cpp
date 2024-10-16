@@ -49,29 +49,14 @@ void Game::Tick(const float deltaTime)
 		m_gameStateManager->IntroFinished();
 	}
 
-	// tileMap
-	m_tileMap->DrawLevel(m_currentLevelTiles);
-
-	// player
+	// Tick()----------
 	m_player->Tick(deltaTime);
-	m_player->Draw();
-#ifdef _PHYSICS_DEBUG
-	m_player->DrawColliders();
-#endif
-
-	// enemies
 	m_enemySpawner->Tick(deltaTime);
-	m_enemySpawner->Draw();
-
-	// bullets
-	m_bulletManager->Draw();
 	m_bulletManager->Tick(deltaTime);
+	m_gameStateManager->Tick(deltaTime);
+	// ----------Tick()
 
-#ifdef _PHYSICS_DEBUG
-	m_tileMap->DrawLevel(m_currentLevelColliders);
-	m_enemySpawner->DrawColliders();
-#endif
-
+	// Reports/Events----------
 	// room
 	//TODO explain this
 	switch(RoomChangeType roomChangeType = m_player->ReportRoomChange())
@@ -96,9 +81,23 @@ void Game::Tick(const float deltaTime)
 	{
 		m_enemySpawner->PlayerPunchReported();
 	}
+	// ----------Reports/Events
 
-	m_gameStateManager->Tick(deltaTime);
+	// Draw()----------
+	m_tileMap->DrawLevel(m_currentLevelTiles);
+	m_player->Draw();
+	m_enemySpawner->Draw();
+	m_bulletManager->Draw();
 	m_gameStateManager->Draw();
+	// ----------Draw()
+
+	// Debug----------
+#ifdef _PHYSICS_DEBUG
+	m_player->DrawColliders();
+	m_tileMap->DrawLevel(m_currentLevelColliders);
+	m_enemySpawner->DrawColliders();
+#endif
+	// ----------Debug
 }
 
 void Game::KeyDown(const int glfwKey)
