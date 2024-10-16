@@ -14,12 +14,13 @@ class Player : public Human
 public:
 	Player(Surface* screen, LevelMaps* levelMaps, SpriteStorage* spriteStorage);
 	virtual void Tick(float deltaTime);
-#ifdef _PHYSICS_DEBUG
+#ifdef _DEBUG
 	virtual void DrawColliders();
 #endif
 
 	// report
-	RoomChangeType ReportRoomChange() const;
+	RoomChangeType GetRoomChangeType() const { return m_newRoomChangeType; }
+	bool ReportRoomChange();
 	bool ReportWin() const;
 	bool ReportLose() const;
 	bool ReportPunch();
@@ -62,6 +63,7 @@ private:
 	const int m_roomChangeColliderXOffset = -5;
 	const int m_roomChangeColliderYOffset = -5;
 	const float2 SPAWN_POS = {512,256};
+	RoomChangeType m_newRoomChangeType = {};
 
 	// punch
 	BoxAabb* m_punchBoxAabb = nullptr;

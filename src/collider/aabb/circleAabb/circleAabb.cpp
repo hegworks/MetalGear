@@ -12,7 +12,7 @@ void CircleAabb::UpdatePosition(const float2 pos)
 	m_pos = pos;
 }
 
-#ifdef _PHYSICS_DEBUG
+#ifdef _DEBUG
 void CircleAabb::Draw(Surface* pScreen, uint color) const
 {
 	int2 posInt = {static_cast<int>(m_pos.x), static_cast<int>(m_pos.y)};

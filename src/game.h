@@ -3,6 +3,7 @@
 // IGAD/NHTV/BUAS/UU - Jacco Bikker - 2006-2024
 
 #pragma once
+#include "managers/room/roomChangeType.h"
 
 class PixelPerfectCollisionChecker;
 class LoseScreen;
@@ -57,7 +58,7 @@ private:
 	LoseScreen* m_loseScreen = nullptr;
 	PixelPerfectCollisionChecker* m_pixelPerfectCollisionChecker = nullptr;
 
-	void ChangeRoom();
+	void ChangeRoom(const RoomChangeType roomChangeType = RoomChangeType::None);
 };
 
 } // namespace Tmpl8

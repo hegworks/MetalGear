@@ -74,6 +74,11 @@ void GameStateManager::KeyDown(int glfwKey)
 	}
 }
 
+bool GameStateManager::IsWinOrLose() const
+{
+	return m_gameState == GameState::Win || m_gameState == GameState::Lose;
+}
+
 void GameStateManager::IntroFinished()
 {
 	if(m_gameState == GameState::Intro)

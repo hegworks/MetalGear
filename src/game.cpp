@@ -37,17 +37,27 @@ void Game::Init()
 
 void Game::Tick(const float deltaTime)
 {
-	if(m_gameStateManager->GetGameState() == GameState::Lose || m_gameStateManager->GetGameState() == GameState::Win)
-		return;
-
-	if(m_gameStateManager->GetGameState() == GameState::Intro)
+	// Handle GameState----------
+	switch(m_gameStateManager->GetGameState())
 	{
-		//TODO play the real intro
-		m_roomFinder->SetCurrentLevelId(2);
-		ChangeRoom();
-		m_player->Reset();
-		m_gameStateManager->IntroFinished();
+		case GameState::Win:
+		case GameState::Lose:
+			return;
+		case GameState::Intro:
+			//TODO play the real intro
+			m_roomFinder->SetCurrentLevelId(2);
+			ChangeRoom();
+			m_player->Reset();
+			m_gameStateManager->IntroFinished();
+			break;
+		case GameState::Gameplay:
+			// execute everything below the switch case
+			break;
+		default:
+			throw exception("invalid game state");
 	}
+	// ----------Handle GameState
+
 
 	// Tick()----------
 	m_player->Tick(deltaTime);
@@ -56,25 +66,11 @@ void Game::Tick(const float deltaTime)
 	m_gameStateManager->Tick(deltaTime);
 	// ----------Tick()
 
-	// Reports/Events----------
-	// room
-	//TODO explain this
-	switch(RoomChangeType roomChangeType = m_player->ReportRoomChange())
+
+	// Reports/Events---------- check the comment before ChangeRoom() in this class
+	if(m_player->ReportRoomChange())
 	{
-		case RoomChangeType::None:
-			break;
-		case RoomChangeType::RC0:
-		case RoomChangeType::RC1:
-		case RoomChangeType::RC2:
-		case RoomChangeType::RC3:
-		case RoomChangeType::RC4:
-			const RoomChange newRoom = m_roomFinder->FindNextRoom(roomChangeType);
-			m_roomFinder->SetCurrentLevelId(newRoom.nextRoomId);
-			m_player->RoomChangePos(newRoom);
-			ChangeRoom();
-			break;
-		default:
-			throw exception("Invalid room change type");
+		ChangeRoom(m_player->GetRoomChangeType());
 	}
 
 	if(m_player->ReportPunch())
@@ -82,6 +78,7 @@ void Game::Tick(const float deltaTime)
 		m_enemySpawner->PlayerPunchReported();
 	}
 	// ----------Reports/Events
+
 
 	// Draw()----------
 	m_tileMap->DrawLevel(m_currentLevelTiles);
@@ -91,8 +88,9 @@ void Game::Tick(const float deltaTime)
 	m_gameStateManager->Draw();
 	// ----------Draw()
 
+
 	// Debug----------
-#ifdef _PHYSICS_DEBUG
+#ifdef _DEBUG
 	m_player->DrawColliders();
 	m_tileMap->DrawLevel(m_currentLevelColliders);
 	m_enemySpawner->DrawColliders();
@@ -106,8 +104,24 @@ void Game::KeyDown(const int glfwKey)
 	m_gameStateManager->KeyDown(glfwKey);
 }
 
-void Game::ChangeRoom()
+/*
+* this function needs to be here in game.cpp because there is no event handler in C++ without STL.
+* this solution of calling methods on classes to check if whether something has happened or not, so
+* then we can propagate this event to our other classes, was given to me by David Jones. He said this is
+* a common practice, and he uses this himself too.
+*
+* the next best option was to make an event handler myself, but making systems like that (e.g. event subscription system,
+* resizable arrays, or any feature from STL), even though may
+* seem very tempting, but it is discouraged by all the teachers and I understand why.
+*/
+void Game::ChangeRoom(const RoomChangeType roomChangeType)
 {
+	if(roomChangeType != RoomChangeType::None)
+	{
+		const RoomChange newRoom = m_roomFinder->FindNextRoom(roomChangeType);
+		m_roomFinder->SetCurrentLevelId(newRoom.nextRoomId);
+		m_player->RoomChangePos(newRoom);
+	}
 	m_levelMaps->SetCurrentLevelId(m_roomFinder->GetCurrentLevelId());
 	m_currentLevelTiles = m_levelMaps->GetLevelMapPointers();
 	m_currentLevelColliders = m_levelMaps->GetLevelColliderPointers();

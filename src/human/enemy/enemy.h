@@ -17,7 +17,7 @@ class Enemy : public Human
 public:
 	Enemy(Surface* pScreen, LevelMaps* pLevelMaps, SpriteStorage* pSpriteStorage, float2 spawnPos, Direction spawnDir, Player* pPlayer, BulletManager* pBulletManager);
 	virtual void Tick(float deltaTime);
-#ifdef _PHYSICS_DEBUG
+#ifdef _DEBUG
 	virtual void DrawColliders();
 #endif
 	virtual void Draw() const;
@@ -98,7 +98,7 @@ private:
 	void Shoot(float deltaTime);
 	int2 GetSightColliderPos() const;
 	void UpdateBoxAabb() const;
-#ifdef _PHYSICS_DEBUG
+#ifdef _DEBUG
 	void Debug_PrintValues() const;
 #endif
 	float2 GetCenterPos() const;

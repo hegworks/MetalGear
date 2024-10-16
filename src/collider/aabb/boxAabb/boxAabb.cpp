@@ -13,7 +13,7 @@ void BoxAabb::UpdatePosition(const float2 pos)
 	m_max = pos + m_size;
 }
 
-#ifdef _PHYSICS_DEBUG
+#ifdef _DEBUG
 void BoxAabb::Draw(Surface* pScreen, uint color) const
 {
 	const int2 minInt = {static_cast<int>(m_min.x),static_cast<int>(m_min.y)};

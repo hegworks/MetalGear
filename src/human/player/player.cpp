@@ -1,5 +1,5 @@
-﻿#include "precomp.h"
-#include "player.h"
+﻿#include "player.h"
+#include "precomp.h"
 
 #include "src/collider/aabb/boxAabb/boxAabb.h"
 #include "src/collider/aabb/circleAabb/circleAabb.h"
@@ -320,7 +320,7 @@ bool Player::ReportPunch()
 	return false;
 }
 
-RoomChangeType Player::ReportRoomChange() const
+bool Player::ReportRoomChange()
 {
 	switch(m_roomChangeCollider->GetTileType())
 	{
@@ -336,17 +336,22 @@ RoomChangeType Player::ReportRoomChange() const
 		case TileType::EPR:
 		case TileType::Door:
 		case TileType::Elevator:
-			return RoomChangeType::None;
+			return false;
 		case TileType::RC0:
-			return RoomChangeType::RC0;
+			m_newRoomChangeType = RoomChangeType::RC0;
+			return true;
 		case TileType::RC1:
-			return RoomChangeType::RC1;
+			m_newRoomChangeType = RoomChangeType::RC1;
+			return true;
 		case TileType::RC2:
-			return RoomChangeType::RC2;
+			m_newRoomChangeType = RoomChangeType::RC2;
+			return true;
 		case TileType::RC3:
-			return RoomChangeType::RC3;
+			m_newRoomChangeType = RoomChangeType::RC3;
+			return true;
 		case TileType::RC4:
-			return RoomChangeType::RC4;
+			m_newRoomChangeType = RoomChangeType::RC4;
+			return true;
 		default:
 			throw exception("Invalid room change type");
 	}
@@ -382,7 +387,7 @@ void Player::RoomChangePos(const RoomChange& roomChange)
 	}
 }
 
-#ifdef _PHYSICS_DEBUG
+#ifdef _DEBUG
 void Player::DrawColliders()
 {
 	if(m_debug_punchFrameCounter > 0)

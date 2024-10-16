@@ -7,7 +7,7 @@ public:
 	CircleAabb(float2 pos, float radius);
 
 	virtual void UpdatePosition(float2 pos);
-#ifdef _PHYSICS_DEBUG
+#ifdef _DEBUG
 	virtual void Draw(Surface* pScreen, uint color = 0xff0000) const;
 #endif
 	bool IsColliding(const CircleAabb* other) const;

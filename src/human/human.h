@@ -14,7 +14,7 @@ public:
 	Human(Surface* pScreen, LevelMaps* pLevelMaps, SpriteStorage* pSpriteStorage);
 
 	virtual void Draw() const;
-#ifdef _PHYSICS_DEBUG
+#ifdef _DEBUG
 	virtual void DrawColliders() {}
 #endif
 	virtual void Tick(float /* deltatime */) {}

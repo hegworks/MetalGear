@@ -80,7 +80,7 @@ void Enemy::Tick(float deltaTime)
 	Animate(deltaTime);
 }
 
-#ifdef _PHYSICS_DEBUG
+#ifdef _DEBUG
 void Enemy::DrawColliders()
 {
 	if(m_state != EnemyState::Dead)
@@ -107,7 +107,7 @@ void Enemy::DrawColliders()
 }
 #endif
 
-#ifdef _PHYSICS_DEBUG
+#ifdef _DEBUG
 void Enemy::Debug_PrintValues() const
 {
 	string stateString = {};
@@ -171,7 +171,7 @@ void Enemy::PlayerPunchReported()
 	if(m_boxAabb->IsColliding(m_pPlayer->GetPunchBoxAabb()))
 	{
 		printf("PLAYER PUNCHED ENEMY!\n");
-#ifdef _PHYSICS_DEBUG
+#ifdef _DEBUG
 		m_boxAabb->Draw(m_pScreen, 0xffff00);
 #endif
 		m_state = EnemyState::Alarm;

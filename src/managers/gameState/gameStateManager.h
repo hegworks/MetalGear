@@ -13,6 +13,8 @@ public:
 	void Draw() const;
 	void KeyDown(int glfwKey);
 	GameState GetGameState() const { return m_gameState; }
+	bool IsWinOrLose() const;
+	bool IsIntro() const { return m_gameState == GameState::Intro; }
 	void IntroFinished();
 
 private:

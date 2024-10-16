@@ -9,7 +9,7 @@ public:
 	BoxCollider(Surface* pScreen, LevelMaps* pLevelMaps, int2 size);
 
 	void UpdatePosition(float2 pos);
-#ifdef _PHYSICS_DEBUG
+#ifdef _DEBUG
 	virtual void Draw(float visualSize, int color = 0xff0000);
 #endif
 	int2 GetSize() const { return m_size; }

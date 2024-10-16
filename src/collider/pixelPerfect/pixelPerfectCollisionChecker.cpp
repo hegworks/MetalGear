@@ -95,8 +95,8 @@ bool PixelPerfectCollisionChecker::IsColliding(Sprite* aSprite, Sprite* bSprite,
 		for(int x = 0; x < oColumns; ++x)
 		{
 			// local overlaps
-			const int2 aLocal = {oLeft + x - aPosInt.x,oTop + y - aPosInt.y};
-			const int2 bLocal = {oLeft + x - bPosInt.x,oTop + y - bPosInt.y};
+			const int2 aLocal = {oLeft + x - aPosInt.x, oTop + y - aPosInt.y};
+			const int2 bLocal = {oLeft + x - bPosInt.x, oTop + y - bPosInt.y};
 
 			// check bounds
 			if(aLocal.x >= 0 && aLocal.x < aSize.x && aLocal.y >= 0 && aLocal.y < aSize.y &&
