@@ -68,8 +68,13 @@ private:
 	// punch
 	BoxAabb* m_boxAabb = nullptr;
 	int m_debug_gotPunchedFrameCounter = 0;
-	const float PUNCH_STOP_DURATION = 700.0f;
-	float m_punchStopRemaining = 0;
+	const float PUNCH_SHAKE_MAX_DISTANCE = 32;
+	float m_yBeforePunchShake = 0;
+	const float PUNCH_SHAKE_SPEED = 0.3f;
+	bool m_isPunchShakeDirectionUp = true;
+	bool m_isPunchShakePlaying = false;
+	const float PUNCH_SHAKE_SHOOT_STOP_DURATION = 700;
+	float m_punchShakeShootStopRemaining = 0;
 
 	// HP
 	const int MAX_HP = 3;
@@ -103,6 +108,8 @@ private:
 	int2 GetSightColliderPos() const;
 	void UpdateBoxAabb() const;
 	void UpdateTimers(float deltaTime);
+	void PunchShake(float deltaTime);
+	void SwitchState(EnemyState newState);
 #ifdef _DEBUG
 	void Debug_PrintValues() const;
 #endif

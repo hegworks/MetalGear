@@ -76,7 +76,7 @@ private:
 	BoxAabb* m_enemyBulletBoxAabb = nullptr;
 
 	// HP
-	const int HP_MAX = 500;
+	const int HP_MAX = 5;
 	int m_hp = HP_MAX;
 
 	// functions

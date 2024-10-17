@@ -51,6 +51,13 @@ void Enemy::Tick(float deltaTime)
 	}
 
 	UpdateTimers(deltaTime);
+
+	if(m_state == EnemyState::PunchShake)
+	{
+		PunchShake(deltaTime);
+		return;
+	}
+
 	UpdateSightCollider();
 	CheckSightCollider();
 	UpdateBoxAabb();
@@ -126,14 +133,16 @@ void Enemy::Debug_PrintValues() const
 		case EnemyState::Dead:
 			stateString = "Dead";
 			break;
+		case EnemyState::PunchShake:
+			stateString = "PunchShake";
+			break;
 		default:
-			throw new exception("invalid state");
+			throw exception("invalid state");
 	}
 	ScreenPrinter* screenPrinter = new ScreenPrinter();
 	screenPrinter->Print(m_pScreen, "state:", stateString, m_position);
 	screenPrinter->Print(m_pScreen, "hp:", m_hp, {m_position.x,m_position.y + 10});
 	screenPrinter->Print(m_pScreen, "speed:", m_speed, {m_position.x,m_position.y + 20});
-	screenPrinter->Print(m_pScreen, "punchStopRemaining:", m_punchStopRemaining, {m_position.x,m_position.y + 30});
 	delete screenPrinter;
 }
 #endif
@@ -172,30 +181,26 @@ void Enemy::PlayerPunchReported()
 
 	if(m_boxAabb->IsColliding(m_pPlayer->GetPunchBoxAabb()))
 	{
-		printf("PLAYER PUNCHED ENEMY!\n");
 #ifdef _DEBUG
 		m_boxAabb->Draw(m_pScreen, 0xffff00);
 #endif
-		m_punchStopRemaining = PUNCH_STOP_DURATION;
-		m_state = EnemyState::Alarm;
+		m_yBeforePunchShake = m_position.y;
+		m_punchShakeShootStopRemaining = PUNCH_SHAKE_SHOOT_STOP_DURATION;
+		SwitchState(EnemyState::PunchShake);
+		m_isPunchShakePlaying = true;
 		m_hp--;
 		int debug_gotPunchedFrameCount = 10;
 		m_debug_gotPunchedFrameCounter = debug_gotPunchedFrameCount;
 		if(m_hp <= 0)
 		{
-			m_state = EnemyState::Dead;
+			SwitchState(EnemyState::Dead);
 		}
 	}
 }
 
 void Enemy::ForceAlarmState()
 {
-	if(m_state == EnemyState::Dead)
-	{
-		return;
-	}
-
-	m_state = EnemyState::Alarm;
+	SwitchState(EnemyState::Alarm);
 }
 
 void Enemy::UpdatePatrolCollider() const
@@ -228,7 +233,7 @@ void Enemy::CheckSightCollider()
 {
 	if(m_pSightCollider->IsPlayerInSight())
 	{
-		m_state = EnemyState::Alarm;
+		SwitchState(EnemyState::Alarm);
 	}
 }
 
@@ -280,7 +285,7 @@ void Enemy::CheckPatrolCollider()
 	if(m_movementDirectionAfterLookAround != m_movementDirection)
 	{
 		m_movementDirectionBeforeLookAround = m_movementDirection;
-		m_state = EnemyState::LookAround;
+		SwitchState(EnemyState::LookAround);
 	}
 }
 
@@ -291,7 +296,7 @@ void Enemy::Lookaround(const float deltaTime)
 	if(m_lookAroundChecksDone >= TOTAL_DIRECTIONS)
 	{
 		m_lookAroundChecksDone = 0;
-		m_state = EnemyState::Patrol;
+		SwitchState(EnemyState::Patrol);
 		m_speed = SPEED;
 		m_movementDirection = m_movementDirectionAfterLookAround;
 		m_isOneStageOfLookOutPlaying = false;
@@ -400,7 +405,7 @@ void Enemy::Animate(const float deltaTime)
 void Enemy::ChasePlayer(const float deltaTime)
 {
 	// should not move for a while after shooting
-	if(m_shootStopRemaining >= 0 || m_punchStopRemaining >= 0)
+	if(m_shootStopRemaining > 0 || m_punchShakeShootStopRemaining > 0)
 	{
 		m_speed = 0.0f;
 		return;
@@ -535,9 +540,7 @@ void Enemy::ChasePlayer(const float deltaTime)
 
 void Enemy::Shoot(const float deltaTime)
 {
-	if(m_punchStopRemaining >= 0) return;
-
-	if(m_shootTimer <= 0)
+	if(m_shootTimer <= 0 && m_punchShakeShootStopRemaining < 0)
 	{
 		m_shootTimer = SHOOT_TIME;
 		m_shootStopRemaining = SHOOT_STOP_DURATION;
@@ -566,5 +569,40 @@ void Enemy::UpdateTimers(const float deltaTime)
 {
 	m_shootTimer -= deltaTime;
 	m_shootStopRemaining -= deltaTime;
-	m_punchStopRemaining -= deltaTime;
+	m_punchShakeShootStopRemaining -= deltaTime;
+}
+
+/* My original idea for making this animation was to use a timer-based logic,
+ * where I moved the enemy up for some time, then move it back down for some time.
+ * but it could become complex and very inaccurate. The idea (but no code) of doing it without a timer,
+ * and using distances instead, came from my friend Hossein. Now this is a very solid and precise system.
+ */
+void Enemy::PunchShake(float deltaTime)
+{
+	if(m_isPunchShakeDirectionUp && m_yBeforePunchShake - m_position.y > PUNCH_SHAKE_MAX_DISTANCE)
+	{
+		m_isPunchShakeDirectionUp = false;
+	}
+	const float dir = m_isPunchShakeDirectionUp ? -1 : 1;
+	m_position.y += dir * PUNCH_SHAKE_SPEED * deltaTime;
+
+	if(!m_isPunchShakeDirectionUp && m_position.y > m_yBeforePunchShake)
+	{
+		m_position.y = m_yBeforePunchShake;
+		m_isPunchShakePlaying = false;
+		m_isPunchShakeDirectionUp = true;
+		SwitchState(EnemyState::Alarm);
+	}
+}
+
+void Enemy::SwitchState(const EnemyState newState)
+{
+	if(m_state == EnemyState::Dead || m_state == newState ||
+	   (m_isPunchShakePlaying && newState != EnemyState::Dead))
+	{
+		return;
+	}
+
+
+	m_state = newState;
 }
