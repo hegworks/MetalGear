@@ -198,7 +198,7 @@ void Enemy::PlayerPunchReported()
 	}
 }
 
-void Enemy::ForceAlarmState()
+void Enemy::OneEnemyAlarmedReport()
 {
 	SwitchState(EnemyState::Alarm);
 }
@@ -597,7 +597,13 @@ void Enemy::PunchShake(float deltaTime)
 
 void Enemy::SwitchState(const EnemyState newState)
 {
-	if(m_state == EnemyState::Dead || m_state == newState ||
+	/* if enemy is dead
+	 * or the new state is what we already are in
+	 * or new state is not dead, and punch shake animation is being played.
+	 * which means punch shake animation cam not be interrupted with any state other than dead.
+	 */
+	if(m_state == EnemyState::Dead ||
+	   m_state == newState ||
 	   (m_isPunchShakePlaying && newState != EnemyState::Dead))
 	{
 		return;

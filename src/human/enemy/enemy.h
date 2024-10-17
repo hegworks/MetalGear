@@ -22,7 +22,7 @@ public:
 #endif
 	virtual void Draw() const;
 	void PlayerPunchReported();
-	void ForceAlarmState();
+	void OneEnemyAlarmedReport();
 	bool ReportIsAlerted() const { return m_state == EnemyState::Alarm; }
 
 private:

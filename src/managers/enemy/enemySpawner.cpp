@@ -27,7 +27,7 @@ void EnemySpawner::Tick(const float deltaTime) const
 	{
 		if(isOneEnemyAlerted)
 		{
-			m_enemies[i]->ForceAlarmState();
+			m_enemies[i]->OneEnemyAlarmedReport();
 		}
 		m_enemies[i]->Tick(deltaTime);
 	}
