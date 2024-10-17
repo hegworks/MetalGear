@@ -59,18 +59,19 @@ void Enemy::Tick(float deltaTime)
 	}
 
 	UpdateSightCollider();
-	CheckSightCollider();
 	UpdateBoxAabb();
 	UpdateBroadPhaseCircleAabb();
 
 	switch(m_state)
 	{
 		case EnemyState::Patrol:
+			CheckSightCollider();
 			UpdatePatrolCollider();
 			CheckPatrolCollider();
 			MoveInDirection(deltaTime);
 			break;
 		case EnemyState::LookAround:
+			CheckSightCollider();
 			Lookaround(deltaTime);
 			break;
 		case EnemyState::Alarm:
@@ -78,8 +79,6 @@ void Enemy::Tick(float deltaTime)
 			UpdateTileBoxCollider();
 			ChasePlayer(deltaTime);
 			break;
-		case EnemyState::Dead:
-			return;
 		default:
 			throw exception("Invalid enemy state");
 	}
