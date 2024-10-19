@@ -141,6 +141,7 @@
     <ClCompile Include="src\managers\room\roomFinder.cpp" />
     <ClCompile Include="src\managers\gamescreen\winScreen.cpp" />
     <ClCompile Include="src\spriteStorage\spriteStorage.cpp" />
+    <ClCompile Include="src\textRenderer\textRenderer.cpp" />
     <ClCompile Include="src\tile\levelMap\levelMaps.cpp" />
     <ClCompile Include="src\tile\tileSet.cpp" />
     <ClCompile Include="template\opencl.cpp" />
@@ -193,6 +194,7 @@
     <ClInclude Include="src\spriteStorage\spriteData.h" />
     <ClInclude Include="src\spriteStorage\spriteStorage.h" />
     <ClInclude Include="src\spriteStorage\spriteType.h" />
+    <ClInclude Include="src\textRenderer\textRenderer.h" />
     <ClInclude Include="src\tile\levelMap\levelMaps.h" />
     <ClInclude Include="src\tools\rng.h" />
     <ClInclude Include="src\tile\tileSet.h" />

@@ -5,6 +5,7 @@
 #pragma once
 #include "managers/room/roomChangeType.h"
 
+class TextRenderer;
 class PixelPerfectCollisionChecker;
 class LoseScreen;
 class WinScreen;
@@ -57,6 +58,7 @@ private:
 	WinScreen* m_winScreen = nullptr;
 	LoseScreen* m_loseScreen = nullptr;
 	PixelPerfectCollisionChecker* m_pixelPerfectCollisionChecker = nullptr;
+	TextRenderer* m_textRenderer = nullptr;
 
 	void ChangeRoom(const RoomChangeType roomChangeType = RoomChangeType::None);
 };
