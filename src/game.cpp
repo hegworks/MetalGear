@@ -34,7 +34,7 @@ void Game::Init()
 	m_winScreen = new WinScreen();
 	m_loseScreen = new LoseScreen();
 	m_gameStateManager = new GameStateManager(screen, m_winScreen, m_loseScreen, m_player);
-	m_textRenderer = new TextRenderer(screen);
+	m_textRenderer = new TextRenderer(screen,"assets/graphics/font.png",41,2,3);
 }
 
 void Game::Tick(const float deltaTime)

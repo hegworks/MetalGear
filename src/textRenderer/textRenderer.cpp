@@ -1,19 +1,27 @@
 ﻿#include "precomp.h"
 #include "textRenderer.h"
 
-TextRenderer::TextRenderer(Surface* pScreen)
+TextRenderer::TextRenderer(Surface* pScreen, const string& fontAddress, int frameCount, int charSpacing, int lineSpacing)
 {
-	m_pScreen = pScreen;
-
-	Surface* fontSurface = new Surface(FONT_SHEET_ADDRESS.data());
-	m_frameSize = fontSurface->height;
-	for(int i = 0; i < FRAME_COUNT; ++i)
+	if(frameCount > MAX_FRAME_COUNT)
 	{
-		m_surfaces[i] = new Surface(m_frameSize, m_frameSize);
-		fontSurface->CopyTo(m_surfaces[i], -i * m_frameSize, 0);
-		m_sprites[i] = new Sprite(m_surfaces[i], 1);
+		throw exception("frameCount too big: MAX_FRAME_COUNT is less than frameCount");
+	}
 
-		//m_sprites[i]->PrintAsText();
+	m_pScreen = pScreen;
+	m_frameCount = frameCount;
+	m_charSpacing = charSpacing;
+	m_lineSpacing = lineSpacing;
+
+	Surface* fontSurface = new Surface(fontAddress.data());
+	m_frameSize = fontSurface->height;
+	for(int i = 0; i < m_frameCount; ++i)
+	{
+		m_pSurfaces[i] = new Surface(m_frameSize, m_frameSize);
+		fontSurface->CopyTo(m_pSurfaces[i], -i * m_frameSize, 0);
+		m_pSprites[i] = new Sprite(m_pSurfaces[i], 1);
+
+		//m_pSprites[i]->PrintAsText();
 		//printf("\n");
 	}
 }
@@ -33,9 +41,9 @@ void TextRenderer::DrawText(const string& text, const int x, const int y, const 
 		else
 		{
 			const int charIndex = CharToIndex(c);
-			const int xPos = x + (m_frameSize + CHAR_SPACING) * scale * (i - lastNewLineIndex);
-			const int yPos = y + (m_frameSize + LINE_SPACING) * scale * newLineCount;
-			m_sprites[charIndex]->DrawScaled(xPos, yPos, m_frameSize * scale, m_frameSize * scale, m_pScreen);
+			const int xPos = x + (m_frameSize + m_charSpacing) * scale * (i - lastNewLineIndex);
+			const int yPos = y + (m_frameSize + m_lineSpacing) * scale * newLineCount;
+			m_pSprites[charIndex]->DrawScaled(xPos, yPos, m_frameSize * scale, m_frameSize * scale, m_pScreen);
 		}
 	}
 }

@@ -3,17 +3,18 @@
 class TextRenderer
 {
 public:
-	TextRenderer(Surface* pScreen);
+	TextRenderer(Surface* pScreen, const string& fontAddress, int frameCount, int charSpacing, int lineSpacing);
 	void DrawText(const string& text, int x, int y, int scale) const;
 
 private:
-	const string FONT_SHEET_ADDRESS = "assets/graphics/font.png";
-	static constexpr int FRAME_COUNT = 41;
-	const int CHAR_SPACING = 2;
-	const int LINE_SPACING = 3;
+	string FONT_SHEET_ADDRESS = "assets/graphics/font.png";
+	int m_frameCount = 0;
+	int m_charSpacing = 0;
+	int m_lineSpacing = 0;
 
-	Surface* m_surfaces[FRAME_COUNT];
-	Sprite* m_sprites[FRAME_COUNT];
+	const int MAX_FRAME_COUNT = 50;
+	Surface* m_pSurfaces[50];
+	Sprite* m_pSprites[50];
 	Surface* m_pScreen = nullptr;
 
 	int CharToIndex(char c) const;
