@@ -1,7 +1,7 @@
 ﻿#include "precomp.h"
 #include "textRenderer.h"
 
-TextRenderer::TextRenderer(Surface* pScreen, const string& fontAddress, int frameCount, int charSpacing, int lineSpacing)
+TextRenderer::TextRenderer(Surface* pScreen, const string& fontAddress, const int frameCount, const int charSpacing, const int lineSpacing, int (*CharToIndex)(char)) : m_CharToIndex(CharToIndex)
 {
 	if(frameCount > MAX_FRAME_COUNT)
 	{
@@ -40,23 +40,10 @@ void TextRenderer::DrawText(const string& text, const int x, const int y, const 
 		}
 		else
 		{
-			const int charIndex = CharToIndex(c);
+			const int charIndex = m_CharToIndex(c);
 			const int xPos = x + (m_frameSize + m_charSpacing) * scale * (i - lastNewLineIndex);
 			const int yPos = y + (m_frameSize + m_lineSpacing) * scale * newLineCount;
 			m_pSprites[charIndex]->DrawScaled(xPos, yPos, m_frameSize * scale, m_frameSize * scale, m_pScreen);
 		}
 	}
-}
-
-int TextRenderer::CharToIndex(char c) const
-{
-	if(c >= 'a' && c <= 'z') return c - 'a'; // 0-25
-	if(c >= 'A' && c <= 'Z') return c - 'A'; // 0-25
-	if(c >= '0' && c <= '9') return c - '0' + 26; // 26-35
-	if(c == '*') return 35 + 1;
-	if(c == '>') return 35 + 2;
-	if(c == ',') return 35 + 3;
-	if(c == '.') return 35 + 4;
-	if(c == ' ') return 35 + 5;
-	throw exception("character not supported");
 }

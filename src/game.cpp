@@ -19,6 +19,19 @@
 #include "tile/tileMap.h"
 #include "tile/tileSet.h"
 
+int CharToIndex(char c)
+{
+	if(c >= 'a' && c <= 'z') return c - 'a'; // 0-25
+	if(c >= 'A' && c <= 'Z') return c - 'A'; // 0-25
+	if(c >= '0' && c <= '9') return c - '0' + 26; // 26-35
+	if(c == '*') return 35 + 1;
+	if(c == '>') return 35 + 2;
+	if(c == ',') return 35 + 3;
+	if(c == '.') return 35 + 4;
+	if(c == ' ') return 35 + 5;
+	throw exception("character not supported");
+}
+
 void Game::Init()
 {
 	m_tileSet = new TileSet();
@@ -34,7 +47,7 @@ void Game::Init()
 	m_winScreen = new WinScreen();
 	m_loseScreen = new LoseScreen();
 	m_gameStateManager = new GameStateManager(screen, m_winScreen, m_loseScreen, m_player);
-	m_textRenderer = new TextRenderer(screen,"assets/graphics/font.png",41,2,3);
+	m_textRenderer = new TextRenderer(screen, "assets/graphics/font.png", 41, 2, 3, CharToIndex);
 }
 
 void Game::Tick(const float deltaTime)
@@ -88,7 +101,9 @@ void Game::Tick(const float deltaTime)
 	m_enemySpawner->Draw();
 	m_bulletManager->Draw();
 	m_gameStateManager->Draw();
-	m_textRenderer->DrawText("hello\nnew\nworld\nnnn\nnnn", 5, 5, 4);
+	m_textRenderer->DrawText("hello***\nnew\nworld\nnnn\nnnn", 5, 5, 4);
+	m_textRenderer->DrawText("new", 5, 200, 2);
+	m_textRenderer->DrawText("world", 5, 300, 6);
 	// ----------Draw()
 
 

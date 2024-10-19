@@ -3,7 +3,7 @@
 class TextRenderer
 {
 public:
-	TextRenderer(Surface* pScreen, const string& fontAddress, int frameCount, int charSpacing, int lineSpacing);
+	TextRenderer(Surface* pScreen, const string& fontAddress, int frameCount, int charSpacing, int lineSpacing, int (*CharToIndex)(char));
 	void DrawText(const string& text, int x, int y, int scale) const;
 
 private:
@@ -17,6 +17,7 @@ private:
 	Sprite* m_pSprites[50];
 	Surface* m_pScreen = nullptr;
 
-	int CharToIndex(char c) const;
+	int (*m_CharToIndex)(char c);
+
 	int m_frameSize = 0;
 };
