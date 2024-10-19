@@ -93,3 +93,16 @@ void Sprite::InitializeStartData()
 		}
 	}
 }
+
+void Sprite::PrintAsText()
+{
+	for(int i = 0; i < height; ++i)
+	{
+		for(int j = 0; j < width; ++j)
+		{
+			char toPrint =  GetBuffer()[j + i * width] != 0 ? '#' : '.';
+			printf("%c ",toPrint);
+		}
+		printf("\n");
+	}
+}

@@ -134,6 +134,19 @@ void Surface::Circle(int x0, int y0, int radius, uint c)
 	}
 }
 
+void Surface::PrintAsText()
+{
+	for(int i = 0; i < height; ++i)
+	{
+		for(int j = 0; j < width; ++j)
+		{
+			char toPrint =  pixels[j + i * width] != 0 ? '#' : '.';
+			printf("%c ",toPrint);
+		}
+		printf("\n");
+	}
+}
+
 // Surface::Print: Print some text with the hard-coded mini-font.
 void Surface::Print( const char* s, int x1, int y1, uint c )
 {

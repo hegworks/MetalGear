@@ -67,6 +67,7 @@ public:
 	void Box( int x1, int y1, int x2, int y2, uint color );
 	void Bar( int x1, int y1, int x2, int y2, uint color );
 	void Circle(int x, int y, int radius, uint c);
+	void PrintAsText();
 	// attributes
 	uint* pixels = 0;
 	int width = 0, height = 0;

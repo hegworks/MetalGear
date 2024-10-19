@@ -27,6 +27,7 @@ public:
 	Surface* GetSurface() { return surface; }
 	void InitializeStartData();
 	unsigned int GetCurrentFrame() const {return currentFrame;}
+	void PrintAsText();
 private:
 	// attributes
 	int width, height;
