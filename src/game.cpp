@@ -15,6 +15,7 @@
 #include "managers/room/roomChangeStorage.h"
 #include "managers/room/roomFinder.h"
 #include "spriteStorage/spriteStorage.h"
+#include "textRenderer/textRenderer.h"
 #include "tile/tileMap.h"
 #include "tile/tileSet.h"
 
@@ -33,6 +34,7 @@ void Game::Init()
 	m_winScreen = new WinScreen();
 	m_loseScreen = new LoseScreen();
 	m_gameStateManager = new GameStateManager(screen, m_winScreen, m_loseScreen, m_player);
+	m_textRenderer = new TextRenderer(screen);
 }
 
 void Game::Tick(const float deltaTime)
@@ -86,6 +88,7 @@ void Game::Tick(const float deltaTime)
 	m_enemySpawner->Draw();
 	m_bulletManager->Draw();
 	m_gameStateManager->Draw();
+	m_textRenderer->DrawText("hello\nnew\nworld\nnnn\nnnn", 5, 5, 4);
 	// ----------Draw()
 
 

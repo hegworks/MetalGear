@@ -20,13 +20,23 @@ TextRenderer::TextRenderer(Surface* pScreen)
 
 void TextRenderer::DrawText(const string& text, const int x, const int y, const int scale) const
 {
+	int newLineCount = 0;
+	int lastNewLineIndex = 0;
 	for(int i = 0; i < text.size(); ++i)
 	{
-		int charIndex = CharToIndex(text.at(i));
-
-		int xPos = x + i * m_frameSize * scale;
-		xPos = i == 0 ? 0 : xPos + CHAR_SPACING * i;
-		m_sprites[charIndex]->DrawScaled(xPos, y, m_frameSize * scale, m_frameSize * scale, m_pScreen);
+		const char c = text.at(i);
+		if(c == '\n')
+		{
+			newLineCount++;
+			lastNewLineIndex = i + 1;
+		}
+		else
+		{
+			const int charIndex = CharToIndex(c);
+			const int xPos = x + (m_frameSize + CHAR_SPACING) * scale * (i - lastNewLineIndex);
+			const int yPos = y + (m_frameSize + LINE_SPACING) * scale * newLineCount;
+			m_sprites[charIndex]->DrawScaled(xPos, yPos, m_frameSize * scale, m_frameSize * scale, m_pScreen);
+		}
 	}
 }
 
