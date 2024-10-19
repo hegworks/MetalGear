@@ -58,7 +58,8 @@ private:
 	WinScreen* m_winScreen = nullptr;
 	LoseScreen* m_loseScreen = nullptr;
 	PixelPerfectCollisionChecker* m_pixelPerfectCollisionChecker = nullptr;
-	TextRenderer* m_textRenderer = nullptr;
+	TextRenderer* m_textRendererFont = nullptr;
+	TextRenderer* m_textRendererRadioNumbers = nullptr;
 
 	void ChangeRoom(const RoomChangeType roomChangeType = RoomChangeType::None);
 };

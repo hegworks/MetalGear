@@ -17,7 +17,8 @@ private:
 	Sprite* m_pSprites[50];
 	Surface* m_pScreen = nullptr;
 
-	int (*m_CharToIndex)(char c);
+	int (*m_CharToIndex)(char c) = nullptr;
 
-	int m_frameSize = 0;
+	int m_frameHeight = 0;
+	int m_frameWidth = 0;
 };

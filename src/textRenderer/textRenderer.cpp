@@ -14,15 +14,13 @@ TextRenderer::TextRenderer(Surface* pScreen, const string& fontAddress, const in
 	m_lineSpacing = lineSpacing;
 
 	Surface* fontSurface = new Surface(fontAddress.data());
-	m_frameSize = fontSurface->height;
+	m_frameHeight = fontSurface->height;
+	m_frameWidth = fontSurface->width / frameCount;
 	for(int i = 0; i < m_frameCount; ++i)
 	{
-		m_pSurfaces[i] = new Surface(m_frameSize, m_frameSize);
-		fontSurface->CopyTo(m_pSurfaces[i], -i * m_frameSize, 0);
+		m_pSurfaces[i] = new Surface(m_frameWidth, m_frameHeight);
+		fontSurface->CopyTo(m_pSurfaces[i], -i * m_frameWidth, 0);
 		m_pSprites[i] = new Sprite(m_pSurfaces[i], 1);
-
-		//m_pSprites[i]->PrintAsText();
-		//printf("\n");
 	}
 }
 
@@ -41,9 +39,9 @@ void TextRenderer::DrawText(const string& text, const int x, const int y, const 
 		else
 		{
 			const int charIndex = m_CharToIndex(c);
-			const int xPos = x + (m_frameSize + m_charSpacing) * scale * (i - lastNewLineIndex);
-			const int yPos = y + (m_frameSize + m_lineSpacing) * scale * newLineCount;
-			m_pSprites[charIndex]->DrawScaled(xPos, yPos, m_frameSize * scale, m_frameSize * scale, m_pScreen);
+			const int xPos = x + (m_frameWidth + m_charSpacing) * scale * (i - lastNewLineIndex);
+			const int yPos = y + (m_frameHeight + m_lineSpacing) * scale * newLineCount;
+			m_pSprites[charIndex]->DrawScaled(xPos, yPos, m_frameWidth * scale, m_frameHeight * scale, m_pScreen);
 		}
 	}
 }

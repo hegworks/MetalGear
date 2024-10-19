@@ -19,7 +19,7 @@
 #include "tile/tileMap.h"
 #include "tile/tileSet.h"
 
-int CharToIndex(char c)
+int CharToIndexFont(char c)
 {
 	if(c >= 'a' && c <= 'z') return c - 'a'; // 0-25
 	if(c >= 'A' && c <= 'Z') return c - 'A'; // 0-25
@@ -29,6 +29,13 @@ int CharToIndex(char c)
 	if(c == ',') return 35 + 3;
 	if(c == '.') return 35 + 4;
 	if(c == ' ') return 35 + 5;
+	throw exception("character not supported");
+}
+
+int CharToIndexRadioNumbers(char c)
+{
+	if(c >= '0' && c <= '9') return c - '0'; // 0-9
+	if(c == '.') return 10;
 	throw exception("character not supported");
 }
 
@@ -47,7 +54,8 @@ void Game::Init()
 	m_winScreen = new WinScreen();
 	m_loseScreen = new LoseScreen();
 	m_gameStateManager = new GameStateManager(screen, m_winScreen, m_loseScreen, m_player);
-	m_textRenderer = new TextRenderer(screen, "assets/graphics/font.png", 41, 2, 3, CharToIndex);
+	m_textRendererFont = new TextRenderer(screen, "assets/graphics/font.png", 41, 2, 3, CharToIndexFont);
+	m_textRendererRadioNumbers = new TextRenderer(screen, "assets/graphics/radioNumbers.png", 11, 0, 0, CharToIndexRadioNumbers);
 }
 
 void Game::Tick(const float deltaTime)
@@ -101,9 +109,9 @@ void Game::Tick(const float deltaTime)
 	m_enemySpawner->Draw();
 	m_bulletManager->Draw();
 	m_gameStateManager->Draw();
-	m_textRenderer->DrawText("hello***\nnew\nworld\nnnn\nnnn", 5, 5, 4);
-	m_textRenderer->DrawText("new", 5, 200, 2);
-	m_textRenderer->DrawText("world", 5, 300, 6);
+	m_textRendererFont->DrawText("hello***\nnew\nworld\nnnn\nnnn", 5, 5, 4);
+	m_textRendererFont->DrawText("new", 5, 200, 2);
+	m_textRendererFont->DrawText("world", 5, 300, 6);
 	// ----------Draw()
 
 
@@ -112,6 +120,9 @@ void Game::Tick(const float deltaTime)
 	m_player->DrawColliders();
 	m_tileMap->DrawLevel(m_currentLevelColliders);
 	m_enemySpawner->DrawColliders();
+	m_textRendererRadioNumbers->DrawText("12345", 55, 350, 6);
+	m_textRendererRadioNumbers->DrawText("6.7.8.9.0", 100, 500, 8);
+	m_textRendererRadioNumbers->DrawText("9876", 2500, 250, 3);
 #endif
 	// ----------Debug
 }
