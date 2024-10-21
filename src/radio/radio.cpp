@@ -177,7 +177,7 @@ void Radio::KeyDown(int glfwkey)
 			{
 				SwitchToReceiveState();
 			}
-			else if(m_radioState == RadioState::Receive && !m_shownTextOnceOnFrequency)
+			else if(m_radioState == RadioState::Receive && !m_shownTextOnceOnFrequency && m_textAnimationState == RadioAnimationState::Playing)
 			{
 				m_receiveTextsIndex++;
 				if(m_receiveTextsIndex == m_totalReceiveTexts)
