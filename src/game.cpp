@@ -14,6 +14,7 @@
 #include "managers/gameState/gameStateManager.h"
 #include "managers/room/roomChangeStorage.h"
 #include "managers/room/roomFinder.h"
+#include "radio/radio.h"
 #include "spriteStorage/spriteStorage.h"
 #include "textRenderer/textRenderer.h"
 #include "tile/tileMap.h"
@@ -56,6 +57,7 @@ void Game::Init()
 	m_gameStateManager = new GameStateManager(screen, m_winScreen, m_loseScreen, m_player);
 	m_textRendererFont = new TextRenderer(screen, "assets/graphics/font.png", 41, 2, 3, CharToIndexFont);
 	m_textRendererRadioNumbers = new TextRenderer(screen, "assets/graphics/radioNumbers.png", 11, 0, 0, CharToIndexRadioNumbers);
+	m_radio = new Radio(screen);
 }
 
 void Game::Tick(const float deltaTime)
@@ -87,6 +89,7 @@ void Game::Tick(const float deltaTime)
 	m_enemySpawner->Tick(deltaTime);
 	m_bulletManager->Tick(deltaTime);
 	m_gameStateManager->Tick(deltaTime);
+	m_radio->Tick(deltaTime);
 	// ----------Tick()
 
 
@@ -112,6 +115,7 @@ void Game::Tick(const float deltaTime)
 	m_textRendererFont->DrawText("hello***\nnew\nworld\nnnn\nnnn", 5, 5, 4);
 	m_textRendererFont->DrawText("new", 5, 200, 2);
 	m_textRendererFont->DrawText("world", 5, 300, 6);
+	m_radio->Draw();
 	// ----------Draw()
 
 
@@ -131,6 +135,7 @@ void Game::KeyDown(const int glfwKey)
 {
 	m_player->KeyDown(glfwKey);
 	m_gameStateManager->KeyDown(glfwKey);
+	m_radio->KeyDown(glfwKey);
 }
 
 /*

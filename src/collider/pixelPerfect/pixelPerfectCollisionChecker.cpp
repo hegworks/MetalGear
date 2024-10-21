@@ -114,12 +114,9 @@ bool PixelPerfectCollisionChecker::IsColliding(Sprite* aSprite, Sprite* bSprite,
 
 				if(!isATrans && !isBTrans)
 				{
-//#ifdef _DEBUG
+					// uncomment for debug
 					//m_screenP->Plot(oLeft + x, oTop + y, 0xff0000);
-//#else
-
-					return true;
-//#endif
+					return true; // comment when debug
 				}
 			}
 		}

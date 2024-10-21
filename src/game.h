@@ -6,6 +6,7 @@
 #include "managers/room/roomChangeType.h"
 
 class TextRenderer;
+class Radio;
 class PixelPerfectCollisionChecker;
 class LoseScreen;
 class WinScreen;
@@ -60,6 +61,7 @@ private:
 	PixelPerfectCollisionChecker* m_pixelPerfectCollisionChecker = nullptr;
 	TextRenderer* m_textRendererFont = nullptr;
 	TextRenderer* m_textRendererRadioNumbers = nullptr;
+	Radio* m_radio = nullptr;
 
 	void ChangeRoom(const RoomChangeType roomChangeType = RoomChangeType::None);
 };
