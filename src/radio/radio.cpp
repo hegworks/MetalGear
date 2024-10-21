@@ -21,6 +21,7 @@ Radio::Radio(Surface* pScreen, TextRenderer* pFontTextRenderer)
 	m_pBarFull = new Sprite(new Surface("assets/graphics/radio/0001_bars_full.png"), m_barTotalFrameCount);
 	m_pBarEmpty = new Sprite(new Surface("assets/graphics/radio/0000_bars_empty.png"), 1);
 	m_pTextBox = new Sprite(new Surface("assets/graphics/radio/textBox.png"), 1);
+	m_pTalk = new Sprite(new Surface("assets/graphics/radio/talk.png"), m_talkAnimationTotalFrameCount);
 
 	m_pFrequencyTR = new TextRenderer(m_pScreen, "assets/graphics/radio/radioNumbers.png", 11, 0, 0, FrequencyNumbersTextRendererCharToIndex);
 	m_pFontTR = pFontTextRenderer;
@@ -66,6 +67,7 @@ void Radio::Tick(float deltaTime)
 		if(m_radioState == RadioState::Send)
 		{
 			PlayTextAnimation(m_sendText, deltaTime);
+			PlayTalkAnimation(deltaTime);
 		}
 		else if(m_radioState == RadioState::Receive)
 		{
@@ -127,6 +129,8 @@ void Radio::Draw()
 
 	m_pStaticParts->Draw(m_pScreen, m_staticPartsPos.x, m_staticPartsPos.y);
 	m_pBarEmpty->Draw(m_pScreen, m_barPos.x, m_barPos.y);
+
+	m_pTalk->Draw(m_pScreen, m_talkPos.x, m_talkPos.y);
 
 	char frequency[40];
 	sprintf(frequency, "%s%d%d", m_frequencyPrefix.data(), m_frequency.x, m_frequency.y);
@@ -394,6 +398,9 @@ void Radio::SwitchToReceiveState()
 	m_barAnimationCurrentFrame = -1;
 	m_pBarFull->SetFrame(0);
 
+	m_talkAnimationFrame = 0;
+	m_pTalk->SetFrame(m_talkAnimationFrame);
+
 	m_textAnimationState = RadioAnimationState::NotStarted;
 	m_textBoxAnimationState = RadioAnimationState::NotStarted;
 
@@ -449,4 +456,21 @@ void Radio::PlayBarAnimation(float deltaTime)
 		m_barAnimationCurrentFrame = m_barTotalFrameCount - 1;
 	}
 	m_pBarFull->SetFrame(m_barAnimationCurrentFrame);
+}
+
+void Radio::PlayTalkAnimation(float deltaTime)
+{
+	if(m_talkAnimationRemaining > 0)
+	{
+		m_talkAnimationRemaining -= deltaTime;
+		return;
+	}
+	m_talkAnimationRemaining = m_talkAnimationDelay;
+
+	m_talkAnimationFrame++;
+	if(m_talkAnimationFrame == m_talkAnimationTotalFrameCount)
+	{
+		m_talkAnimationFrame = 0;
+	}
+	m_pTalk->SetFrame(m_talkAnimationFrame);
 }

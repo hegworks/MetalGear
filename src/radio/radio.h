@@ -26,6 +26,7 @@ private:
 	Sprite* m_pBarFull = nullptr;
 	Sprite* m_pBarEmpty = nullptr;
 	Sprite* m_pTextBox = nullptr;
+	Sprite* m_pTalk = nullptr;
 
 	TextRenderer* m_pFrequencyTR = nullptr;
 	TextRenderer* m_pFontTR = nullptr;
@@ -33,6 +34,7 @@ private:
 	const int2 m_staticPartsPos = {281,42};
 	const int2 m_sendReceivePos = {304,161};
 	const int2 m_barPos = {324,100};
+	const int2 m_talkPos = {719,121};
 	const int2 m_frequencyPos = {483,101};
 	const int m_frequencyScale = 3;
 
@@ -82,6 +84,11 @@ private:
 	const int m_receiveCallRoomNumber = 1;
 	int m_roomNumber = 0;
 
+	const int m_talkAnimationTotalFrameCount = 2;
+	int m_talkAnimationFrame = 0;
+	const float m_talkAnimationDelay = m_textAnimationDelay;
+	float m_talkAnimationRemaining = 0;
+
 	RadioState m_radioState = RadioState::Receive;
 
 	RadioAnimationState m_textBoxAnimationState = RadioAnimationState::NotStarted;
@@ -90,12 +97,12 @@ private:
 
 	string m_text = {};
 	const string m_sendText = "This is solid snake...\nYour reply, please.";
+	const int m_totalReceiveTexts = 2;
 	const string m_receiveTexts[2] =
 	{
 		"This is big boss...\nmission\ngain access to\nthe enemy fortress,\nouter heaven.",
 		"take action not to be\ndiscovered by\nthe enemy.\n...over"
 	};
-	const int m_totalReceiveTexts = 2;
 	int m_textLastIndex = 0;
 	int m_receiveTextsIndex = 0;
 	bool m_shownTextOnceOnFrequency = false;
@@ -117,4 +124,5 @@ private:
 	void CheckReceiveFrequency();
 	void StartBarAnimation();
 	void PlayBarAnimation(float deltaTime);
+	void PlayTalkAnimation(float deltaTime);
 };
