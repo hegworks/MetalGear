@@ -64,6 +64,12 @@ private:
 
 	void ChangeRoom(const RoomChangeType roomChangeType = RoomChangeType::None);
 
+
+	/* this function here and in this form (static constexpr), has the best place and form in my opinion.
+	 * because first this is the game.h and is/will not be included in any other file.
+	 * and second, this is a function which is being passed as an argument to another function (constructor of TextRenderer). so it really needs to be the same across all instances of this class.
+	 * we have the same thing but a bit different in the radio.cpp
+	 */
 	static constexpr int FontTextRendererCharToIndex(char c)
 	{
 		if(c >= 'a' && c <= 'z') return c - 'a'; // 0-25

@@ -72,7 +72,6 @@ void Game::Tick(const float deltaTime)
 	m_enemySpawner->Tick(deltaTime);
 	m_bulletManager->Tick(deltaTime);
 	m_gameStateManager->Tick(deltaTime);
-	m_radio->Tick(deltaTime);
 	// ----------Tick()
 
 
@@ -95,10 +94,6 @@ void Game::Tick(const float deltaTime)
 	m_enemySpawner->Draw();
 	m_bulletManager->Draw();
 	m_gameStateManager->Draw();
-	m_fontTextRenderer->DrawText("hello***\nnew\nworld\nnnn\nnnn", 5, 5, 4);
-	m_fontTextRenderer->DrawText("new", 5, 200, 2);
-	m_fontTextRenderer->DrawText("world", 5, 300, 6);
-	m_radio->Draw();
 	// ----------Draw()
 
 

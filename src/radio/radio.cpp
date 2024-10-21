@@ -4,6 +4,12 @@
 #include "src/textRenderer/textRenderer.h"
 #include "src/tools/screenPrinter.h"
 
+/* this function here (not in the scope of the class) in this form (static constexpr), has the best place and form in my opinion.
+ * because even though this is in the global scope, it is only in the cpp file, which will not be included in any other file. so encapsulation is still fine.
+ * and this is a function which is being passed as an argument to another function (constructor of TextRenderer). so it really needs to be the same across all instances of this class.
+ * so memory is also taken care of.
+ * we have the same thing but a bit different in the game.h
+ */
 static constexpr int FrequencyNumbersTextRendererCharToIndex(char c)
 {
 	if(c >= '0' && c <= '9') return c - '0'; // 0-9
@@ -15,11 +21,11 @@ Radio::Radio(Surface* pScreen, TextRenderer* pFontTextRenderer)
 {
 	m_pScreen = pScreen;
 
-	m_pStaticParts = new Sprite(new Surface("assets/graphics/radio/0000_radio_static.png"), 1);
-	m_pSend = new Sprite(new Surface("assets/graphics/radio/0000_send.png"), 1);
-	m_pReceive = new Sprite(new Surface("assets/graphics/radio/0000_receive.png"), 1);
-	m_pBarFull = new Sprite(new Surface("assets/graphics/radio/0001_bars_full.png"), m_barTotalFrameCount);
-	m_pBarEmpty = new Sprite(new Surface("assets/graphics/radio/0000_bars_empty.png"), 1);
+	m_pStaticParts = new Sprite(new Surface("assets/graphics/radio/radio_static.png"), 1);
+	m_pSend = new Sprite(new Surface("assets/graphics/radio/send.png"), 1);
+	m_pReceive = new Sprite(new Surface("assets/graphics/radio/receive.png"), 1);
+	m_pBarFull = new Sprite(new Surface("assets/graphics/radio/bars_full.png"), m_barTotalFrameCount);
+	m_pBarEmpty = new Sprite(new Surface("assets/graphics/radio/bars_empty.png"), 1);
 	m_pTextBox = new Sprite(new Surface("assets/graphics/radio/textBox.png"), 1);
 	m_pTalk = new Sprite(new Surface("assets/graphics/radio/talk.png"), m_talkAnimationTotalFrameCount);
 
@@ -29,7 +35,6 @@ Radio::Radio(Surface* pScreen, TextRenderer* pFontTextRenderer)
 #ifdef _DEBUG
 	m_pScreenPrinter = new ScreenPrinter();
 #endif
-
 }
 
 void Radio::Tick(float deltaTime)
