@@ -34,7 +34,10 @@ private:
 
 	const int m_barFullFrameCount = 12;
 
-	const float m_frequencyChangeDelay = 200;
+	const float m_frequencyChangeDelayMax = 200;
+	const float m_frequencyChangeDelayMin = 20;
+	const float m_frequencyChangeDelayStep = 10;
+	float m_frequencyChangeDelay = m_frequencyChangeDelayMax;
 	float m_frequencyChangeDelayRemaining = 0;
 
 	static constexpr int m_increaseFrequencyGlfwKey = GLFW_KEY_RIGHT;

@@ -85,10 +85,12 @@ void Radio::KeyDown(int glfwkey)
 		case m_increaseFrequencyGlfwKey:
 			m_shouldIncreaseFrequency = true;
 			m_frequencyChangeDelayRemaining = 0;
+			m_frequencyChangeDelay = m_frequencyChangeDelayMax;
 			break;
 		case m_decreaseFrequencyGlfwKey:
 			m_shouldDecreaseFrequency = true;
 			m_frequencyChangeDelayRemaining = 0;
+			m_frequencyChangeDelay = m_frequencyChangeDelayMax;
 			break;
 	}
 }
@@ -100,10 +102,12 @@ void Radio::KeyUp(int glfwkey)
 		case m_increaseFrequencyGlfwKey:
 			m_shouldIncreaseFrequency = false;
 			m_frequencyChangeDelayRemaining = 0;
+			m_frequencyChangeDelay = m_frequencyChangeDelayMax;
 			break;
 		case m_decreaseFrequencyGlfwKey:
 			m_shouldDecreaseFrequency = false;
 			m_frequencyChangeDelayRemaining = 0;
+			m_frequencyChangeDelay = m_frequencyChangeDelayMax;
 			break;
 	}
 }
@@ -113,6 +117,11 @@ bool Radio::CheckFrequencyDelay(float deltaTime)
 	m_frequencyChangeDelayRemaining -= deltaTime;
 	if(m_frequencyChangeDelayRemaining < 0)
 	{
+		m_frequencyChangeDelay -= m_frequencyChangeDelayStep;
+		if(m_frequencyChangeDelay < m_frequencyChangeDelayMin)
+		{
+			m_frequencyChangeDelay = m_frequencyChangeDelayMin;
+		}
 		m_frequencyChangeDelayRemaining = m_frequencyChangeDelay;
 		return true;
 	}
