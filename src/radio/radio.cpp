@@ -52,7 +52,13 @@ void Radio::Tick(float deltaTime)
 		PlayTextAnimation(m_receiveText, deltaTime);
 	}
 
-	if(m_shouldDecreaseFrequency || m_shouldIncreaseFrequency)
+	if(m_textAnimationState == RadioAnimationState::Finished)
+	{
+		WaitForAutoBackToReceive(deltaTime);
+	}
+
+	if((m_shouldDecreaseFrequency || m_shouldIncreaseFrequency) &&
+	   m_radioState == RadioState::Receive)
 	{
 		if(CheckFrequencyDelay(deltaTime))
 		{
@@ -88,10 +94,11 @@ void Radio::Draw()
 			throw exception("Invalid RadioState");
 	}
 	m_pScreenPrinter->Print(m_pScreen, "RadioState: ", radioStateStr, {0,0});
-	m_pScreenPrinter->Print(m_pScreen, "TextBoxAnimationState: ", RadioAnimationStateToString(m_textBoxAnimationState), {0,10});
-	m_pScreenPrinter->Print(m_pScreen, "TextAnimationState: ", RadioAnimationStateToString(m_textAnimationState), {0,20});
-	m_pScreenPrinter->Print(m_pScreen, "BarAnimationState: ", RadioAnimationStateToString(m_barAnimationState), {0,30});
-	m_pScreenPrinter->Print(m_pScreen, "m_text: ", m_text, {0,40});
+	m_pScreenPrinter->Print(m_pScreen, "TextBox AnimationState: ", RadioAnimationStateToString(m_textBoxAnimationState), {0,10});
+	m_pScreenPrinter->Print(m_pScreen, "Text AnimationState: ", RadioAnimationStateToString(m_textAnimationState), {0,20});
+	m_pScreenPrinter->Print(m_pScreen, "Bar AnimationState: ", RadioAnimationStateToString(m_barAnimationState), {0,30});
+	m_pScreenPrinter->Print(m_pScreen, "m text: ", m_text, {0,40});
+	m_pScreenPrinter->Print(m_pScreen, "m auto Back To Receive Remaining: ", m_autoBackToReceiveRemaining, {0,50});
 #endif
 
 	m_pStaticParts->Draw(m_pScreen, m_staticPartsPos.x, m_staticPartsPos.y);
@@ -250,6 +257,7 @@ void Radio::PlayTextBoxAnimation(float deltaTime)
 	if(m_textBoxScalePassed >= m_textBoxScaleDuration)
 	{
 		m_textBoxAnimationState = RadioAnimationState::Finished;
+		m_textBoxScalePassed = 0;
 		return;
 	}
 
@@ -302,4 +310,19 @@ void Radio::PlayTextAnimation(const string& referenceText, float deltaTime)
 
 	m_text += referenceText.at(m_textLastIndex);
 	m_textLastIndex++;
+}
+
+void Radio::WaitForAutoBackToReceive(float deltaTime)
+{
+	m_autoBackToReceiveRemaining -= deltaTime;
+	if(m_autoBackToReceiveRemaining < 0)
+	{
+		m_autoBackToReceiveRemaining = m_autoBackToReceiveDelay;
+		m_textBoxScale = m_textBoxScaleStart;
+		m_text = "";
+		m_textLastIndex = 0;
+		m_textAnimationState = RadioAnimationState::NotStarted;
+		m_textBoxAnimationState = RadioAnimationState::NotStarted;
+		m_radioState = RadioState::Receive;
+	}
 }

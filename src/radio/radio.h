@@ -70,6 +70,9 @@ private:
 	float m_textBoxScale = m_textBoxScaleStart;
 	float m_textBoxScalePassed = 0;
 
+	const float m_autoBackToReceiveDelay = 500;
+	float m_autoBackToReceiveRemaining = m_autoBackToReceiveDelay;
+
 	const float2 m_textPos = {250,325};
 	const float m_textAnimationDelay = 50;
 	float m_textAnimationDelayRemaining = 0;
@@ -91,11 +94,11 @@ private:
 	string RadioAnimationStateToString(RadioAnimationState radioAnimationState);
 #endif
 
-
 	bool CheckFrequencyDelay(float deltaTime);
 	void DecreaseFrequency();
 	void IncreaseFrequency();
 	void PlayTextBoxAnimation(float deltaTime);
 	void StartTextAnimation();
 	void PlayTextAnimation(const string& referenceText, float deltaTime);
+	void WaitForAutoBackToReceive(float deltaTime);
 };
