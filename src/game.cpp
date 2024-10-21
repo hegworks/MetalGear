@@ -36,7 +36,7 @@ void Game::Init()
 	m_loseScreen = new LoseScreen();
 	m_fontTextRenderer = new TextRenderer(screen, "assets/graphics/font.png", 41, 2, 4, FontTextRendererCharToIndex);
 	m_radio = new Radio(screen, m_fontTextRenderer);
-	m_gameStateManager = new GameStateManager(screen, m_winScreen, m_loseScreen, m_player, m_radio);
+	m_gameStateManager = new GameStateManager(screen, m_winScreen, m_loseScreen, m_player, m_radio, m_roomFinder);
 }
 
 void Game::Tick(const float deltaTime)

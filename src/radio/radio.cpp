@@ -35,6 +35,8 @@ void Radio::Tick(float deltaTime)
 {
 	if(m_isShowing == false) return;
 
+	CheckReceiveFrequency();
+
 	if(m_textBoxAnimationState == RadioAnimationState::Playing || m_textBoxAnimationState == RadioAnimationState::Started)
 	{
 		PlayTextBoxAnimation(deltaTime);
@@ -49,16 +51,24 @@ void Radio::Tick(float deltaTime)
 
 	if(m_textAnimationState == RadioAnimationState::Started || m_textAnimationState == RadioAnimationState::Playing)
 	{
-		PlayTextAnimation(m_receiveText, deltaTime);
+		if(m_radioState == RadioState::Send)
+		{
+			PlayTextAnimation(m_sendText, deltaTime);
+		}
+		else if(m_radioState == RadioState::Receive)
+		{
+			PlayTextAnimation(m_receiveTexts[m_receiveTextsIndex], deltaTime);
+		}
 	}
 
-	if(m_textAnimationState == RadioAnimationState::Finished)
+	if(m_radioState == RadioState::Send && m_textAnimationState == RadioAnimationState::Finished)
 	{
 		WaitForAutoBackToReceive(deltaTime);
 	}
 
 	if((m_shouldDecreaseFrequency || m_shouldIncreaseFrequency) &&
-	   m_radioState == RadioState::Receive)
+	   m_radioState == RadioState::Receive &&
+	   m_textAnimationState == RadioAnimationState::NotStarted)
 	{
 		if(CheckFrequencyDelay(deltaTime))
 		{
@@ -105,7 +115,7 @@ void Radio::Draw()
 	m_pBarEmpty->Draw(m_pScreen, m_barPos.x, m_barPos.y);
 
 	char frequency[40];
-	sprintf(frequency, "%s%d%d", m_frequencyPrefix.data(), m_frequency1, m_frequency0);
+	sprintf(frequency, "%s%d%d", m_frequencyPrefix.data(), m_frequency.x, m_frequency.y);
 	m_pFrequencyTR->DrawText(frequency, m_frequencyPos.x, m_frequencyPos.y, m_frequencyScale);
 
 	if(m_barFullCurrentFrame >= 0)
@@ -127,14 +137,16 @@ void Radio::Draw()
 	m_pFontTR->DrawText(m_text, m_textPos.x, m_textPos.y, m_textScale);
 }
 
-void Radio::Show()
+void Radio::Show(int roomNumber)
 {
+	m_roomNumber = roomNumber;
 	m_isShowing = true;
 }
 
 void Radio::Hide()
 {
 	m_isShowing = false;
+	SwitchToReceiveState();
 }
 
 void Radio::KeyDown(int glfwkey)
@@ -164,6 +176,20 @@ void Radio::KeyDown(int glfwkey)
 			if(m_radioState == RadioState::Send)
 			{
 				SwitchToReceiveState();
+			}
+			else if(m_radioState == RadioState::Receive && !m_shownTextOnceOnFrequency)
+			{
+				m_receiveTextsIndex++;
+				if(m_receiveTextsIndex == m_totalReceiveTexts)
+				{
+					m_shownTextOnceOnFrequency = true;
+					m_receiveTextsIndex = 0;
+					SwitchToReceiveState();
+				}
+				else
+				{
+					StartTextAnimation();
+				}
 			}
 			break;
 	}
@@ -225,32 +251,34 @@ bool Radio::CheckFrequencyDelay(float deltaTime)
 
 void Radio::DecreaseFrequency()
 {
-	m_frequency0--;
-	if(m_frequency0 == -1)
+	m_frequency.y--;
+	if(m_frequency.y == -1)
 	{
-		m_frequency0 = 9;
-		m_frequency1--;
-		if(m_frequency1 == -1)
+		m_frequency.y = 9;
+		m_frequency.x--;
+		if(m_frequency.x == -1)
 		{
-			m_frequency1 = 0;
-			m_frequency0 = 0;
+			m_frequency.x = 0;
+			m_frequency.y = 0;
 		}
 	}
+	m_shownTextOnceOnFrequency = false;
 }
 
 void Radio::IncreaseFrequency()
 {
-	m_frequency0++;
-	if(m_frequency0 == 10)
+	m_frequency.y++;
+	if(m_frequency.y == 10)
 	{
-		m_frequency0 = 0;
-		m_frequency1++;
-		if(m_frequency1 == 10)
+		m_frequency.y = 0;
+		m_frequency.x++;
+		if(m_frequency.x == 10)
 		{
-			m_frequency1 = 9;
-			m_frequency0 = 9;
+			m_frequency.x = 9;
+			m_frequency.y = 9;
 		}
 	}
+	m_shownTextOnceOnFrequency = false;
 }
 
 void Radio::PlayTextBoxAnimation(float deltaTime)
@@ -342,4 +370,17 @@ void Radio::SwitchToReceiveState()
 	m_textBoxAnimationState = RadioAnimationState::NotStarted;
 
 	m_radioState = RadioState::Receive;
+}
+
+void Radio::CheckReceiveFrequency()
+{
+	if(m_frequency == m_receiveCallFrequency &&
+	   m_roomNumber == m_receiveCallRoomNumber &&
+	   !m_shownTextOnceOnFrequency &&
+	   m_radioState == RadioState::Receive &&
+	   m_textBoxAnimationState == RadioAnimationState::NotStarted &&
+	   m_textAnimationState == RadioAnimationState::NotStarted)
+	{
+		m_textBoxAnimationState = RadioAnimationState::Started;
+	}
 }

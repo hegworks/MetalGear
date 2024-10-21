@@ -4,15 +4,17 @@
 #include "src/human/player/player.h"
 #include "src/managers/gamescreen/loseScreen.h"
 #include "src/managers/gamescreen/winScreen.h"
+#include "src/managers/room/roomFinder.h"
 #include "src/radio/radio.h"
 
-GameStateManager::GameStateManager(Surface* pScreen, WinScreen* pWinScreen, LoseScreen* pLoseScreen, Player* pPlayer, Radio* pRadio)
+GameStateManager::GameStateManager(Surface* pScreen, WinScreen* pWinScreen, LoseScreen* pLoseScreen, Player* pPlayer, Radio* pRadio, RoomFinder* pRoomFinder)
 {
 	m_pScreen = pScreen;
 	m_pWinScreen = pWinScreen;
 	m_pLoseScreen = pLoseScreen;
 	m_pPlayer = pPlayer;
-	m_radio = pRadio;
+	m_pRadio = pRadio;
+	m_pRoomFinder = pRoomFinder;
 }
 
 void GameStateManager::Tick(float deltaTime)
@@ -35,7 +37,7 @@ void GameStateManager::Tick(float deltaTime)
 		case GameState::Lose:
 			break;
 		case GameState::Radio:
-			m_radio->Tick(deltaTime);
+			m_pRadio->Tick(deltaTime);
 			break;
 		default:
 			throw exception("Invalid GameState");
@@ -56,7 +58,7 @@ void GameStateManager::Draw() const
 			m_pLoseScreen->Draw(m_pScreen);
 			break;
 		case GameState::Radio:
-			m_radio->Draw();
+			m_pRadio->Draw();
 			break;
 		default:
 			throw exception("Invalid GameState");
@@ -72,7 +74,7 @@ void GameStateManager::KeyDown(int glfwKey)
 		case GameState::Gameplay:
 			if(glfwKey == RADIO_KEY)
 			{
-				m_radio->Show();
+				m_pRadio->Show(m_pRoomFinder->GetCurrentLevelId());
 				m_gameState = GameState::Radio;
 			}
 			break;
@@ -86,7 +88,7 @@ void GameStateManager::KeyDown(int glfwKey)
 		case GameState::Radio:
 			if(glfwKey == RADIO_KEY)
 			{
-				m_radio->Hide();
+				m_pRadio->Hide();
 				m_gameState = GameState::Gameplay;
 			}
 			break;

@@ -12,7 +12,7 @@ public:
 	Radio(Surface* pScreen, TextRenderer* pFontTextRenderer);
 	void Tick(float deltaTime);
 	void Draw();
-	void Show();
+	void Show(int roomNumber);
 	void Hide();
 	void KeyDown(int glfwkey);
 	void KeyUp(int glfwkey);
@@ -57,8 +57,8 @@ private:
 	bool m_shouldIncreaseFrequency = false;
 	bool m_shouldDecreaseFrequency = false;
 
-	int m_frequency0 = 5;
-	int m_frequency1 = 6;
+	const int2 m_receiveCallFrequency = {8,5}; // 120.85
+	int2 m_frequency = m_receiveCallFrequency;
 
 	int m_barFullCurrentFrame = -1;
 
@@ -79,6 +79,9 @@ private:
 	float m_textAnimationDelayRemaining = 0;
 	const float m_textScale = 2;
 
+	const int m_receiveCallRoomNumber = 1;
+	int m_roomNumber = 0;
+
 	RadioEvents m_radioEvents = RadioEvents::None;
 	RadioState m_radioState = RadioState::Receive;
 
@@ -87,8 +90,16 @@ private:
 	RadioAnimationState m_barAnimationState = RadioAnimationState::NotStarted;
 
 	string m_text = {};
-	const string m_receiveText = "This is solid snake...\nYour reply, please.";
+	const string m_sendText = "This is solid snake...\nYour reply, please.";
+	const string m_receiveTexts[2] =
+	{
+		"This is big boss...\nmission\ngain access to\nthe enemy fortress,\nouter heaven.",
+		"take action not to be\ndiscovered by\nthe enemy.\n...over"
+	};
+	const int m_totalReceiveTexts = 2;
 	int m_textLastIndex = 0;
+	int m_receiveTextsIndex = 0;
+	bool m_shownTextOnceOnFrequency = false;
 
 #if _DEBUG
 	ScreenPrinter* m_pScreenPrinter = nullptr;
@@ -103,4 +114,5 @@ private:
 	void PlayTextAnimation(const string& referenceText, float deltaTime);
 	void WaitForAutoBackToReceive(float deltaTime);
 	void SwitchToReceiveState();
+	void CheckReceiveFrequency();
 };
