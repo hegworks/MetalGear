@@ -166,7 +166,7 @@ void Radio::KeyDown(int glfwkey)
 			m_frequencyChangeDelay = m_frequencyChangeDelayMax;
 			break;
 		case m_sendGlfwKey:
-			if(m_radioState == RadioState::Receive && m_textBoxAnimationState != RadioAnimationState::Playing)
+			if(m_radioState == RadioState::Receive && m_textAnimationState != RadioAnimationState::Playing)
 			{
 				m_radioState = RadioState::Send;
 				m_textBoxAnimationState = RadioAnimationState::Started;
