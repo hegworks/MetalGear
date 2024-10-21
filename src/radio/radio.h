@@ -22,6 +22,7 @@ private:
 	Sprite* m_pReceive = nullptr;
 	Sprite* m_pBarFull = nullptr;
 	Sprite* m_pBarEmpty = nullptr;
+	Sprite* m_pTextBox = nullptr;
 
 	TextRenderer* m_pFrequencyTR = nullptr;
 
@@ -42,18 +43,31 @@ private:
 
 	static constexpr int m_increaseFrequencyGlfwKey = GLFW_KEY_RIGHT;
 	static constexpr int m_decreaseFrequencyGlfwKey = GLFW_KEY_LEFT;
+	static constexpr int m_sendGlfwKey = GLFW_KEY_UP;
+	static constexpr int m_receiveGlfwKey = GLFW_KEY_DOWN;
 
 	bool m_isShow = false;
 	bool m_isSend = false;
 	bool m_shouldIncreaseFrequency = false;
 	bool m_shouldDecreaseFrequency = false;
+	bool m_isTextPlaying = false;
 
 	int m_frequency0 = 5;
 	int m_frequency1 = 6;
 
 	int m_barFullCurrentFrame = -1;
 
+	const float2 m_textBoxPosStart = {516,396};
+	const float2 m_textBoxPosEnd = {235,313};
+	const float m_textBoxScaleStart = 0;
+	const float m_textBoxScaleEnd = 1;
+	const float m_textBoxScaleDuration = 1500;
+	float2 m_textBoxPos = m_textBoxPosStart;
+	float m_textBoxScale = m_textBoxScaleStart;
+	float m_textBoxScalePassed = 0;
+
 	bool CheckFrequencyDelay(float deltaTime);
 	void DecreaseFrequency();
 	void IncreaseFrequency();
+	void PlaySendAnimation(float deltaTime);
 };

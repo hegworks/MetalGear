@@ -19,6 +19,7 @@ Radio::Radio(Surface* pScreen)
 	m_pReceive = new Sprite(new Surface("assets/graphics/radio/0000_receive.png"), 1);
 	m_pBarFull = new Sprite(new Surface("assets/graphics/radio/0000_bars_full.png"), m_barFullFrameCount);
 	m_pBarEmpty = new Sprite(new Surface("assets/graphics/radio/0000_bars_empty.png"), 1);
+	m_pTextBox = new Sprite(new Surface("assets/graphics/radio/textBox.png"), 1);
 
 	m_pFrequencyTR = new TextRenderer(m_pScreen, "assets/graphics/radio/radioNumbers.png", 11, 0, 0, FrequencyNumbersTextRendererCharToIndex);
 }
@@ -26,6 +27,12 @@ Radio::Radio(Surface* pScreen)
 void Radio::Tick(float deltaTime)
 {
 	if(m_isShow == false) return;
+
+	if(m_isSend)
+	{
+		PlaySendAnimation(deltaTime);
+		return;
+	}
 
 	if(m_shouldDecreaseFrequency || m_shouldIncreaseFrequency)
 	{
@@ -54,10 +61,12 @@ void Radio::Draw()
 	char frequency[2];
 	sprintf(frequency, "%s%d%d", m_frequencyPrefix.data(), m_frequency1, m_frequency0);
 	m_pFrequencyTR->DrawText(frequency, m_frequencyPos.x, m_frequencyPos.y, 3);
+
 	if(m_barFullCurrentFrame >= 0)
 	{
 		m_pBarFull->Draw(m_pScreen, m_barPos.x, m_barPos.y);
 	}
+
 	if(m_isSend)
 	{
 		m_pSend->Draw(m_pScreen, m_sendReceivePos.x, m_sendReceivePos.y);
@@ -66,6 +75,8 @@ void Radio::Draw()
 	{
 		m_pReceive->Draw(m_pScreen, m_sendReceivePos.x, m_sendReceivePos.y);
 	}
+
+	m_pTextBox->DrawScaled(m_textBoxPos.x, m_textBoxPos.y, m_pTextBox->GetWidth() * m_textBoxScale, m_pTextBox->GetHeight() * m_textBoxScale, m_pScreen);
 }
 
 void Radio::Show()
@@ -80,6 +91,8 @@ void Radio::Hide()
 
 void Radio::KeyDown(int glfwkey)
 {
+	if(!m_isShow) return;
+
 	switch(glfwkey)
 	{
 		case m_increaseFrequencyGlfwKey:
@@ -92,11 +105,19 @@ void Radio::KeyDown(int glfwkey)
 			m_frequencyChangeDelayRemaining = 0;
 			m_frequencyChangeDelay = m_frequencyChangeDelayMax;
 			break;
+		case m_sendGlfwKey:
+			if(!m_isTextPlaying)
+			{
+				m_isSend = true;
+			}
+			break;
 	}
 }
 
 void Radio::KeyUp(int glfwkey)
 {
+	if(!m_isShow) return;
+
 	switch(glfwkey)
 	{
 		case m_increaseFrequencyGlfwKey:
@@ -155,5 +176,26 @@ void Radio::IncreaseFrequency()
 			m_frequency1 = 9;
 			m_frequency0 = 9;
 		}
+	}
+}
+
+void Radio::PlaySendAnimation(float deltaTime)
+{
+	if(m_textBoxScalePassed >= m_textBoxScaleDuration)
+	{
+		return;
+	}
+
+	m_textBoxScale = lerp(m_textBoxScaleStart, m_textBoxScaleEnd, m_textBoxScalePassed / m_textBoxScaleDuration);
+	m_textBoxPos.x = lerp(m_textBoxPosStart.x, m_textBoxPosEnd.x, m_textBoxScalePassed / m_textBoxScaleDuration);
+	m_textBoxPos.y = lerp(m_textBoxPosStart.y, m_textBoxPosEnd.y, m_textBoxScalePassed / m_textBoxScaleDuration);
+
+	m_textBoxScalePassed += deltaTime;
+	if(m_textBoxScalePassed > m_textBoxScaleDuration)
+	{
+		m_textBoxScalePassed = m_textBoxScaleDuration;
+
+		m_textBoxScale = m_textBoxScaleEnd;
+		m_textBoxPos = m_textBoxPosEnd;
 	}
 }
