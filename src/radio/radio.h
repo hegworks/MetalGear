@@ -1,6 +1,5 @@
 ﻿#pragma once
 #include "RadioAnimationState.h"
-#include "RadioEvents.h"
 #include "radioState.h"
 
 class ScreenPrinter;
@@ -82,7 +81,6 @@ private:
 	const int m_receiveCallRoomNumber = 1;
 	int m_roomNumber = 0;
 
-	RadioEvents m_radioEvents = RadioEvents::None;
 	RadioState m_radioState = RadioState::Receive;
 
 	RadioAnimationState m_textBoxAnimationState = RadioAnimationState::NotStarted;
