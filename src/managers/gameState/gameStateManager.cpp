@@ -4,13 +4,15 @@
 #include "src/human/player/player.h"
 #include "src/managers/gamescreen/loseScreen.h"
 #include "src/managers/gamescreen/winScreen.h"
+#include "src/radio/radio.h"
 
-GameStateManager::GameStateManager(Surface* pScreen, WinScreen* pWinScreen, LoseScreen* pLoseScreen, Player* pPlayer)
+GameStateManager::GameStateManager(Surface* pScreen, WinScreen* pWinScreen, LoseScreen* pLoseScreen, Player* pPlayer, Radio* pRadio)
 {
 	m_pScreen = pScreen;
 	m_pWinScreen = pWinScreen;
 	m_pLoseScreen = pLoseScreen;
 	m_pPlayer = pPlayer;
+	m_radio = pRadio;
 }
 
 void GameStateManager::Tick(float deltaTime)
@@ -32,6 +34,9 @@ void GameStateManager::Tick(float deltaTime)
 		case GameState::Win:
 		case GameState::Lose:
 			break;
+		case GameState::Radio:
+			m_radio->Tick(deltaTime);
+			break;
 		default:
 			throw exception("Invalid GameState");
 	}
@@ -50,6 +55,9 @@ void GameStateManager::Draw() const
 		case GameState::Lose:
 			m_pLoseScreen->Draw(m_pScreen);
 			break;
+		case GameState::Radio:
+			m_radio->Draw();
+			break;
 		default:
 			throw exception("Invalid GameState");
 	}
@@ -57,20 +65,33 @@ void GameStateManager::Draw() const
 
 void GameStateManager::KeyDown(int glfwKey)
 {
-	if(glfwKey == RESTART_KEY)
+	switch(m_gameState)
 	{
-		switch(m_gameState)
-		{
-			case GameState::Intro:
-			case GameState::Gameplay:
-				break;
-			case GameState::Win:
-			case GameState::Lose:
+		case GameState::Intro:
+			break;
+		case GameState::Gameplay:
+			if(glfwKey == RADIO_KEY)
+			{
+				m_radio->Show();
+				m_gameState = GameState::Radio;
+			}
+			break;
+		case GameState::Win:
+		case GameState::Lose:
+			if(glfwKey == RESTART_KEY)
+			{
 				m_gameState = GameState::Intro;
-				break;
-			default:
-				throw exception("Invalid GameState");
-		}
+			}
+			break;
+		case GameState::Radio:
+			if(glfwKey == RADIO_KEY)
+			{
+				m_radio->Hide();
+				m_gameState = GameState::Gameplay;
+			}
+			break;
+		default:
+			throw exception("Invalid GameState");
 	}
 }
 

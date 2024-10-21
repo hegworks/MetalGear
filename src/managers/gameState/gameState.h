@@ -6,4 +6,5 @@ enum class GameState
 	Gameplay = 1,
 	Win = 2,
 	Lose = 3,
+	Radio = 4,
 };

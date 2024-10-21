@@ -33,12 +33,12 @@ int CharToIndexFont(char c)
 	throw exception("character not supported");
 }
 
-int CharToIndexRadioNumbers(char c)
-{
-	if(c >= '0' && c <= '9') return c - '0'; // 0-9
-	if(c == '.') return 10;
-	throw exception("character not supported");
-}
+//int CharToIndexRadioNumbers(char c)
+//{
+//	if(c >= '0' && c <= '9') return c - '0'; // 0-9
+//	if(c == '.') return 10;
+//	throw exception("character not supported");
+//}
 
 void Game::Init()
 {
@@ -54,10 +54,10 @@ void Game::Init()
 	m_enemySpawner = new EnemySpawner(screen, m_levelMaps, m_spriteStorage, m_player, m_bulletManager);
 	m_winScreen = new WinScreen();
 	m_loseScreen = new LoseScreen();
-	m_gameStateManager = new GameStateManager(screen, m_winScreen, m_loseScreen, m_player);
 	m_textRendererFont = new TextRenderer(screen, "assets/graphics/font.png", 41, 2, 3, CharToIndexFont);
-	m_textRendererRadioNumbers = new TextRenderer(screen, "assets/graphics/radioNumbers.png", 11, 0, 0, CharToIndexRadioNumbers);
+	//m_textRendererRadioNumbers = new TextRenderer(screen, "assets/graphics/radioNumbers.png", 11, 0, 0, CharToIndexRadioNumbers);
 	m_radio = new Radio(screen);
+	m_gameStateManager = new GameStateManager(screen, m_winScreen, m_loseScreen, m_player, m_radio);
 }
 
 void Game::Tick(const float deltaTime)
@@ -78,6 +78,10 @@ void Game::Tick(const float deltaTime)
 		case GameState::Gameplay:
 			// execute everything below the switch case
 			break;
+		case GameState::Radio:
+			m_gameStateManager->Tick(deltaTime);
+			m_gameStateManager->Draw();
+			return;
 		default:
 			throw exception("invalid game state");
 	}
@@ -136,6 +140,11 @@ void Game::KeyDown(const int glfwKey)
 	m_player->KeyDown(glfwKey);
 	m_gameStateManager->KeyDown(glfwKey);
 	m_radio->KeyDown(glfwKey);
+}
+
+void Game::KeyUp(int glfwKey)
+{
+	m_radio->KeyUp(glfwKey);
 }
 
 /*

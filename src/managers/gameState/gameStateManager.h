@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "gameState.h"
 
+class Radio;
 class LoseScreen;
 class Player;
 class WinScreen;
@@ -8,7 +9,7 @@ class WinScreen;
 class GameStateManager
 {
 public:
-	GameStateManager(Surface* pScreen, WinScreen* pWinScreen, LoseScreen* pLoseScreen, Player* pPlayer);
+	GameStateManager(Surface* pScreen, WinScreen* pWinScreen, LoseScreen* pLoseScreen, Player* pPlayer, Radio* pRadio);
 	void Tick(float deltaTime);
 	void Draw() const;
 	void KeyDown(int glfwKey);
@@ -24,6 +25,8 @@ private:
 	WinScreen* m_pWinScreen = nullptr;
 	LoseScreen* m_pLoseScreen = nullptr;
 	Player* m_pPlayer = nullptr;
+	Radio* m_radio = nullptr;
 
 	const int RESTART_KEY = GLFW_KEY_R;
+	const int RADIO_KEY = GLFW_KEY_F4;
 };
