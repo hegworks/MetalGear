@@ -46,6 +46,7 @@
     <ClCompile Include="src\managers\gamescreen\loseScreen.cpp" />
     <ClCompile Include="src\collider\pixelPerfect\pixelPerfectCollisionChecker.cpp" />
     <ClCompile Include="src\textRenderer\textRenderer.cpp" />
+    <ClCompile Include="src\radio\radio.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="template\common.h">
@@ -113,6 +114,10 @@
     <ClInclude Include="src\managers\gamescreen\loseScreen.h" />
     <ClInclude Include="src\collider\pixelPerfect\pixelPerfectCollisionChecker.h" />
     <ClInclude Include="src\textRenderer\textRenderer.h" />
+    <ClInclude Include="src\radio\radio.h" />
+    <ClInclude Include="src\radio\RadioEvents.h" />
+    <ClInclude Include="src\radio\RadioState.h" />
+    <ClInclude Include="src\radio\RadioAnimationState.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md">

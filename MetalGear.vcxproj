@@ -193,6 +193,9 @@
     <ClInclude Include="src\managers\room\roomChangeStorage.h" />
     <ClInclude Include="src\managers\gamescreen\winScreen.h" />
     <ClInclude Include="src\radio\radio.h" />
+    <ClInclude Include="src\radio\RadioAnimationState.h" />
+    <ClInclude Include="src\radio\RadioEvents.h" />
+    <ClInclude Include="src\radio\RadioState.h" />
     <ClInclude Include="src\spriteStorage\spriteData.h" />
     <ClInclude Include="src\spriteStorage\spriteStorage.h" />
     <ClInclude Include="src\spriteStorage\spriteType.h" />

@@ -2,6 +2,7 @@
 #include "radio.h"
 
 #include "src/textRenderer/textRenderer.h"
+#include "src/tools/screenPrinter.h"
 
 static constexpr int FrequencyNumbersTextRendererCharToIndex(char c)
 {
@@ -10,7 +11,7 @@ static constexpr int FrequencyNumbersTextRendererCharToIndex(char c)
 	throw exception("character not supported");
 }
 
-Radio::Radio(Surface* pScreen)
+Radio::Radio(Surface* pScreen, TextRenderer* pFontTextRenderer)
 {
 	m_pScreen = pScreen;
 
@@ -22,16 +23,33 @@ Radio::Radio(Surface* pScreen)
 	m_pTextBox = new Sprite(new Surface("assets/graphics/radio/textBox.png"), 1);
 
 	m_pFrequencyTR = new TextRenderer(m_pScreen, "assets/graphics/radio/radioNumbers.png", 11, 0, 0, FrequencyNumbersTextRendererCharToIndex);
+	m_pFontTR = pFontTextRenderer;
+
+#ifdef _DEBUG
+	m_pScreenPrinter = new ScreenPrinter();
+#endif
+
 }
 
 void Radio::Tick(float deltaTime)
 {
-	if(m_isShow == false) return;
+	if(m_isShowing == false) return;
 
-	if(m_isSend)
+	if(m_textBoxAnimationState == RadioAnimationState::Playing || m_textBoxAnimationState == RadioAnimationState::Started)
 	{
-		PlaySendAnimation(deltaTime);
+		PlayTextBoxAnimation(deltaTime);
 		return;
+	}
+
+	if(m_textBoxAnimationState == RadioAnimationState::Finished)
+	{
+		StartTextAnimation();
+		m_textBoxAnimationState = RadioAnimationState::NotStarted;
+	}
+
+	if(m_textAnimationState == RadioAnimationState::Started || m_textAnimationState == RadioAnimationState::Playing)
+	{
+		PlayTextAnimation(m_receiveText, deltaTime);
 	}
 
 	if(m_shouldDecreaseFrequency || m_shouldIncreaseFrequency)
@@ -52,46 +70,69 @@ void Radio::Tick(float deltaTime)
 
 void Radio::Draw()
 {
-	if(m_isShow == false) return;
+	if(m_isShowing == false) return;
 
 	m_pScreen->Clear(0);
+
+#ifdef _DEBUG
+	string radioStateStr = "";
+	switch(m_radioState)
+	{
+		case RadioState::Receive:
+			radioStateStr = "Receive";
+			break;
+		case RadioState::Send:
+			radioStateStr = "Send";
+			break;
+		default:
+			throw exception("Invalid RadioState");
+	}
+	m_pScreenPrinter->Print(m_pScreen, "RadioState: ", radioStateStr, {0,0});
+	m_pScreenPrinter->Print(m_pScreen, "TextBoxAnimationState: ", RadioAnimationStateToString(m_textBoxAnimationState), {0,10});
+	m_pScreenPrinter->Print(m_pScreen, "TextAnimationState: ", RadioAnimationStateToString(m_textAnimationState), {0,20});
+	m_pScreenPrinter->Print(m_pScreen, "BarAnimationState: ", RadioAnimationStateToString(m_barAnimationState), {0,30});
+	m_pScreenPrinter->Print(m_pScreen, "m_text: ", m_text, {0,40});
+#endif
+
 	m_pStaticParts->Draw(m_pScreen, m_staticPartsPos.x, m_staticPartsPos.y);
 	m_pBarEmpty->Draw(m_pScreen, m_barPos.x, m_barPos.y);
 
-	char frequency[2];
+	char frequency[40];
 	sprintf(frequency, "%s%d%d", m_frequencyPrefix.data(), m_frequency1, m_frequency0);
-	m_pFrequencyTR->DrawText(frequency, m_frequencyPos.x, m_frequencyPos.y, 3);
+	m_pFrequencyTR->DrawText(frequency, m_frequencyPos.x, m_frequencyPos.y, m_frequencyScale);
 
 	if(m_barFullCurrentFrame >= 0)
 	{
 		m_pBarFull->Draw(m_pScreen, m_barPos.x, m_barPos.y);
 	}
 
-	if(m_isSend)
+	if(m_radioState == RadioState::Send)
 	{
 		m_pSend->Draw(m_pScreen, m_sendReceivePos.x, m_sendReceivePos.y);
 	}
-	else
+	else if(m_radioState == RadioState::Receive)
 	{
 		m_pReceive->Draw(m_pScreen, m_sendReceivePos.x, m_sendReceivePos.y);
 	}
 
 	m_pTextBox->DrawScaled(m_textBoxPos.x, m_textBoxPos.y, m_pTextBox->GetWidth() * m_textBoxScale, m_pTextBox->GetHeight() * m_textBoxScale, m_pScreen);
+
+	m_pFontTR->DrawText(m_text, m_textPos.x, m_textPos.y, m_textScale);
 }
 
 void Radio::Show()
 {
-	m_isShow = true;
+	m_isShowing = true;
 }
 
 void Radio::Hide()
 {
-	m_isShow = false;
+	m_isShowing = false;
 }
 
 void Radio::KeyDown(int glfwkey)
 {
-	if(!m_isShow) return;
+	if(!m_isShowing) return;
 
 	switch(glfwkey)
 	{
@@ -106,9 +147,10 @@ void Radio::KeyDown(int glfwkey)
 			m_frequencyChangeDelay = m_frequencyChangeDelayMax;
 			break;
 		case m_sendGlfwKey:
-			if(!m_isTextPlaying)
+			if(m_radioState == RadioState::Receive && m_textBoxAnimationState != RadioAnimationState::Playing)
 			{
-				m_isSend = true;
+				m_radioState = RadioState::Send;
+				m_textBoxAnimationState = RadioAnimationState::Started;
 			}
 			break;
 	}
@@ -116,7 +158,7 @@ void Radio::KeyDown(int glfwkey)
 
 void Radio::KeyUp(int glfwkey)
 {
-	if(!m_isShow) return;
+	if(!m_isShowing) return;
 
 	switch(glfwkey)
 	{
@@ -132,6 +174,25 @@ void Radio::KeyUp(int glfwkey)
 			break;
 	}
 }
+
+#ifdef _DEBUG
+string Radio::RadioAnimationStateToString(RadioAnimationState radioAnimationState)
+{
+	switch(radioAnimationState)
+	{
+		case RadioAnimationState::NotStarted:
+			return "NotStarted";
+		case RadioAnimationState::Started:
+			return "Started";
+		case RadioAnimationState::Playing:
+			return "Playing";
+		case RadioAnimationState::Finished:
+			return "Finished";
+		default:
+			throw exception("Invalid AnimationState");
+	}
+}
+#endif
 
 bool Radio::CheckFrequencyDelay(float deltaTime)
 {
@@ -179,12 +240,20 @@ void Radio::IncreaseFrequency()
 	}
 }
 
-void Radio::PlaySendAnimation(float deltaTime)
+void Radio::PlayTextBoxAnimation(float deltaTime)
 {
-	if(m_textBoxScalePassed >= m_textBoxScaleDuration)
+	if(m_textBoxAnimationState == RadioAnimationState::Finished)
 	{
 		return;
 	}
+
+	if(m_textBoxScalePassed >= m_textBoxScaleDuration)
+	{
+		m_textBoxAnimationState = RadioAnimationState::Finished;
+		return;
+	}
+
+	m_textBoxAnimationState = RadioAnimationState::Playing;
 
 	m_textBoxScale = lerp(m_textBoxScaleStart, m_textBoxScaleEnd, m_textBoxScalePassed / m_textBoxScaleDuration);
 	m_textBoxPos.x = lerp(m_textBoxPosStart.x, m_textBoxPosEnd.x, m_textBoxScalePassed / m_textBoxScaleDuration);
@@ -198,4 +267,39 @@ void Radio::PlaySendAnimation(float deltaTime)
 		m_textBoxScale = m_textBoxScaleEnd;
 		m_textBoxPos = m_textBoxPosEnd;
 	}
+}
+
+void Radio::StartTextAnimation()
+{
+	m_text = "";
+	m_textLastIndex = 0;
+	m_textAnimationState = RadioAnimationState::Started;
+}
+
+void Radio::PlayTextAnimation(const string& referenceText, float deltaTime)
+{
+	if(m_textAnimationState == RadioAnimationState::Finished)
+	{
+		return;
+	}
+
+	const int maxIndex = referenceText.length();
+
+	if(m_textLastIndex == maxIndex)
+	{
+		m_textAnimationState = RadioAnimationState::Finished;
+		return;
+	}
+
+	m_textAnimationState = RadioAnimationState::Playing;
+
+	if(m_textAnimationDelayRemaining > 0)
+	{
+		m_textAnimationDelayRemaining -= deltaTime;
+		return;
+	}
+	m_textAnimationDelayRemaining = m_textAnimationDelay;
+
+	m_text += referenceText.at(m_textLastIndex);
+	m_textLastIndex++;
 }

@@ -59,11 +59,23 @@ private:
 	WinScreen* m_winScreen = nullptr;
 	LoseScreen* m_loseScreen = nullptr;
 	PixelPerfectCollisionChecker* m_pixelPerfectCollisionChecker = nullptr;
-	TextRenderer* m_textRendererFont = nullptr;
-	TextRenderer* m_textRendererRadioNumbers = nullptr;
+	TextRenderer* m_fontTextRenderer = nullptr;
 	Radio* m_radio = nullptr;
 
 	void ChangeRoom(const RoomChangeType roomChangeType = RoomChangeType::None);
+
+	static constexpr int FontTextRendererCharToIndex(char c)
+	{
+		if(c >= 'a' && c <= 'z') return c - 'a'; // 0-25
+		if(c >= 'A' && c <= 'Z') return c - 'A'; // 0-25
+		if(c >= '0' && c <= '9') return c - '0' + 26; // 26-35
+		if(c == '*') return 35 + 1;
+		if(c == '>') return 35 + 2;
+		if(c == ',') return 35 + 3;
+		if(c == '.') return 35 + 4;
+		if(c == ' ') return 35 + 5;
+		throw exception("character not supported");
+	}
 };
 
 } // namespace Tmpl8
