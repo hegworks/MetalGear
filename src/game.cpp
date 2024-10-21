@@ -49,7 +49,7 @@ void Game::Tick(const float deltaTime)
 			return;
 		case GameState::Intro:
 			//TODO play the real intro
-			m_roomFinder->SetCurrentLevelId(2);
+			m_roomFinder->SetCurrentLevelId(1);
 			ChangeRoom();
 			m_player->Reset();
 			m_gameStateManager->IntroFinished();

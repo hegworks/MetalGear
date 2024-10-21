@@ -18,7 +18,7 @@ Radio::Radio(Surface* pScreen, TextRenderer* pFontTextRenderer)
 	m_pStaticParts = new Sprite(new Surface("assets/graphics/radio/0000_radio_static.png"), 1);
 	m_pSend = new Sprite(new Surface("assets/graphics/radio/0000_send.png"), 1);
 	m_pReceive = new Sprite(new Surface("assets/graphics/radio/0000_receive.png"), 1);
-	m_pBarFull = new Sprite(new Surface("assets/graphics/radio/0000_bars_full.png"), m_barFullFrameCount);
+	m_pBarFull = new Sprite(new Surface("assets/graphics/radio/0001_bars_full.png"), m_barTotalFrameCount);
 	m_pBarEmpty = new Sprite(new Surface("assets/graphics/radio/0000_bars_empty.png"), 1);
 	m_pTextBox = new Sprite(new Surface("assets/graphics/radio/textBox.png"), 1);
 
@@ -36,6 +36,18 @@ void Radio::Tick(float deltaTime)
 	if(m_isShowing == false) return;
 
 	CheckReceiveFrequency();
+
+	if(m_barAnimationState == RadioAnimationState::Playing || m_barAnimationState == RadioAnimationState::Started)
+	{
+		PlayBarAnimation(deltaTime);
+		return;
+	}
+
+	if(m_barAnimationState == RadioAnimationState::Finished)
+	{
+		StartTextBoxAnimation();
+		m_barAnimationState = RadioAnimationState::NotStarted;
+	}
 
 	if(m_textBoxAnimationState == RadioAnimationState::Playing || m_textBoxAnimationState == RadioAnimationState::Started)
 	{
@@ -103,12 +115,14 @@ void Radio::Draw()
 		default:
 			throw exception("Invalid RadioState");
 	}
-	m_pScreenPrinter->Print(m_pScreen, "RadioState: ", radioStateStr, {0,0});
-	m_pScreenPrinter->Print(m_pScreen, "TextBox AnimationState: ", RadioAnimationStateToString(m_textBoxAnimationState), {0,10});
-	m_pScreenPrinter->Print(m_pScreen, "Text AnimationState: ", RadioAnimationStateToString(m_textAnimationState), {0,20});
-	m_pScreenPrinter->Print(m_pScreen, "Bar AnimationState: ", RadioAnimationStateToString(m_barAnimationState), {0,30});
-	m_pScreenPrinter->Print(m_pScreen, "m text: ", m_text, {0,40});
+	m_pScreenPrinter->Print(m_pScreen, "m text: ", m_text, {0,0});
+	m_pScreenPrinter->Print(m_pScreen, "RadioState: ", radioStateStr, {0,10});
+	m_pScreenPrinter->Print(m_pScreen, "TextBox AnimationState: ", RadioAnimationStateToString(m_textBoxAnimationState), {0,20});
+	m_pScreenPrinter->Print(m_pScreen, "Text AnimationState: ", RadioAnimationStateToString(m_textAnimationState), {0,30});
+	m_pScreenPrinter->Print(m_pScreen, "Bar AnimationState: ", RadioAnimationStateToString(m_barAnimationState), {0,40});
 	m_pScreenPrinter->Print(m_pScreen, "m auto Back To Receive Remaining: ", m_autoBackToReceiveRemaining, {0,50});
+	m_pScreenPrinter->Print(m_pScreen, "m bar Animation Remaining: ", m_barAnimationRemaining, {0,60});
+	m_pScreenPrinter->Print(m_pScreen, "m bar Animation Current Frame: ", m_barAnimationCurrentFrame, {0,70});
 #endif
 
 	m_pStaticParts->Draw(m_pScreen, m_staticPartsPos.x, m_staticPartsPos.y);
@@ -118,7 +132,7 @@ void Radio::Draw()
 	sprintf(frequency, "%s%d%d", m_frequencyPrefix.data(), m_frequency.x, m_frequency.y);
 	m_pFrequencyTR->DrawText(frequency, m_frequencyPos.x, m_frequencyPos.y, m_frequencyScale);
 
-	if(m_barFullCurrentFrame >= 0)
+	if(m_barAnimationCurrentFrame >= 0)
 	{
 		m_pBarFull->Draw(m_pScreen, m_barPos.x, m_barPos.y);
 	}
@@ -166,10 +180,13 @@ void Radio::KeyDown(int glfwkey)
 			m_frequencyChangeDelay = m_frequencyChangeDelayMax;
 			break;
 		case m_sendGlfwKey:
-			if(m_radioState == RadioState::Receive && m_textAnimationState != RadioAnimationState::Playing)
+			if(m_radioState == RadioState::Receive &&
+			   m_textAnimationState != RadioAnimationState::Playing
+			   && m_barAnimationState != RadioAnimationState::Playing &&
+			   m_textBoxAnimationState != RadioAnimationState::Playing)
 			{
 				m_radioState = RadioState::Send;
-				m_textBoxAnimationState = RadioAnimationState::Started;
+				StartTextBoxAnimation();
 			}
 			break;
 		case m_skipGlfwKey:
@@ -177,7 +194,8 @@ void Radio::KeyDown(int glfwkey)
 			{
 				SwitchToReceiveState();
 			}
-			else if(m_radioState == RadioState::Receive && !m_shownTextOnceOnFrequency && m_textAnimationState == RadioAnimationState::Playing)
+			else if(m_radioState == RadioState::Receive && !m_shownTextOnceOnFrequency &&
+					(m_textAnimationState == RadioAnimationState::Playing || m_textAnimationState == RadioAnimationState::Finished))
 			{
 				m_receiveTextsIndex++;
 				if(m_receiveTextsIndex == m_totalReceiveTexts)
@@ -281,6 +299,13 @@ void Radio::IncreaseFrequency()
 	m_shownTextOnceOnFrequency = false;
 }
 
+void Radio::StartTextBoxAnimation()
+{
+	m_textBoxScale = m_textBoxScaleStart;
+	m_textBoxScalePassed = 0;
+	m_textBoxAnimationState = RadioAnimationState::Started;
+}
+
 void Radio::PlayTextBoxAnimation(float deltaTime)
 {
 	if(m_textBoxAnimationState == RadioAnimationState::Finished)
@@ -366,6 +391,9 @@ void Radio::SwitchToReceiveState()
 
 	m_autoBackToReceiveRemaining = m_autoBackToReceiveDelay;
 
+	m_barAnimationCurrentFrame = -1;
+	m_pBarFull->SetFrame(0);
+
 	m_textAnimationState = RadioAnimationState::NotStarted;
 	m_textBoxAnimationState = RadioAnimationState::NotStarted;
 
@@ -378,9 +406,47 @@ void Radio::CheckReceiveFrequency()
 	   m_roomNumber == m_receiveCallRoomNumber &&
 	   !m_shownTextOnceOnFrequency &&
 	   m_radioState == RadioState::Receive &&
+	   m_barAnimationState == RadioAnimationState::NotStarted &&
 	   m_textBoxAnimationState == RadioAnimationState::NotStarted &&
 	   m_textAnimationState == RadioAnimationState::NotStarted)
 	{
-		m_textBoxAnimationState = RadioAnimationState::Started;
+		StartBarAnimation();
 	}
+}
+
+void Radio::StartBarAnimation()
+{
+	m_barAnimationCurrentFrame = -1;
+	m_barAnimationRemaining = 0;
+	m_barAnimationState = RadioAnimationState::Started;
+}
+
+void Radio::PlayBarAnimation(float deltaTime)
+{
+	if(m_barAnimationState == RadioAnimationState::Finished)
+	{
+		return;
+	}
+
+	if(m_barAnimationCurrentFrame == m_barTotalFrameCount - 1)
+	{
+		m_barAnimationState = RadioAnimationState::Finished;
+		return;
+	}
+
+	m_barAnimationState = RadioAnimationState::Playing;
+
+	if(m_barAnimationRemaining > 0)
+	{
+		m_barAnimationRemaining -= deltaTime;
+		return;
+	}
+	m_barAnimationRemaining = m_barAnimationDelay;
+
+	m_barAnimationCurrentFrame++;
+	if(m_barAnimationCurrentFrame == m_barTotalFrameCount)
+	{
+		m_barAnimationCurrentFrame = m_barTotalFrameCount - 1;
+	}
+	m_pBarFull->SetFrame(m_barAnimationCurrentFrame);
 }

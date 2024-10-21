@@ -38,7 +38,10 @@ private:
 
 	const string m_frequencyPrefix = "120.";
 
-	const int m_barFullFrameCount = 12;
+	const int m_barTotalFrameCount = 12;
+	int m_barAnimationCurrentFrame = -1;
+	const float m_barAnimationDelay = 50;
+	float m_barAnimationRemaining = 0;
 
 	const float m_frequencyChangeDelayMax = 200;
 	const float m_frequencyChangeDelayMin = 20;
@@ -58,8 +61,6 @@ private:
 
 	const int2 m_receiveCallFrequency = {8,5}; // 120.85
 	int2 m_frequency = m_receiveCallFrequency;
-
-	int m_barFullCurrentFrame = -1;
 
 	const float2 m_textBoxPosStart = {516,396};
 	const float2 m_textBoxPosEnd = {235,313};
@@ -107,10 +108,13 @@ private:
 	bool CheckFrequencyDelay(float deltaTime);
 	void DecreaseFrequency();
 	void IncreaseFrequency();
+	void StartTextBoxAnimation();
 	void PlayTextBoxAnimation(float deltaTime);
 	void StartTextAnimation();
 	void PlayTextAnimation(const string& referenceText, float deltaTime);
 	void WaitForAutoBackToReceive(float deltaTime);
 	void SwitchToReceiveState();
 	void CheckReceiveFrequency();
+	void StartBarAnimation();
+	void PlayBarAnimation(float deltaTime);
 };
