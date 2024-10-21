@@ -160,6 +160,12 @@ void Radio::KeyDown(int glfwkey)
 				m_textBoxAnimationState = RadioAnimationState::Started;
 			}
 			break;
+		case m_skipGlfwKey:
+			if(m_radioState == RadioState::Send)
+			{
+				SwitchToReceiveState();
+			}
+			break;
 	}
 }
 
@@ -318,11 +324,22 @@ void Radio::WaitForAutoBackToReceive(float deltaTime)
 	if(m_autoBackToReceiveRemaining < 0)
 	{
 		m_autoBackToReceiveRemaining = m_autoBackToReceiveDelay;
-		m_textBoxScale = m_textBoxScaleStart;
-		m_text = "";
-		m_textLastIndex = 0;
-		m_textAnimationState = RadioAnimationState::NotStarted;
-		m_textBoxAnimationState = RadioAnimationState::NotStarted;
-		m_radioState = RadioState::Receive;
+		SwitchToReceiveState();
 	}
+}
+
+void Radio::SwitchToReceiveState()
+{
+	m_textBoxScale = m_textBoxScaleStart;
+	m_textBoxScalePassed = 0;
+
+	m_text = "";
+	m_textLastIndex = 0;
+
+	m_autoBackToReceiveRemaining = m_autoBackToReceiveDelay;
+
+	m_textAnimationState = RadioAnimationState::NotStarted;
+	m_textBoxAnimationState = RadioAnimationState::NotStarted;
+
+	m_radioState = RadioState::Receive;
 }

@@ -51,6 +51,7 @@ private:
 	static constexpr int m_decreaseFrequencyGlfwKey = GLFW_KEY_LEFT;
 	static constexpr int m_sendGlfwKey = GLFW_KEY_UP;
 	static constexpr int m_receiveGlfwKey = GLFW_KEY_DOWN;
+	static constexpr int m_skipGlfwKey = GLFW_KEY_ENTER;
 
 	bool m_isShowing = false;
 	bool m_shouldIncreaseFrequency = false;
@@ -101,4 +102,5 @@ private:
 	void StartTextAnimation();
 	void PlayTextAnimation(const string& referenceText, float deltaTime);
 	void WaitForAutoBackToReceive(float deltaTime);
+	void SwitchToReceiveState();
 };
