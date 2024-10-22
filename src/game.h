@@ -3,8 +3,6 @@
 // IGAD/NHTV/BUAS/UU - Jacco Bikker - 2006-2024
 
 #pragma once
-#include "managers/room/roomChangeType.h"
-
 class TextRenderer;
 class Radio;
 class PixelPerfectCollisionChecker;
@@ -47,8 +45,6 @@ private:
 	TileSet* m_tileSet = nullptr;
 	TileMap* m_tileMap = nullptr;
 	LevelMaps* m_levelMaps = nullptr;
-	int** m_currentLevelTiles = nullptr;
-	int** m_currentLevelColliders = nullptr;
 	Player* m_player = nullptr;
 	RoomFinder* m_roomFinder = nullptr;
 	RoomChangeStorage* m_roomChangeStorage = nullptr;
@@ -62,13 +58,11 @@ private:
 	TextRenderer* m_fontTextRenderer = nullptr;
 	Radio* m_radio = nullptr;
 
-	void ChangeRoom(const RoomChangeType roomChangeType = RoomChangeType::None);
-
-
 	/* this function here and in this form (static constexpr), has the best place and form in my opinion.
 	 * because first this is the game.h and is/will not be included in any other file.
 	 * and second, this is a function which is being passed as an argument to another function (constructor of TextRenderer). so it really needs to be the same across all instances of this class.
 	 * we have the same thing but a bit different in the radio.cpp
+	 * and third, game.h exists through the whole session anyway, and this function is the same.
 	 */
 	static constexpr int FontTextRendererCharToIndex(char c)
 	{
