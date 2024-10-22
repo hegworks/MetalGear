@@ -169,6 +169,7 @@ void GameStateManager::ChangeGameStateBasedOnReports()
 	{
 		case GameState::Intro:
 			//TODO play the real intro
+			// if intro finished:
 			m_pRoomFinder->SetCurrentLevelId(1);
 			ChangeRoom();
 			m_pPlayer->Reset();
