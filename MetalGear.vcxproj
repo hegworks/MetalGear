@@ -122,6 +122,7 @@
   <!-- END Custom section -->
   <ItemGroup>
     <ClCompile Include="src\audio\audioManager.cpp" />
+    <ClCompile Include="src\audio\audioPlayer.cpp" />
     <ClCompile Include="src\bullet\bullet.cpp" />
     <ClCompile Include="src\collider\aabb\aabb.cpp" />
     <ClCompile Include="src\collider\aabb\boxAabb\boxAabb.cpp" />
@@ -165,7 +166,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cl\tools.cl" />
+    <ClInclude Include="src\audio\audioData.h" />
     <ClInclude Include="src\audio\audioManager.h" />
+    <ClInclude Include="src\audio\audioPlayer.h" />
+    <ClInclude Include="src\audio\audioType.h" />
     <ClInclude Include="src\bullet\bullet.h" />
     <ClInclude Include="src\collider\aabb\aabb.h" />
     <ClInclude Include="src\collider\aabb\boxAabb\boxAabb.h" />

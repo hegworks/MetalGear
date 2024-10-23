@@ -47,6 +47,8 @@
     <ClCompile Include="src\collider\pixelPerfect\pixelPerfectCollisionChecker.cpp" />
     <ClCompile Include="src\textRenderer\textRenderer.cpp" />
     <ClCompile Include="src\radio\radio.cpp" />
+    <ClCompile Include="src\audio\audioPlayer.cpp" />
+    <ClCompile Include="src\audio\audioManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="template\common.h">
@@ -117,6 +119,10 @@
     <ClInclude Include="src\radio\radio.h" />
     <ClInclude Include="src\radio\RadioState.h" />
     <ClInclude Include="src\radio\RadioAnimationState.h" />
+    <ClInclude Include="src\audio\audioPlayer.h" />
+    <ClInclude Include="src\audio\audioType.h" />
+    <ClInclude Include="src\audio\audioData.h" />
+    <ClInclude Include="src\audio\audioManager.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md">

@@ -3,6 +3,8 @@
 // IGAD/NHTV/BUAS/UU - Jacco Bikker - 2006-2024
 
 #pragma once
+class AudioManager;
+class AudioPlayer;
 class TextRenderer;
 class Radio;
 class PixelPerfectCollisionChecker;
@@ -57,6 +59,8 @@ private:
 	PixelPerfectCollisionChecker* m_pixelPerfectCollisionChecker = nullptr;
 	TextRenderer* m_fontTextRenderer = nullptr;
 	Radio* m_radio = nullptr;
+	AudioPlayer* m_audioPlayer = nullptr;
+	AudioManager* m_audioManager = nullptr;
 
 	/* this function here and in this form (static constexpr), has the best place and form in my opinion.
 	 * because first this is the game.h and is/will not be included in any other file.

@@ -5,6 +5,9 @@
 #include "precomp.h"
 #include "game.h"
 
+#include "audio/audioManager.h"
+#include "audio/AudioPlayer.h"
+#include "audio/audioType.h"
 #include "collider/pixelPerfect/pixelPerfectCollisionChecker.h"
 #include "human/player/player.h"
 #include "managers/bullet/bulletManager.h"
@@ -19,7 +22,6 @@
 #include "textRenderer/textRenderer.h"
 #include "tile/tileMap.h"
 #include "tile/tileSet.h"
-#include <Audio/Sound.hpp>
 
 void Game::Init()
 {
@@ -32,14 +34,14 @@ void Game::Init()
 	m_player = new Player(screen, m_levelMaps, m_spriteStorage);
 	m_pixelPerfectCollisionChecker = new PixelPerfectCollisionChecker(screen);
 	m_bulletManager = new BulletManager(screen, m_levelMaps, m_player, m_spriteStorage, m_pixelPerfectCollisionChecker);
-	m_enemySpawner = new EnemySpawner(screen, m_levelMaps, m_spriteStorage, m_player, m_bulletManager);
 	m_winScreen = new WinScreen();
 	m_loseScreen = new LoseScreen();
 	m_fontTextRenderer = new TextRenderer(screen, "assets/graphics/font.png", 41, 1, 4, FontTextRendererCharToIndex);
 	m_radio = new Radio(screen, m_fontTextRenderer);
-	m_gameStateManager = new GameStateManager(screen, m_winScreen, m_loseScreen, m_player, m_radio, m_roomFinder, m_levelMaps, m_enemySpawner, m_tileMap, m_bulletManager);
-	Audio::Sound* test = new Audio::Sound("assets/audio/test.wav", Audio::Sound::Type::Sound);
-	test->play();
+	m_audioPlayer = new AudioPlayer();
+	m_audioManager = new AudioManager(m_audioPlayer);
+	m_enemySpawner = new EnemySpawner(screen, m_levelMaps, m_spriteStorage, m_player, m_bulletManager, m_audioManager);
+	m_gameStateManager = new GameStateManager(screen, m_winScreen, m_loseScreen, m_player, m_radio, m_roomFinder, m_levelMaps, m_enemySpawner, m_tileMap, m_bulletManager, m_audioManager);
 }
 
 void Game::Tick(const float deltaTime)

@@ -1,6 +1,7 @@
 ﻿#include "precomp.h"
 #include "gameStateManager.h"
 
+#include "src/audio/audioManager.h"
 #include "src/human/player/player.h"
 #include "src/managers/bullet/bulletManager.h"
 #include "src/managers/enemy/enemySpawner.h"
@@ -11,7 +12,7 @@
 #include "src/tile/levelMap/levelMaps.h"
 #include "src/tile/tileMap.h"
 
-GameStateManager::GameStateManager(Surface* pScreen, WinScreen* pWinScreen, LoseScreen* pLoseScreen, Player* pPlayer, Radio* pRadio, RoomFinder* pRoomFinder, LevelMaps* pLevelMaps, EnemySpawner* pEnemySpawner, TileMap* pTileMap, BulletManager* pBulletManager)
+GameStateManager::GameStateManager(Surface* pScreen, WinScreen* pWinScreen, LoseScreen* pLoseScreen, Player* pPlayer, Radio* pRadio, RoomFinder* pRoomFinder, LevelMaps* pLevelMaps, EnemySpawner* pEnemySpawner, TileMap* pTileMap, BulletManager* pBulletManager, AudioManager* pAudioManager)
 {
 	m_pScreen = pScreen;
 	m_pWinScreen = pWinScreen;
@@ -23,6 +24,7 @@ GameStateManager::GameStateManager(Surface* pScreen, WinScreen* pWinScreen, Lose
 	m_pEnemySpawner = pEnemySpawner;
 	m_pTileMap = pTileMap;
 	m_pBulletManager = pBulletManager;
+	m_pAudioManager = pAudioManager;
 }
 
 void GameStateManager::Tick(float deltaTime)
@@ -276,6 +278,8 @@ void GameStateManager::ChangeRoom(const RoomChangeType roomChangeType)
 	m_pLevelMaps->SetCurrentLevelId(m_pRoomFinder->GetCurrentLevelId());
 	m_ppCurrentLevelTiles = m_pLevelMaps->GetLevelMapPointers();
 	m_ppCurrentLevelColliders = m_pLevelMaps->GetLevelColliderPointers();
+	m_pEnemySpawner->RoomChanged();
 	m_pEnemySpawner->Spawn();
 	m_pBulletManager->RoomChanged();
+	m_pAudioManager->RoomChanged();
 }

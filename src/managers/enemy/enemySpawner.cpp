@@ -1,34 +1,48 @@
 ﻿#include "precomp.h"
 #include "enemySpawner.h"
 
+#include "src/audio/audioManager.h"
 #include "src/tile/levelMap/levelMaps.h"
 #include "src/tile/tileSet.h"
 
-EnemySpawner::EnemySpawner(Surface* pScreen, LevelMaps* pLevelMaps, SpriteStorage* pSpriteStorage, Player* pPlayer, BulletManager* pBulletManager)
+EnemySpawner::EnemySpawner(Surface* pScreen, LevelMaps* pLevelMaps, SpriteStorage* pSpriteStorage, Player* pPlayer, BulletManager* pBulletManager, AudioManager* pAudioManager)
 {
 	m_screen = pScreen;
 	m_levelMaps = pLevelMaps;
 	m_spriteStorage = pSpriteStorage;
 	m_player = pPlayer;
 	m_bulletManager = pBulletManager;
+	m_audioManager = pAudioManager;
 }
 
-void EnemySpawner::Tick(const float deltaTime) const
+void EnemySpawner::Tick(const float deltaTime)
 {
-	bool isOneEnemyAlerted = false;
-	for(int i = 0; i < m_enemyCount; ++i)
+	if(!m_hasAlertedAllInRoom)
 	{
-		if(m_enemies[i]->ReportIsAlerted())
+		bool isOneEnemyAlerted = false;
+		for(int i = 0; i < m_enemyCount; ++i)
 		{
-			isOneEnemyAlerted = true;
+			if(m_enemies[i]->ReportIsAlerted())
+			{
+				isOneEnemyAlerted = true;
+			}
 		}
-	}
-	for(int i = 0; i < m_enemyCount; ++i)
-	{
+		for(int i = 0; i < m_enemyCount; ++i)
+		{
+			if(isOneEnemyAlerted)
+			{
+				m_enemies[i]->OneEnemyAlarmedReport();
+			}
+		}
 		if(isOneEnemyAlerted)
 		{
-			m_enemies[i]->OneEnemyAlarmedReport();
+			m_hasAlertedAllInRoom = true;
+			m_audioManager->EnemyAlerted();
 		}
+	}
+
+	for(int i = 0; i < m_enemyCount; ++i)
+	{
 		m_enemies[i]->Tick(deltaTime);
 	}
 }
@@ -127,4 +141,9 @@ void EnemySpawner::PlayerPunchReported() const
 	{
 		m_enemies[i]->PlayerPunchReported();
 	}
+}
+
+void EnemySpawner::RoomChanged()
+{
+	m_hasAlertedAllInRoom = false;
 }
