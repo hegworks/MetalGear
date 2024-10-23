@@ -1,13 +1,16 @@
 ﻿#include "precomp.h"
 #include "direction.h"
 #include "human.h"
+
+#include "src/audio/audioManager.h"
 #include "src/collider/boxCollider/boxCollider.h"
 
-Human::Human(Surface* pScreen, LevelMaps* pLevelMaps, SpriteStorage* pSpriteStorage)
+Human::Human(Surface* pScreen, LevelMaps* pLevelMaps, SpriteStorage* pSpriteStorage, AudioManager* pAudioManager)
 {
 	m_pScreen = pScreen;
 	m_pLevelMaps = pLevelMaps;
 	m_pSpriteStorage = pSpriteStorage;
+	m_pAudioManager = pAudioManager;
 }
 
 void Human::Draw() const

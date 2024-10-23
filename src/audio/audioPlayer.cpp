@@ -8,8 +8,10 @@ AudioPlayer::AudioPlayer()
 {
 	m_audios[0] = new AudioData{AudioType::BgmNormal, new Audio::Sound("assets/audio/0/bgm_normal.mp3",Audio::Sound::Type::Music)};
 	m_audios[0]->m_sound->setLooping(true);
+	m_audios[0]->m_sound->setVolume(0.5f);
 	m_audios[1] = new AudioData{AudioType::BgmAlerted, new Audio::Sound("assets/audio/0/bgm_alert.mp3",Audio::Sound::Type::Music)};
 	m_audios[1]->m_sound->setLooping(true);
+	m_audios[1]->m_sound->setVolume(0.5f);
 	m_audios[2] = new AudioData{AudioType::Alerted, new Audio::Sound("assets/audio/0/alerted.mp3",Audio::Sound::Type::Sound)};
 	m_audios[3] = new AudioData{AudioType::BulletHit, new Audio::Sound("assets/audio/0/bulletHit.mp3",Audio::Sound::Type::Sound)};
 	m_audios[4] = new AudioData{AudioType::Call, new Audio::Sound("assets/audio/0/call.mp3",Audio::Sound::Type::Sound)};
@@ -17,8 +19,9 @@ AudioPlayer::AudioPlayer()
 	m_audios[6] = new AudioData{AudioType::PunchHit, new Audio::Sound("assets/audio/0/punchHit.mp3",Audio::Sound::Type::Sound)};
 	m_audios[7] = new AudioData{AudioType::Shoot, new Audio::Sound("assets/audio/0/shoot.mp3",Audio::Sound::Type::Sound)};
 	m_audios[8] = new AudioData{AudioType::Win, new Audio::Sound("assets/audio/0/win.mp3",Audio::Sound::Type::Sound)};
-
-	m_audios[0]->m_sound->play();
+	m_audios[9] = new AudioData{AudioType::RadioFrequency, new Audio::Sound("assets/audio/0/radioFrequency.mp3",Audio::Sound::Type::Music)};
+	m_audios[9]->m_sound->setLooping(true);
+	m_audios[10] = new AudioData{AudioType::RadioType, new Audio::Sound("assets/audio/0/radioType.mp3",Audio::Sound::Type::Sound)};
 }
 
 void AudioPlayer::Play(const AudioType audioType) const
@@ -34,6 +37,14 @@ void AudioPlayer::Stop(const AudioType audioType) const
 bool AudioPlayer::IsPlaying(const AudioType audioType) const
 {
 	return GetSound(audioType)->isPlaying();
+}
+
+void AudioPlayer::StopAll() const
+{
+	for(int i = 0; i < AUDIO_COUNT; ++i)
+	{
+		m_audios[i]->m_sound->stop();
+	}
 }
 
 Audio::Sound* AudioPlayer::GetSound(const AudioType audioType) const

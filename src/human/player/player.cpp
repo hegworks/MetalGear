@@ -1,6 +1,8 @@
 ﻿#include "precomp.h"
 #include "player.h"
 
+#include "src/audio/audioManager.h"
+#include "src/audio/audioType.h"
 #include "src/collider/aabb/boxAabb/boxAabb.h"
 #include "src/collider/aabb/circleAabb/circleAabb.h"
 #include "src/collider/boxCollider/boxCollider.h"
@@ -10,7 +12,7 @@
 #include "src/tile/tileType.h"
 #include "src/tools/screenPrinter.h"
 
-Player::Player(Surface* screen, LevelMaps* levelMaps, SpriteStorage* spriteStorage) : Human(screen, levelMaps, spriteStorage)
+Player::Player(Surface* screen, LevelMaps* levelMaps, SpriteStorage* spriteStorage, AudioManager* pAudioManager) : Human(screen, levelMaps, spriteStorage, pAudioManager)
 {
 	m_pSprite = spriteStorage->GetSpriteData(SpriteType::Player)->sprite;
 	m_pSprite->SetFrame(0);
@@ -261,6 +263,7 @@ void Player::EnemyBulletCollided()
 	}
 
 	m_hp--;
+	m_pAudioManager->Play(AudioType::BulletHit);
 	if(m_hp <= 0)
 	{
 		printf("PLAYER IS DEAD\n");

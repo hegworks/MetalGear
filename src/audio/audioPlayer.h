@@ -15,9 +15,10 @@ public:
 	void Play(AudioType audioType) const;
 	void Stop(AudioType audioType) const;
 	bool IsPlaying(AudioType audioType) const;
+	void StopAll() const;
 private:
-	const int AUDIO_COUNT = 9;
-	AudioData* m_audios[9];
+	const int AUDIO_COUNT = 11;
+	AudioData* m_audios[11];
 
 	Audio::Sound* GetSound(AudioType audioType) const;
 };

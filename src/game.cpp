@@ -25,21 +25,21 @@
 
 void Game::Init()
 {
+	m_audioPlayer = new AudioPlayer();
+	m_audioManager = new AudioManager(m_audioPlayer);
 	m_tileSet = new TileSet();
 	m_tileMap = new TileMap(screen, m_tileSet);
 	m_roomChangeStorage = new RoomChangeStorage;
 	m_roomFinder = new RoomFinder(m_roomChangeStorage);
 	m_levelMaps = new LevelMaps();
 	m_spriteStorage = new SpriteStorage();
-	m_player = new Player(screen, m_levelMaps, m_spriteStorage);
+	m_player = new Player(screen, m_levelMaps, m_spriteStorage, m_audioManager);
 	m_pixelPerfectCollisionChecker = new PixelPerfectCollisionChecker(screen);
 	m_bulletManager = new BulletManager(screen, m_levelMaps, m_player, m_spriteStorage, m_pixelPerfectCollisionChecker);
 	m_winScreen = new WinScreen();
 	m_loseScreen = new LoseScreen();
 	m_fontTextRenderer = new TextRenderer(screen, "assets/graphics/font.png", 41, 1, 4, FontTextRendererCharToIndex);
 	m_radio = new Radio(screen, m_fontTextRenderer);
-	m_audioPlayer = new AudioPlayer();
-	m_audioManager = new AudioManager(m_audioPlayer);
 	m_enemySpawner = new EnemySpawner(screen, m_levelMaps, m_spriteStorage, m_player, m_bulletManager, m_audioManager);
 	m_gameStateManager = new GameStateManager(screen, m_winScreen, m_loseScreen, m_player, m_radio, m_roomFinder, m_levelMaps, m_enemySpawner, m_tileMap, m_bulletManager, m_audioManager);
 }

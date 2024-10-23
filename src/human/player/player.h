@@ -12,7 +12,7 @@ constexpr int PLAYER_ANIMATION_COUNT = 8;
 class Player : public Human
 {
 public:
-	Player(Surface* screen, LevelMaps* levelMaps, SpriteStorage* spriteStorage);
+	Player(Surface* screen, LevelMaps* levelMaps, SpriteStorage* spriteStorage, AudioManager* pAudioManager);
 	virtual void Tick(float deltaTime);
 #ifdef _DEBUG
 	virtual void DrawColliders();

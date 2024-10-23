@@ -1,6 +1,8 @@
 ﻿#include "precomp.h"
 #include "enemy.h"
 
+#include "src/audio/audioManager.h"
+#include "src/audio/audioType.h"
 #include "src/collider/aabb/boxAabb/boxAabb.h"
 #include "src/collider/aabb/circleAabb/circleAabb.h"
 #include "src/collider/boxCollider/boxCollider.h"
@@ -13,7 +15,7 @@
 #include "src/Tools/rng.h"
 #include "src/tools/screenPrinter.h"
 
-Enemy::Enemy(Surface* pScreen, LevelMaps* pLevelMaps, SpriteStorage* pSpriteStorage, float2 spawnPos, Direction spawnDir, Player* pPlayer, BulletManager* pBulletManager) : Human(pScreen, pLevelMaps, pSpriteStorage)
+Enemy::Enemy(Surface* pScreen, LevelMaps* pLevelMaps, SpriteStorage* pSpriteStorage, float2 spawnPos, Direction spawnDir, Player* pPlayer, BulletManager* pBulletManager, AudioManager* pAudioManager) : Human(pScreen, pLevelMaps, pSpriteStorage, pAudioManager)
 {
 	m_pSprite = new Sprite(*pSpriteStorage->GetSpriteData(SpriteType::Enemy)->sprite);
 	m_pSprite->SetFrame(0);
@@ -183,6 +185,7 @@ void Enemy::PlayerPunchReported()
 #ifdef _DEBUG
 		m_boxAabb->Draw(m_pScreen, 0xffff00);
 #endif
+		m_pAudioManager->Play(AudioType::PunchHit);
 		m_yBeforePunchShake = m_position.y;
 		m_punchShakeShootStopRemaining = PUNCH_SHAKE_SHOOT_STOP_DURATION;
 		SwitchState(EnemyState::PunchShake);
@@ -546,6 +549,7 @@ void Enemy::Shoot(const float deltaTime)
 		float2 bulletDirection = m_pPlayer->GetCenterPos() - GetCenterPos();
 		float2 bulletSpawnPos = GetCenterPos();
 		m_pBulletManager->SpawnNewBullet(bulletSpawnPos, bulletDirection);
+		m_pAudioManager->Play(AudioType::Shoot);
 	}
 }
 

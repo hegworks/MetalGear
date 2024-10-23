@@ -3,6 +3,7 @@
 #include "src/animation/animationState.h"
 #include "src/tile/tileSet.h"
 
+class AudioManager;
 class CircleAabb;
 class BoxCollider;
 class SpriteStorage;
@@ -11,7 +12,7 @@ class LevelMaps;
 class Human
 {
 public:
-	Human(Surface* pScreen, LevelMaps* pLevelMaps, SpriteStorage* pSpriteStorage);
+	Human(Surface* pScreen, LevelMaps* pLevelMaps, SpriteStorage* pSpriteStorage, AudioManager* pAudioManager);
 
 	virtual void Draw() const;
 #ifdef _DEBUG
@@ -42,6 +43,8 @@ protected:
 	const int tileBoxColliderXOffset = TILESET_TILEWIDTH - 8;
 	const int tileBoxColliderYOffset = TILESET_TILEHEIGHT * 3 - 8;
 	const int tileCollisionPreventPixels = 1;
+
+	AudioManager* m_pAudioManager = nullptr;
 
 	// broad-phase
 	CircleAabb* m_broadPhaseCircleAabb = nullptr;

@@ -10,4 +10,6 @@ enum class AudioType
 	PunchHit,
 	Shoot,
 	Win,
+	RadioFrequency,
+	RadioType,
 };

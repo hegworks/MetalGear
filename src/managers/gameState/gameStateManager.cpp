@@ -172,6 +172,7 @@ void GameStateManager::ChangeGameStateBasedOnReports()
 		case GameState::Intro:
 			//TODO play the real intro
 			// if intro finished:
+			m_pAudioManager->GameplayStarted();
 			m_pRoomFinder->SetCurrentLevelId(1);
 			ChangeRoom();
 			m_pPlayer->Reset();
@@ -180,10 +181,12 @@ void GameStateManager::ChangeGameStateBasedOnReports()
 		case GameState::Gameplay:
 			if(m_pPlayer->ReportWin())
 			{
+				m_pAudioManager->Won();
 				m_gameState = GameState::Win;
 			}
 			else if(m_pPlayer->ReportLose())
 			{
+				m_pAudioManager->Lost();
 				m_gameState = GameState::Lose;
 			}
 			break;
@@ -281,5 +284,5 @@ void GameStateManager::ChangeRoom(const RoomChangeType roomChangeType)
 	m_pEnemySpawner->RoomChanged();
 	m_pEnemySpawner->Spawn();
 	m_pBulletManager->RoomChanged();
-	m_pAudioManager->RoomChanged();
+	m_pAudioManager->RoomChanged(m_pRoomFinder->GetCurrentLevelId());
 }
