@@ -130,6 +130,7 @@
     <ClCompile Include="src\collider\pixelPerfect\pixelPerfectCollisionChecker.cpp" />
     <ClCompile Include="src\collider\sightCollider\sightCollider.cpp" />
     <ClCompile Include="src\human\enemy\enemy.cpp" />
+    <ClCompile Include="src\human\enemy\enemyRed.cpp" />
     <ClCompile Include="src\human\human.cpp" />
     <ClCompile Include="src\human\player\player.cpp" />
     <ClCompile Include="src\collider\boxCollider\boxCollider.cpp" />
@@ -178,8 +179,10 @@
     <ClInclude Include="src\collider\sightCollider\sightCollider.h" />
     <ClInclude Include="src\human\direction.h" />
     <ClInclude Include="src\human\enemy\enemy.h" />
+    <ClInclude Include="src\human\enemy\enemyRed.h" />
     <ClInclude Include="src\human\enemy\enemyState.h" />
     <ClInclude Include="src\animation\animationState.h" />
+    <ClInclude Include="src\human\enemy\enemyType.h" />
     <ClInclude Include="src\human\human.h" />
     <ClInclude Include="src\human\player\player.h" />
     <ClInclude Include="src\animation\customAnimation.h" />

@@ -49,6 +49,7 @@
     <ClCompile Include="src\radio\radio.cpp" />
     <ClCompile Include="src\audio\audioPlayer.cpp" />
     <ClCompile Include="src\audio\audioManager.cpp" />
+    <ClCompile Include="src\human\enemy\enemyRed.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="template\common.h">
@@ -124,6 +125,7 @@
     <ClInclude Include="src\audio\audioData.h" />
     <ClInclude Include="src\audio\audioManager.h" />
     <ClInclude Include="src\tools\mathExtra.h" />
+    <ClInclude Include="src\human\enemy\enemyRed.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md">

@@ -1,8 +1,10 @@
 ﻿#pragma once
 #include "enemyState.h"
+#include "enemyType.h"
 #include "src/Animation/customAnimation.h"
 #include "src/human/human.h"
 
+enum class EnemyType;
 class BulletManager;
 class BoxAabb;
 class Player;
@@ -25,6 +27,38 @@ public:
 	void OneEnemyAlarmedReport();
 	bool ReportIsAlerted() const { return m_state == EnemyState::Alarm; }
 
+protected:
+	EnemyState m_state = EnemyState::Patrol;
+
+	// references
+	Rng* m_pRng = nullptr;
+
+	// LookAround
+	float m_lookaroundTimer = 0.0f;
+
+	// functions
+	void UpdatePatrolCollider() const;
+	void CheckSightCollider();
+	void UpdateSightCollider() const;
+	void UpdateSightCollider(Direction direction) const;
+	void CheckPatrolCollider();
+	virtual void Lookaround(float deltaTime);
+	void MoveInDirection(float deltaTime);
+	void UpdateAnimationState();
+	void Animate(float deltaTime);
+	void ChasePlayer(float deltaTime);
+	void Shoot(float deltaTime);
+	int2 GetSightColliderPos() const;
+	void UpdateBoxAabb() const;
+	void UpdateTimers(float deltaTime);
+	void PunchShake(float deltaTime);
+	void SwitchState(EnemyState newState);
+#ifdef _DEBUG
+	void Debug_PrintValues() const;
+#endif
+	float2 GetCenterPos() const;
+	virtual void UpdateBroadPhaseCircleAabb() const;
+
 private:
 	// colliders
 	PointCollider* patrolCollider = nullptr;
@@ -45,16 +79,16 @@ private:
 	};
 
 	// references
-	Rng* m_pRng = nullptr;
 	Player* m_pPlayer = nullptr;
 	BulletManager* m_pBulletManager = nullptr;
-
-	EnemyState m_state = EnemyState::Patrol;
 
 	// look around
 	Direction m_movementDirectionAfterLookAround = Direction::Up;
 	Direction m_movementDirectionBeforeLookAround = Direction::Up;
-	static constexpr  int LOOKAROUND_CHANCE = 50;
+	const int LOOKAROUND_CHANCE = 50;
+	bool m_isOneStageOfLookOutPlaying = false;
+	int m_lookAroundChecksDone = 0;
+	const float LOOKAROUND_TIME = 500.0f;
 
 	// speed
 	const float SPEED = 0.1f;
@@ -80,39 +114,9 @@ private:
 	const int MAX_HP = 3;
 	int m_hp = MAX_HP;
 
-	// LookAround
-	float m_lookaroundTimer = 0.0f;
-	const float LOOKAROUND_TIME = 500.0f;
-	Direction m_lookAroundDirection = Direction::Up;
-	bool m_isOneStageOfLookOutPlaying = false;
-	int m_lookAroundChecksDone = 0;
-
 	// shoot
 	const float SHOOT_TIME = 1500.0f; // the time between each shoot
 	float m_shootTimer = 0;
 	const float SHOOT_STOP_DURATION = 300.0f; // the time to stop moving after shoot
 	float m_shootStopRemaining = 0;
-
-	// functions
-	void UpdatePatrolCollider() const;
-	void CheckSightCollider();
-	void UpdateSightCollider() const;
-	void UpdateSightCollider(Direction direction) const;
-	void CheckPatrolCollider();
-	void Lookaround(float deltaTime);
-	void MoveInDirection(float deltaTime);
-	void UpdateAnimationState();
-	void Animate(float deltaTime);
-	void ChasePlayer(float deltaTime);
-	void Shoot(float deltaTime);
-	int2 GetSightColliderPos() const;
-	void UpdateBoxAabb() const;
-	void UpdateTimers(float deltaTime);
-	void PunchShake(float deltaTime);
-	void SwitchState(EnemyState newState);
-#ifdef _DEBUG
-	void Debug_PrintValues() const;
-#endif
-	float2 GetCenterPos() const;
-	virtual void UpdateBroadPhaseCircleAabb() const;
 };

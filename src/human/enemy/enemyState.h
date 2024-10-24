@@ -6,4 +6,7 @@ enum class EnemyState
 	Alarm,
 	Dead,
 	PunchShake,
+	RedRelieve,
+	RedComeBack,
+	Hidden,
 };
