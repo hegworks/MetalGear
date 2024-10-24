@@ -2,13 +2,14 @@
 #include "RadioAnimationState.h"
 #include "radioState.h"
 
+class AudioManager;
 class ScreenPrinter;
 class TextRenderer;
 
 class Radio
 {
 public:
-	Radio(Surface* pScreen, TextRenderer* pFontTextRenderer);
+	Radio(Surface* pScreen, TextRenderer* pFontTextRenderer, AudioManager* pAudioManager);
 	void Tick(float deltaTime);
 	void Draw();
 	void Show(int roomNumber);
@@ -19,6 +20,7 @@ public:
 
 private:
 	Surface* m_pScreen = nullptr;
+	AudioManager* m_pAudioManager = nullptr;
 
 	Sprite* m_pStaticParts = nullptr;
 	Sprite* m_pSend = nullptr;
@@ -107,6 +109,13 @@ private:
 	int m_receiveTextsIndex = 0;
 	bool m_shownTextOnceOnFrequency = false;
 
+	const int m_radioTypeSoundSkipTimes = 1;
+	int m_radioTypeSoundCharSkipCount = 0;
+	const float m_maxPitch = 1.3f;
+	const float m_minPitch = 0.8f;
+	const float m_pitchFrequencyStart = 0;
+	const float m_pitchFrequencyEnd = 99;
+
 #if _DEBUG
 	ScreenPrinter* m_pScreenPrinter = nullptr;
 	string RadioAnimationStateToString(RadioAnimationState radioAnimationState);
@@ -125,4 +134,5 @@ private:
 	void StartBarAnimation();
 	void PlayBarAnimation(float deltaTime);
 	void PlayTalkAnimation(float deltaTime);
+	void UpdateFrequencyAudioPitch() const;
 };

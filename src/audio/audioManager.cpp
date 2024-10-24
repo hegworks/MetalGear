@@ -54,3 +54,38 @@ void AudioManager::Won() const
 	m_pAudioPlayer->StopAll();
 	m_pAudioPlayer->Play(AudioType::Win);
 }
+
+void AudioManager::RadioShown()
+{
+	if(m_pAudioPlayer->IsPlaying(AudioType::BgmNormal))
+	{
+		m_bgmBeforeRadio = AudioType::BgmNormal;
+	}
+	else
+	{
+		m_bgmBeforeRadio = AudioType::BgmAlerted;
+	}
+	m_pAudioPlayer->StopAll();
+	m_pAudioPlayer->Play(AudioType::RadioFrequency);
+}
+
+void AudioManager::RadioTypeStarted() const
+{
+	m_pAudioPlayer->Stop(AudioType::RadioFrequency);
+}
+
+void AudioManager::RadioTypeEnded() const
+{
+	m_pAudioPlayer->Play(AudioType::RadioFrequency);
+}
+
+void AudioManager::RadioHidden() const
+{
+	m_pAudioPlayer->StopAll();
+	m_pAudioPlayer->Resume(m_bgmBeforeRadio);
+}
+
+void AudioManager::SetPitch(const AudioType audioType, const float pitch) const
+{
+	m_pAudioPlayer->SetPitch(audioType, pitch);
+}

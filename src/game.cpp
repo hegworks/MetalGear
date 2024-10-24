@@ -39,7 +39,7 @@ void Game::Init()
 	m_winScreen = new WinScreen();
 	m_loseScreen = new LoseScreen();
 	m_fontTextRenderer = new TextRenderer(screen, "assets/graphics/font.png", 41, 1, 4, FontTextRendererCharToIndex);
-	m_radio = new Radio(screen, m_fontTextRenderer);
+	m_radio = new Radio(screen, m_fontTextRenderer, m_audioManager);
 	m_enemySpawner = new EnemySpawner(screen, m_levelMaps, m_spriteStorage, m_player, m_bulletManager, m_audioManager);
 	m_gameStateManager = new GameStateManager(screen, m_winScreen, m_loseScreen, m_player, m_radio, m_roomFinder, m_levelMaps, m_enemySpawner, m_tileMap, m_bulletManager, m_audioManager);
 }

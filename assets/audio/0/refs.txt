@@ -1,1 +1,4 @@
-all audio files in this folder are from Hossein Tayebi
+all audio files in this folder, except radioType, radioFrequency and call, which I recorded myself, were originally from Hossein Tayebi.
+But I edited all of them using the Audacity program to
+1. remove their moments of silence at the start and end
+2. balance all of their volumes so they all have generally the same volume.

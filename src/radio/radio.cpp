@@ -1,7 +1,10 @@
 ﻿#include "precomp.h"
 #include "radio.h"
 
+#include "src/audio/audioManager.h"
+#include "src/audio/audioType.h"
 #include "src/textRenderer/textRenderer.h"
+#include "src/tools/mathExtra.h"
 #include "src/tools/screenPrinter.h"
 
 /* this function here (not in the scope of the class) in this form (static constexpr), has the best place and form in my opinion.
@@ -17,9 +20,10 @@ static constexpr int FrequencyNumbersTextRendererCharToIndex(char c)
 	throw exception("character not supported");
 }
 
-Radio::Radio(Surface* pScreen, TextRenderer* pFontTextRenderer)
+Radio::Radio(Surface* pScreen, TextRenderer* pFontTextRenderer, AudioManager* pAudioManager)
 {
 	m_pScreen = pScreen;
+	m_pAudioManager = pAudioManager;
 
 	m_pStaticParts = new Sprite(new Surface("assets/graphics/radio/radio_static.png"), 1);
 	m_pSend = new Sprite(new Surface("assets/graphics/radio/send.png"), 1);
@@ -31,6 +35,8 @@ Radio::Radio(Surface* pScreen, TextRenderer* pFontTextRenderer)
 
 	m_pFrequencyTR = new TextRenderer(m_pScreen, "assets/graphics/radio/radioNumbers.png", 11, 0, 0, FrequencyNumbersTextRendererCharToIndex);
 	m_pFontTR = pFontTextRenderer;
+
+	UpdateFrequencyAudioPitch();
 
 #ifdef _DEBUG
 	m_pScreenPrinter = new ScreenPrinter();
@@ -164,12 +170,14 @@ void Radio::Show(int roomNumber)
 {
 	m_roomNumber = roomNumber;
 	m_isShowing = true;
+	m_pAudioManager->RadioShown();
 }
 
 void Radio::Hide()
 {
 	m_isShowing = false;
 	SwitchToReceiveState();
+	m_pAudioManager->RadioHidden();
 }
 
 void Radio::KeyDown(int glfwkey)
@@ -290,6 +298,7 @@ void Radio::DecreaseFrequency()
 		}
 	}
 	m_shownTextOnceOnFrequency = false;
+	UpdateFrequencyAudioPitch();
 }
 
 void Radio::IncreaseFrequency()
@@ -306,6 +315,7 @@ void Radio::IncreaseFrequency()
 		}
 	}
 	m_shownTextOnceOnFrequency = false;
+	UpdateFrequencyAudioPitch();
 }
 
 void Radio::StartTextBoxAnimation()
@@ -350,6 +360,7 @@ void Radio::StartTextAnimation()
 	m_text = "";
 	m_textLastIndex = 0;
 	m_textAnimationState = RadioAnimationState::Started;
+	m_pAudioManager->RadioTypeStarted();
 }
 
 void Radio::PlayTextAnimation(const string& referenceText, float deltaTime)
@@ -378,6 +389,15 @@ void Radio::PlayTextAnimation(const string& referenceText, float deltaTime)
 
 	m_text += referenceText.at(m_textLastIndex);
 	m_textLastIndex++;
+	if(m_radioTypeSoundCharSkipCount == m_radioTypeSoundSkipTimes)
+	{
+		m_pAudioManager->Play(AudioType::RadioType);
+		m_radioTypeSoundCharSkipCount = 0;
+	}
+	else
+	{
+		m_radioTypeSoundCharSkipCount++;
+	}
 }
 
 void Radio::WaitForAutoBackToReceive(float deltaTime)
@@ -410,6 +430,7 @@ void Radio::SwitchToReceiveState()
 	m_textBoxAnimationState = RadioAnimationState::NotStarted;
 
 	m_radioState = RadioState::Receive;
+	m_pAudioManager->RadioTypeEnded();
 }
 
 void Radio::CheckReceiveFrequency()
@@ -478,4 +499,11 @@ void Radio::PlayTalkAnimation(float deltaTime)
 		m_talkAnimationFrame = 0;
 	}
 	m_pTalk->SetFrame(m_talkAnimationFrame);
+}
+
+void Radio::UpdateFrequencyAudioPitch() const
+{
+	const float frequency = static_cast<float>(m_frequency.x) * 10.0f + static_cast<float>(m_frequency.y);
+	const float pitch = static_cast<float>(MathExtra::Map(m_pitchFrequencyStart, m_pitchFrequencyEnd, m_minPitch, m_maxPitch, frequency));
+	m_pAudioManager->SetPitch(AudioType::RadioFrequency, pitch);
 }

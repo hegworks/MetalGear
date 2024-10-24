@@ -206,6 +206,7 @@
     <ClInclude Include="src\spriteStorage\spriteType.h" />
     <ClInclude Include="src\textRenderer\textRenderer.h" />
     <ClInclude Include="src\tile\levelMap\levelMaps.h" />
+    <ClInclude Include="src\tools\mathExtra.h" />
     <ClInclude Include="src\tools\rng.h" />
     <ClInclude Include="src\tile\tileSet.h" />
     <ClInclude Include="src\tile\tileType.h" />
