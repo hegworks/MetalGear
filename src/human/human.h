@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include "direction.h"
-#include "src/animation/animationState.h"
+#include "src/animation/animationType.h"
 #include "src/tile/tileSet.h"
 
 class AudioManager;
@@ -29,8 +29,8 @@ protected:
 	LevelMaps* m_pLevelMaps = nullptr;
 	SpriteStorage* m_pSpriteStorage = nullptr;
 
-	AnimationState m_currentAnimationState = AnimationState::Down;
-	AnimationState m_lastAnimationState = AnimationState::Down;
+	AnimationType m_currentAnimationState = AnimationType::Down;
+	AnimationType m_lastAnimationState = AnimationType::Down;
 
 	Sprite* m_pSprite = nullptr;
 

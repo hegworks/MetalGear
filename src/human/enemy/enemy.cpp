@@ -34,7 +34,7 @@ Enemy::Enemy(Surface* pScreen, LevelMaps* pLevelMaps, SpriteStorage* pSpriteStor
 	m_movementDirectionBeforeLookAround = spawnDir;
 	UpdateAnimationState();
 
-	patrolCollider = new PointCollider(pScreen, pLevelMaps);
+	m_patrolCollider = new PointCollider(pScreen, pLevelMaps);
 
 	m_pSightCollider = new SightCollider(pScreen, pLevelMaps, pPlayer);
 
@@ -94,7 +94,7 @@ void Enemy::DrawColliders()
 {
 	if(m_state != EnemyState::Dead)
 	{
-		patrolCollider->Draw(2, 0x00ff00);
+		m_patrolCollider->Draw(2, 0x00ff00);
 
 		m_pSightCollider->Draw(5, 0x35b0fc);
 
@@ -136,6 +136,14 @@ void Enemy::Debug_PrintValues() const
 			break;
 		case EnemyState::PunchShake:
 			stateString = "PunchShake";
+			break;
+		case EnemyState::RedRelieve:
+			stateString = "RedRelieve";
+			break;
+		case EnemyState::RedComeBack:
+			stateString = "RedComeBack";
+			break;
+		case EnemyState::Hidden:
 			break;
 		default:
 			throw exception("invalid state");
@@ -228,7 +236,7 @@ void Enemy::UpdatePatrolCollider() const
 			break;
 	}
 
-	patrolCollider->UpdatePosition(feet + offset);
+	m_patrolCollider->UpdatePosition(feet + offset);
 }
 
 void Enemy::CheckSightCollider()
@@ -251,7 +259,7 @@ void Enemy::UpdateSightCollider(Direction direction) const
 
 void Enemy::CheckPatrolCollider()
 {
-	switch(patrolCollider->GetTileType())
+	switch(m_patrolCollider->GetTileType())
 	{
 		case TileType::Empty:
 		case TileType::Solid:
@@ -357,16 +365,16 @@ void Enemy::UpdateAnimationState()
 	switch(m_movementDirection)
 	{
 		case Direction::Up:
-			m_currentAnimationState = AnimationState::Up;
+			m_currentAnimationState = AnimationType::Up;
 			break;
 		case Direction::Down:
-			m_currentAnimationState = AnimationState::Down;
+			m_currentAnimationState = AnimationType::Down;
 			break;
 		case Direction::Left:
-			m_currentAnimationState = AnimationState::Left;
+			m_currentAnimationState = AnimationType::Left;
 			break;
 		case Direction::Right:
-			m_currentAnimationState = AnimationState::Right;
+			m_currentAnimationState = AnimationType::Right;
 			break;
 	}
 }
@@ -603,7 +611,7 @@ void Enemy::SwitchState(const EnemyState newState)
 	/* if enemy is dead
 	 * or the new state is what we already are in
 	 * or new state is not dead, and punch shake animation is being played.
-	 * which means punch shake animation cam not be interrupted with any state other than dead.
+	 * this means that punch shake animation can not be interrupted with any state other than dead.
 	 */
 	if(m_state == EnemyState::Dead ||
 	   m_state == newState ||

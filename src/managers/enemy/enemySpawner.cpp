@@ -14,10 +14,63 @@ EnemySpawner::EnemySpawner(Surface* pScreen, LevelMaps* pLevelMaps, SpriteStorag
 	m_player = pPlayer;
 	m_bulletManager = pBulletManager;
 	m_audioManager = pAudioManager;
+
+	m_relieveSprite = new Sprite(new Surface("assets/graphics/relieve.png"), 1);
 }
+
+#ifdef _DEBUG
+int clsCounter = 0;
+#endif
 
 void EnemySpawner::Tick(const float deltaTime)
 {
+#ifdef _DEBUG
+	clsCounter++;
+	if(clsCounter == 1)
+	{
+		printf("WalkAnimationState: %s\n", AnimationStateToString(m_walkAnimationState).data());
+		printf("WalkTimer: %f\n", m_walkTimer);
+
+		printf("RelieveAnimationState: %s\n", AnimationStateToString(m_relieveAnimationState).data());
+		printf("RelieveAnimationTimer: %f\n", m_relieveAnimationTimer);
+
+		printf("ComeBackTimer: %f\n", m_comeBackTimer);
+		printf("RelieveTimer: %f\n", m_relieveTimer);
+		printf("RoomState: %i\n", static_cast<int>(m_room8State));
+	}
+	if(clsCounter == 50)
+	{
+		system("cls");
+		clsCounter = 0;
+	}
+#endif
+
+
+	if(m_isInRoom8 && !m_hasAlertedAllInRoom)
+	{
+		if(m_walkAnimationState == AnimationState::Started || m_walkAnimationState == AnimationState::Playing)
+		{
+			PlayWalkAnimation(deltaTime);
+		}
+		if(m_walkAnimationState == AnimationState::Finished)
+		{
+			m_walkAnimationState = AnimationState::NotStarted;
+		}
+
+		CheckRelieveAndComeBackRoom8(deltaTime);
+
+		if(m_relieveAnimationState == AnimationState::Started || m_relieveAnimationState == AnimationState::Playing)
+		{
+			PlayRelieveSpriteAnimation(deltaTime);
+		}
+		if(m_relieveAnimationState == AnimationState::Finished)
+		{
+			CheckRelieveHideTimer(deltaTime);
+		}
+	}
+
+
+
 	if(!m_hasAlertedAllInRoom)
 	{
 		bool isOneEnemyAlerted = false;
@@ -37,6 +90,7 @@ void EnemySpawner::Tick(const float deltaTime)
 		}
 		if(isOneEnemyAlerted)
 		{
+			ResetRoom8State();
 			m_hasAlertedAllInRoom = true;
 			m_audioManager->EnemyAlerted();
 		}
@@ -53,6 +107,11 @@ void EnemySpawner::Draw() const
 	for(int i = 0; i < m_enemyCount; ++i)
 	{
 		m_enemies[i]->Draw();
+	}
+
+	if(m_relieveScale > 0)
+	{
+		m_relieveSprite->DrawScaled(RELIEVE_SPRITE_POS.x, RELIEVE_SPRITE_POS.y, m_relieveSprite->GetWidth() * m_relieveScale, m_relieveSprite->GetHeight() * m_relieveScale, m_screen);
 	}
 }
 
@@ -156,4 +215,146 @@ void EnemySpawner::PlayerPunchReported() const
 void EnemySpawner::RoomChanged()
 {
 	m_hasAlertedAllInRoom = false;
+	m_isInRoom8 = m_levelMaps->GetCurrentLevelId() == 8;
+	ResetRoom8State();
 }
+
+void EnemySpawner::CheckRelieveAndComeBackRoom8(float deltaTime)
+{
+	switch(m_room8State)
+	{
+		case Room8State::OnGuard:
+			if(m_walkAnimationState == AnimationState::Playing)
+			{
+				break;
+			}
+
+			if(m_relieveTimer < RELIEVE_TIME)
+			{
+				m_relieveTimer += deltaTime;
+				break;
+			}
+			m_relieveTimer = 0;
+
+			StartRelieveSpriteAnimation();
+			m_comeBackTimer = 0;
+			m_room8State = Room8State::Relieve;
+
+			break;
+
+		case Room8State::Relieve:
+			if(m_walkAnimationState == AnimationState::Playing)
+			{
+				break;
+			}
+
+			if(m_comeBackTimer < COMEBACK_TIME)
+			{
+				m_comeBackTimer += deltaTime;
+				break;
+			}
+			m_comeBackTimer = 0;
+
+			m_relieveTimer = 0;
+			for(int i = 0; i < m_enemyCount; ++i)
+			{
+				m_enemies[i]->ComeBack(i);
+			}
+			StartWalkAnimation();
+			m_room8State = Room8State::OnGuard;
+
+			break;
+
+		default:
+			throw exception("invalid Room8State");
+	}
+}
+
+void EnemySpawner::PlayRelieveSpriteAnimation(float deltaTime)
+{
+	if(m_relieveAnimationState == AnimationState::Finished)
+	{
+		return;
+	}
+
+	if(m_relieveAnimationTimer >= RELIEVE_ANIMATION_TIME)
+	{
+		m_relieveAnimationState = AnimationState::Finished;
+		m_relieveAnimationTimer = 0;
+		m_relieveHideTimer = 0;
+		StartWalkAnimation();
+		return;
+	}
+
+	m_relieveAnimationState = AnimationState::Playing;
+
+	m_relieveScale = lerp(0, 1, m_relieveAnimationTimer / RELIEVE_ANIMATION_TIME);
+
+	m_relieveAnimationTimer += deltaTime;
+	if(m_relieveAnimationTimer > RELIEVE_ANIMATION_TIME)
+	{
+		m_relieveAnimationTimer = RELIEVE_ANIMATION_TIME;
+		m_relieveScale = 1;
+	}
+}
+
+void EnemySpawner::StartRelieveSpriteAnimation()
+{
+	m_relieveAnimationTimer = 0;
+	m_relieveScale = 0;
+	m_relieveAnimationState = AnimationState::Started;
+}
+
+void EnemySpawner::CheckRelieveHideTimer(float deltaTime)
+{
+	if(m_relieveHideTimer < RELIEVE_HIDE_TIME)
+	{
+		m_relieveHideTimer += deltaTime;
+		return;
+	}
+	m_relieveHideTimer = RELIEVE_HIDE_TIME;
+
+	m_relieveScale = 0;
+	m_relieveAnimationState = AnimationState::NotStarted;
+	for(int i = 0; i < m_enemyCount; ++i)
+	{
+		m_enemies[i]->Relieve();
+	}
+}
+
+void EnemySpawner::PlayWalkAnimation(float deltaTime)
+{
+	if(m_walkAnimationState == AnimationState::Finished)
+	{
+		return;
+	}
+
+	m_walkAnimationState = AnimationState::Playing;
+
+	m_walkTimer += deltaTime;
+	if(m_walkTimer > WALK_TIME)
+	{
+		m_walkTimer = 0;
+		m_comeBackTimer = 0;
+		m_relieveTimer = 0;
+		m_walkAnimationState = AnimationState::Finished;
+	}
+}
+
+void EnemySpawner::StartWalkAnimation()
+{
+	m_walkTimer = 0;
+	m_walkAnimationState = AnimationState::Started;
+}
+
+void EnemySpawner::ResetRoom8State()
+{
+	m_relieveScale = 0;
+	m_relieveTimer = 0;
+	m_relieveHideTimer = 0;
+	m_comeBackTimer = 0;
+	m_room8State = Room8State::OnGuard;
+	m_walkAnimationState = AnimationState::NotStarted;
+	m_relieveAnimationState = AnimationState::NotStarted;
+}
+

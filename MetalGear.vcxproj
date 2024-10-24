@@ -181,7 +181,7 @@
     <ClInclude Include="src\human\enemy\enemy.h" />
     <ClInclude Include="src\human\enemy\enemyRed.h" />
     <ClInclude Include="src\human\enemy\enemyState.h" />
-    <ClInclude Include="src\animation\animationState.h" />
+    <ClInclude Include="src\animation\animationType.h" />
     <ClInclude Include="src\human\enemy\enemyType.h" />
     <ClInclude Include="src\human\human.h" />
     <ClInclude Include="src\human\player\player.h" />
@@ -202,7 +202,7 @@
     <ClInclude Include="src\managers\room\roomChangeStorage.h" />
     <ClInclude Include="src\managers\gamescreen\winScreen.h" />
     <ClInclude Include="src\radio\radio.h" />
-    <ClInclude Include="src\radio\RadioAnimationState.h" />
+    <ClInclude Include="src\animation\animationState.h" />
     <ClInclude Include="src\radio\RadioState.h" />
     <ClInclude Include="src\spriteStorage\spriteData.h" />
     <ClInclude Include="src\spriteStorage\spriteStorage.h" />

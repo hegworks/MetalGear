@@ -1,9 +1,9 @@
 ﻿#pragma once
-#include "AnimationState.h"
+#include "animationType.h"
 
 struct CustomAnimation
 {
-	AnimationState state;
+	AnimationType animationType;
 	int startFrame;
 	int endFrame;
 };

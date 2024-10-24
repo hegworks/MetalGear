@@ -1,6 +1,6 @@
 ﻿#pragma once
-#include "RadioAnimationState.h"
 #include "radioState.h"
+#include "src/animation/AnimationState.h"
 
 class AudioManager;
 class ScreenPrinter;
@@ -93,9 +93,9 @@ private:
 
 	RadioState m_radioState = RadioState::Receive;
 
-	RadioAnimationState m_textBoxAnimationState = RadioAnimationState::NotStarted;
-	RadioAnimationState m_textAnimationState = RadioAnimationState::NotStarted;
-	RadioAnimationState m_barAnimationState = RadioAnimationState::NotStarted;
+	AnimationState m_textBoxAnimationState = AnimationState::NotStarted;
+	AnimationState m_textAnimationState = AnimationState::NotStarted;
+	AnimationState m_barAnimationState = AnimationState::NotStarted;
 
 	string m_text = {};
 	const string m_sendText = "This is solid snake...\nYour reply, please.";
@@ -118,7 +118,6 @@ private:
 
 #if _DEBUG
 	ScreenPrinter* m_pScreenPrinter = nullptr;
-	string RadioAnimationStateToString(RadioAnimationState radioAnimationState);
 #endif
 
 	bool CheckFrequencyDelay(float deltaTime);

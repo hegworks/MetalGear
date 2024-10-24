@@ -26,6 +26,9 @@ public:
 	void PlayerPunchReported();
 	void OneEnemyAlarmedReport();
 	bool ReportIsAlerted() const { return m_state == EnemyState::Alarm; }
+	EnemyState GetEnemyState() const { return m_state; }
+	virtual void Relieve() {}
+	virtual void ComeBack(int comebackOrder) {}
 
 protected:
 	EnemyState m_state = EnemyState::Patrol;
@@ -35,6 +38,12 @@ protected:
 
 	// LookAround
 	float m_lookaroundTimer = 0.0f;
+
+	// speed
+	const float SPEED = 0.1f;
+
+	// colliders
+	PointCollider* m_patrolCollider = nullptr;
 
 	// functions
 	void UpdatePatrolCollider() const;
@@ -61,7 +70,6 @@ protected:
 
 private:
 	// colliders
-	PointCollider* patrolCollider = nullptr;
 	const float patrolColliderXOffset = 0;
 	const float patrolColliderYOffset = TILESET_TILEWIDTH / 2.0f;
 
@@ -72,10 +80,10 @@ private:
 	float animationUpdateTimer = 0.0f;
 	CustomAnimation animations[ENEMY_ANIMATION_COUNT] =
 	{
-		{AnimationState::Up, 6, 8 },
-		{AnimationState::Down, 0, 2 },
-		{AnimationState::Left, 3, 5 },
-		{AnimationState::Right, 9, 11 },
+		{AnimationType::Up, 6, 8 },
+		{AnimationType::Down, 0, 2 },
+		{AnimationType::Left, 3, 5 },
+		{AnimationType::Right, 9, 11 },
 	};
 
 	// references
@@ -91,7 +99,6 @@ private:
 	const float LOOKAROUND_TIME = 500.0f;
 
 	// speed
-	const float SPEED = 0.1f;
 	const float SPEED_CHASE = 0.2f;
 
 	// chase

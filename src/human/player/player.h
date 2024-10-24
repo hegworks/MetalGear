@@ -43,14 +43,14 @@ private:
 	// animation
 	CustomAnimation animations[PLAYER_ANIMATION_COUNT] =
 	{
-		{AnimationState::Up, 6, 8 },
-		{AnimationState::Down, 0, 2 },
-		{AnimationState::Left, 3, 5 },
-		{AnimationState::Right, 9, 11 },
-		{AnimationState::PunchUp, 24, 24 },
-		{AnimationState::PunchDown, 16, 16 },
-		{AnimationState::PunchLeft, 20, 20 },
-		{AnimationState::PunchRight, 28, 28 },
+		{AnimationType::Up, 6, 8 },
+		{AnimationType::Down, 0, 2 },
+		{AnimationType::Left, 3, 5 },
+		{AnimationType::Right, 9, 11 },
+		{AnimationType::PunchUp, 24, 24 },
+		{AnimationType::PunchDown, 16, 16 },
+		{AnimationType::PunchLeft, 20, 20 },
+		{AnimationType::PunchRight, 28, 28 },
 	};
 	const float ANIMATION_UPDATE_TIME = 100.0f;
 	float m_animationUpdateTimer = 0.0f;

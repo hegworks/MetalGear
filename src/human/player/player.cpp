@@ -157,16 +157,16 @@ void Player::UpdateAnimationState(const float deltaTime)
 		switch(m_movementDirection)
 		{
 			case Direction::Up:
-				m_currentAnimationState = AnimationState::PunchUp;
+				m_currentAnimationState = AnimationType::PunchUp;
 				break;
 			case Direction::Down:
-				m_currentAnimationState = AnimationState::PunchDown;
+				m_currentAnimationState = AnimationType::PunchDown;
 				break;
 			case Direction::Left:
-				m_currentAnimationState = AnimationState::PunchLeft;
+				m_currentAnimationState = AnimationType::PunchLeft;
 				break;
 			case Direction::Right:
-				m_currentAnimationState = AnimationState::PunchRight;
+				m_currentAnimationState = AnimationType::PunchRight;
 				break;
 		}
 	}
@@ -175,16 +175,16 @@ void Player::UpdateAnimationState(const float deltaTime)
 		switch(m_movementDirection)
 		{
 			case Direction::Up:
-				m_currentAnimationState = AnimationState::Up;
+				m_currentAnimationState = AnimationType::Up;
 				break;
 			case Direction::Down:
-				m_currentAnimationState = AnimationState::Down;
+				m_currentAnimationState = AnimationType::Down;
 				break;
 			case Direction::Left:
-				m_currentAnimationState = AnimationState::Left;
+				m_currentAnimationState = AnimationType::Left;
 				break;
 			case Direction::Right:
-				m_currentAnimationState = AnimationState::Right;
+				m_currentAnimationState = AnimationType::Right;
 				break;
 		}
 	}
@@ -275,7 +275,7 @@ void Player::Reset()
 	m_hp = HP_MAX;
 	m_position = SPAWN_POS;
 	m_punchAnimationRemaining = 0;
-	m_currentAnimationState = AnimationState::Down;
+	m_currentAnimationState = AnimationType::Down;
 	m_animationFrame = 0;
 }
 
