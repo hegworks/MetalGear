@@ -22,6 +22,7 @@ public:
 	void RadioTypeStarted() const;
 	void RadioTypeEnded() const;
 	void RadioHidden() const;
+	void AllEnemiesDied() const;
 
 private:
 	AudioPlayer* m_pAudioPlayer = nullptr;

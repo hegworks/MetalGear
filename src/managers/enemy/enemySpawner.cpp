@@ -18,34 +18,8 @@ EnemySpawner::EnemySpawner(Surface* pScreen, LevelMaps* pLevelMaps, SpriteStorag
 	m_relieveSprite = new Sprite(new Surface("assets/graphics/relieve.png"), 1);
 }
 
-#ifdef _DEBUG
-int clsCounter = 0;
-#endif
-
 void EnemySpawner::Tick(const float deltaTime)
 {
-#ifdef _DEBUG
-	clsCounter++;
-	if(clsCounter == 1)
-	{
-		printf("WalkAnimationState: %s\n", AnimationStateToString(m_walkAnimationState).data());
-		printf("WalkTimer: %f\n", m_walkTimer);
-
-		printf("RelieveAnimationState: %s\n", AnimationStateToString(m_relieveAnimationState).data());
-		printf("RelieveAnimationTimer: %f\n", m_relieveAnimationTimer);
-
-		printf("ComeBackTimer: %f\n", m_comeBackTimer);
-		printf("RelieveTimer: %f\n", m_relieveTimer);
-		printf("RoomState: %i\n", static_cast<int>(m_room8State));
-	}
-	if(clsCounter == 50)
-	{
-		system("cls");
-		clsCounter = 0;
-	}
-#endif
-
-
 	if(m_isInRoom8 && !m_hasAlertedAllInRoom)
 	{
 		if(m_walkAnimationState == AnimationState::Started || m_walkAnimationState == AnimationState::Playing)
@@ -68,7 +42,6 @@ void EnemySpawner::Tick(const float deltaTime)
 			CheckRelieveHideTimer(deltaTime);
 		}
 	}
-
 
 
 	if(!m_hasAlertedAllInRoom)
@@ -95,6 +68,24 @@ void EnemySpawner::Tick(const float deltaTime)
 			m_audioManager->EnemyAlerted();
 		}
 	}
+
+	if(!m_hasReportedAllEnemiesDeadOnce && m_hasAlertedAllInRoom)
+	{
+		bool areAllEnemiesDead = true;
+		for(int i = 0; i < m_enemyCount; ++i)
+		{
+			if(m_enemies[i]->GetEnemyState() != EnemyState::Dead)
+			{
+				areAllEnemiesDead = false;
+			}
+		}
+		if(areAllEnemiesDead)
+		{
+			m_audioManager->AllEnemiesDied();
+			m_hasReportedAllEnemiesDeadOnce = true;
+		}
+	}
+
 
 	for(int i = 0; i < m_enemyCount; ++i)
 	{
@@ -215,6 +206,7 @@ void EnemySpawner::PlayerPunchReported() const
 void EnemySpawner::RoomChanged()
 {
 	m_hasAlertedAllInRoom = false;
+	m_hasReportedAllEnemiesDeadOnce = false;
 	m_isInRoom8 = m_levelMaps->GetCurrentLevelId() == 8;
 	ResetRoom8State();
 }

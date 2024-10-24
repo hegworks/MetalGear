@@ -31,6 +31,7 @@ private:
 	Enemy* m_enemies[MAX_ENEMIES];
 	int m_enemyCount = 0;
 	bool m_hasAlertedAllInRoom = false;
+	bool m_hasReportedAllEnemiesDeadOnce = false;
 
 	// room 8 variables
 	bool m_isInRoom8 = false;

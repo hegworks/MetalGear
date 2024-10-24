@@ -85,6 +85,12 @@ void AudioManager::RadioHidden() const
 	m_pAudioPlayer->Resume(m_bgmBeforeRadio);
 }
 
+void AudioManager::AllEnemiesDied() const
+{
+	m_pAudioPlayer->Stop(AudioType::BgmAlerted);
+	m_pAudioPlayer->Play(AudioType::BgmNormal);
+}
+
 void AudioManager::SetPitch(const AudioType audioType, const float pitch) const
 {
 	m_pAudioPlayer->SetPitch(audioType, pitch);
