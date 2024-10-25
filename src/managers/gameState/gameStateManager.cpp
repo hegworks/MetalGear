@@ -173,7 +173,7 @@ void GameStateManager::ChangeGameStateBasedOnReports()
 			//TODO play the real intro
 			// if intro finished:
 			m_pAudioManager->GameplayStarted();
-			m_pRoomFinder->SetCurrentLevelId(9);
+			m_pRoomFinder->SetCurrentLevelId(5);
 			ChangeRoom();
 			m_pPlayer->Reset();
 			m_gameState = GameState::Gameplay;

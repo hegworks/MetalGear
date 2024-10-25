@@ -19,4 +19,5 @@ enum class TileType
 	EPR = 338, // ...Right
 	Door = 328,
 	Elevator = 329,
+	Hide = 339,
 };

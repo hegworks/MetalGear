@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "enemy.h"
+#include "src/human/enemy/enemy.h"
 
 class EnemyRed : public Enemy
 {
@@ -8,8 +8,10 @@ public:
 
 	virtual void Tick(float deltaTime);
 	virtual void Lookaround(float deltaTime);
+	virtual void CheckPatrolCollider();
 	virtual void Relieve();
 	virtual void ComeBack(int comebackOrder);
+	virtual void SetSpeedToChaseSpeed();
 
 private:
 	const float LOOKAROUND_TIME = 1000.0f;
@@ -21,6 +23,5 @@ private:
 	const float ORDER_0_ESD_X = 288;
 	bool m_isOrder1WaitingToSpawn = false;
 
-	void CheckLookAroundCollider();
 	void CheckComeBackOrder1Spawn(float deltaTime);
 };

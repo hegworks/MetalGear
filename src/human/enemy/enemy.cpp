@@ -24,7 +24,7 @@ Enemy::Enemy(Surface* pScreen, LevelMaps* pLevelMaps, SpriteStorage* pSpriteStor
 	m_pRng = new Rng();
 
 	m_position = spawnPos;
-	m_speed = SPEED;
+	SetSpeedToPatrolSpeed();
 
 	m_pPlayer = pPlayer;
 	m_pBulletManager = pBulletManager;
@@ -144,6 +144,7 @@ void Enemy::Debug_PrintValues() const
 			stateString = "RedComeBack";
 			break;
 		case EnemyState::Hidden:
+			stateString = "Hidden";
 			break;
 		default:
 			throw exception("invalid state");
@@ -173,7 +174,7 @@ void Enemy::UpdateBroadPhaseCircleAabb() const
 
 void Enemy::Draw() const
 {
-	if(m_state == EnemyState::Dead)
+	if(m_state == EnemyState::Dead || m_state == EnemyState::Hidden)
 	{
 		return;
 	}
@@ -273,6 +274,7 @@ void Enemy::CheckPatrolCollider()
 		case TileType::ESL:
 		case TileType::ESR:
 		case TileType::Door:
+		case TileType::Hide:
 		case TileType::Elevator:
 			// do nothing
 			break;
@@ -307,7 +309,7 @@ void Enemy::Lookaround(const float deltaTime)
 	{
 		m_lookAroundChecksDone = 0;
 		SwitchState(EnemyState::Patrol);
-		m_speed = SPEED;
+		SetSpeedToPatrolSpeed();
 		m_movementDirection = m_movementDirectionAfterLookAround;
 		m_isOneStageOfLookOutPlaying = false;
 		return;
@@ -421,7 +423,7 @@ void Enemy::ChasePlayer(const float deltaTime)
 		return;
 	}
 
-	m_speed = SPEED_CHASE;
+	SetSpeedToChaseSpeed();
 
 	// set positions to player and enemy's feet
 	const float2 playerPos = m_pPlayer->GetFeetPos();
@@ -622,4 +624,14 @@ void Enemy::SwitchState(const EnemyState newState)
 
 
 	m_state = newState;
+}
+
+void Enemy::SetSpeedToChaseSpeed()
+{
+	m_speed = SPEED_CHASE;
+}
+
+void Enemy::SetSpeedToPatrolSpeed()
+{
+	m_speed = SPEED_PATROL;
 }

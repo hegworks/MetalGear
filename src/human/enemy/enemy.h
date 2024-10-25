@@ -38,9 +38,8 @@ protected:
 
 	// LookAround
 	float m_lookaroundTimer = 0.0f;
-
-	// speed
-	const float SPEED = 0.1f;
+	Direction m_movementDirectionAfterLookAround = Direction::Up;
+	Direction m_movementDirectionBeforeLookAround = Direction::Up;
 
 	// colliders
 	PointCollider* m_patrolCollider = nullptr;
@@ -50,7 +49,7 @@ protected:
 	void CheckSightCollider();
 	void UpdateSightCollider() const;
 	void UpdateSightCollider(Direction direction) const;
-	void CheckPatrolCollider();
+	virtual void CheckPatrolCollider();
 	virtual void Lookaround(float deltaTime);
 	void MoveInDirection(float deltaTime);
 	void UpdateAnimationState();
@@ -62,6 +61,8 @@ protected:
 	void UpdateTimers(float deltaTime);
 	void PunchShake(float deltaTime);
 	void SwitchState(EnemyState newState);
+	virtual void SetSpeedToChaseSpeed();
+	virtual void SetSpeedToPatrolSpeed();
 #ifdef _DEBUG
 	void Debug_PrintValues() const;
 #endif
@@ -91,14 +92,13 @@ private:
 	BulletManager* m_pBulletManager = nullptr;
 
 	// look around
-	Direction m_movementDirectionAfterLookAround = Direction::Up;
-	Direction m_movementDirectionBeforeLookAround = Direction::Up;
 	const int LOOKAROUND_CHANCE = 50;
 	bool m_isOneStageOfLookOutPlaying = false;
 	int m_lookAroundChecksDone = 0;
 	const float LOOKAROUND_TIME = 500.0f;
 
 	// speed
+	const float SPEED_PATROL = 0.1f;
 	const float SPEED_CHASE = 0.2f;
 
 	// chase

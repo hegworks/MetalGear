@@ -56,17 +56,15 @@ void EnemyRed::Tick(float deltaTime)
 			// handled as early return on top of the function
 			break;
 		case EnemyState::RedRelieve:
-			m_speed = SPEED;
+			SetSpeedToPatrolSpeed();
 			CheckSightCollider();
 			MoveInDirection(deltaTime);
 			break;
 		case EnemyState::RedComeBack:
 			CheckSightCollider();
 			UpdatePatrolCollider();
-			CheckLookAroundCollider();
+			CheckPatrolCollider();
 			MoveInDirection(deltaTime);
-			break;
-		case EnemyState::Hidden:
 			break;
 		default:
 			throw exception("Invalid enemy state");
@@ -101,7 +99,7 @@ void EnemyRed::ComeBack(int comebackOrder)
 	if(comebackOrder == 0)
 	{
 		m_position.x = SCRWIDTH;
-		m_speed = SPEED;
+		SetSpeedToPatrolSpeed();
 		m_movementDirection = Direction::Left;
 		SwitchState(EnemyState::RedComeBack);
 	}
@@ -111,7 +109,12 @@ void EnemyRed::ComeBack(int comebackOrder)
 	}
 }
 
-void EnemyRed::CheckLookAroundCollider()
+void EnemyRed::SetSpeedToChaseSpeed()
+{
+	m_speed = SPEED_CHASE;
+}
+
+void EnemyRed::CheckPatrolCollider()
 {
 	switch(m_patrolCollider->GetTileType())
 	{
@@ -130,6 +133,7 @@ void EnemyRed::CheckLookAroundCollider()
 		case TileType::EPD:
 		case TileType::EPL:
 		case TileType::EPR:
+		case TileType::Hide:
 		case TileType::Elevator:
 			// do nothing
 			break;

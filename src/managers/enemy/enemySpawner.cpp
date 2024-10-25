@@ -2,7 +2,8 @@
 #include "enemySpawner.h"
 
 #include "src/audio/audioManager.h"
-#include "src/human/enemy/enemyRed.h"
+#include "src/human/enemy/enemyDelayedSpawn/enemyDelayedSpawn.h"
+#include "src/human/enemy/enemyRed/enemyRed.h"
 #include "src/tile/levelMap/levelMaps.h"
 #include "src/tile/tileSet.h"
 
@@ -123,8 +124,9 @@ bool EnemySpawner::Spawn()
 		m_enemies[i] = nullptr;
 	}
 
-	bool isExceptionLevel4 = m_levelMaps->GetCurrentLevelId() == 4;
-	bool isPlayerCloserToBottom = m_player->GetPosition().y > SCRHEIGHT / 2;
+	const int currentLevelId = m_levelMaps->GetCurrentLevelId();
+	const bool isExceptionLevel4 = currentLevelId == 4;
+	const bool isPlayerCloserToBottom = m_player->GetPosition().y > SCRHEIGHT / 2;
 	bool skipLeftSpawn = false;
 	bool skipRightSpawn = false;
 
@@ -134,7 +136,8 @@ bool EnemySpawner::Spawn()
 		skipRightSpawn = !skipLeftSpawn;
 	}
 
-	bool isExceptionLevel8 = m_levelMaps->GetCurrentLevelId() == 8;
+	const bool isEnemyRedLevel8 = currentLevelId == 8;
+	const bool isEnemyDelayedSpawnLevel = currentLevelId == 5 || currentLevelId == 9;
 
 	m_enemyCount = 0;
 
@@ -168,15 +171,20 @@ bool EnemySpawner::Spawn()
 						default:
 							throw exception("Invalid tile type");
 					}
+					// this if below, is to skip one of the enemies in level4 based on player's position
 					if(!isExceptionLevel4 ||
 					   (spawnDir == Direction::Up || spawnDir == Direction::Down) ||
 					   (spawnDir == Direction::Left && !skipLeftSpawn) ||
 					   spawnDir == Direction::Right && !skipRightSpawn)
 					{
 						float2 spawnPos = {static_cast<float>(j * TILESET_TILEWIDTH), static_cast<float>(i * TILESET_TILEHEIGHT - 96)};
-						if(isExceptionLevel8)
+						if(isEnemyRedLevel8)
 						{
 							m_enemies[m_enemyCount] = new EnemyRed(m_screen, m_levelMaps, m_spriteStorage, spawnPos, spawnDir, m_player, m_bulletManager, m_audioManager);
+						}
+						else if(isEnemyDelayedSpawnLevel)
+						{
+							m_enemies[m_enemyCount] = new EnemyDelayedSpawn(m_screen, m_levelMaps, m_spriteStorage, spawnPos, spawnDir, m_player, m_bulletManager, m_audioManager);
 						}
 						else
 						{
