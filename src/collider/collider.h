@@ -5,6 +5,7 @@ class Collider
 {
 public:
 	Collider(Surface* pScreen, LevelMaps* pLevelMaps);
+	virtual ~Collider() = default;
 #ifdef _DEBUG
 	virtual void Draw(float visualSize, int color = 0xff0000) = 0;
 #endif

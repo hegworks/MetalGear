@@ -4,7 +4,7 @@
 BoxAabb::BoxAabb(const float2 pos, const float2 size)
 {
 	m_size = size;
-	UpdatePosition(pos);
+	BoxAabb::UpdatePosition(pos);
 }
 
 void BoxAabb::UpdatePosition(const float2 pos)

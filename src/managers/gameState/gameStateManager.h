@@ -56,4 +56,5 @@ private:
 
 	const int RESTART_KEY = GLFW_KEY_R;
 	const int RADIO_KEY = GLFW_KEY_F4;
+	const int STARTING_ROOM_ID = 1;
 };

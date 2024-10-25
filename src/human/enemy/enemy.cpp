@@ -45,6 +45,16 @@ Enemy::Enemy(Surface* pScreen, LevelMaps* pLevelMaps, SpriteStorage* pSpriteStor
 	m_broadPhaseCircleAabb = new CircleAabb(GetCenterPos(), BROAD_PHASE_CIRCLE_AABB_RADIUS);
 }
 
+Enemy::~Enemy()
+{
+	delete m_pRng;
+	delete m_patrolCollider;
+	delete m_pSightCollider;
+	delete m_tileBoxCollider;
+	delete m_boxAabb;
+	delete m_broadPhaseCircleAabb;
+}
+
 void Enemy::Tick(float deltaTime)
 {
 	if(m_state == EnemyState::Dead)

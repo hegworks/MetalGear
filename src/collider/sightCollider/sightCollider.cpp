@@ -14,6 +14,14 @@ SightCollider::SightCollider(Surface* pScreen, LevelMaps* pLevelMaps, Player* pP
 	}
 }
 
+SightCollider::~SightCollider()
+{
+	for(int i = 0; i < SIGHT_COLL_SIZE; i++)
+	{
+		delete m_pPoints[i];
+	}
+}
+
 void SightCollider::UpdatePosition(const float2 startPos, const Direction dir)
 {
 	m_dir = dir;

@@ -119,11 +119,6 @@ void EnemySpawner::DrawColliders() const
 
 bool EnemySpawner::Spawn()
 {
-	for(int i = 0; i < MAX_ENEMIES; i++)
-	{
-		m_enemies[i] = nullptr;
-	}
-
 	const int currentLevelId = m_levelMaps->GetCurrentLevelId();
 	const bool isExceptionLevel4 = currentLevelId == 4;
 	const bool isPlayerCloserToBottom = m_player->GetPosition().y > SCRHEIGHT / 2;
@@ -213,6 +208,16 @@ void EnemySpawner::PlayerPunchReported() const
 
 void EnemySpawner::RoomChanged()
 {
+	for(int i = 0; i < m_enemyCount; i++)
+	{
+		if(m_enemies[i] != nullptr)
+		{
+			delete m_enemies[i];
+			m_enemies[i] = nullptr;
+		}
+	}
+
+	m_enemyCount = 0;
 	m_hasAlertedAllInRoom = false;
 	m_hasReportedAllEnemiesDeadOnce = false;
 	m_isInRoom8 = m_levelMaps->GetCurrentLevelId() == 8;

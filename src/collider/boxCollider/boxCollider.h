@@ -7,6 +7,7 @@ class BoxCollider : public Collider
 {
 public:
 	BoxCollider(Surface* pScreen, LevelMaps* pLevelMaps, int2 size);
+	virtual ~BoxCollider();
 
 	void UpdatePosition(float2 pos);
 #ifdef _DEBUG

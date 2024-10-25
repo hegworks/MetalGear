@@ -17,6 +17,7 @@ class Enemy : public Human
 {
 public:
 	Enemy(Surface* pScreen, LevelMaps* pLevelMaps, SpriteStorage* pSpriteStorage, float2 spawnPos, Direction spawnDir, Player* pPlayer, BulletManager* pBulletManager, AudioManager* pAudioManager);
+	virtual ~Enemy();
 	virtual void Tick(float deltaTime);
 #ifdef _DEBUG
 	virtual void DrawColliders();

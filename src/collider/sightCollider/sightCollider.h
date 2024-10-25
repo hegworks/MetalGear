@@ -11,6 +11,7 @@ class SightCollider : public Collider
 {
 public:
 	SightCollider(Surface* pScreen, LevelMaps* pLevelMaps, Player* pPlayer);
+	virtual ~SightCollider();
 
 	void UpdatePosition(float2 startPos, Direction dir);
 #ifdef _DEBUG

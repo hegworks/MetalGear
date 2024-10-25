@@ -10,6 +10,14 @@ BoxCollider::BoxCollider(Surface* pScreen, LevelMaps* pLevelMaps, int2 size) : C
 	m_bottomRight = new PointCollider(pScreen, pLevelMaps);
 }
 
+BoxCollider::~BoxCollider()
+{
+	delete m_topLeft;
+	delete m_topRight;
+	delete m_bottomLeft;
+	delete m_bottomRight;
+}
+
 void BoxCollider::UpdatePosition(float2 pos)
 {
 	m_pos = pos;
