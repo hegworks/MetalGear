@@ -4,6 +4,10 @@
 enum class AudioType;
 class AudioPlayer;
 
+/// <summary>
+/// this class gets called from different classes of the game and acts as a mediator between the game and audioPlayer class.
+///	this means that no class has direct access to audioPlayer except audioManager
+/// </summary>
 class AudioManager
 {
 public:

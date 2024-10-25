@@ -8,6 +8,11 @@ class Sound;
 enum class AudioType;
 struct AudioData;
 
+/// <summary>
+/// this class just initializes audio files and has functions to control them.
+///	this class knows nothing about the game itself because it is controlled through audioManager class.
+///	this means that no class has direct access to audioPlayer except audioManager
+/// </summary>
 class AudioPlayer
 {
 public:
