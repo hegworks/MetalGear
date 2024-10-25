@@ -1,6 +1,5 @@
 ﻿#pragma once
 #include "enemyState.h"
-#include "enemyType.h"
 #include "src/Animation/customAnimation.h"
 #include "src/human/human.h"
 
@@ -99,7 +98,7 @@ private:
 
 	// speed
 	const float SPEED_PATROL = 0.1f;
-	const float SPEED_CHASE = 0.2f;
+	const float SPEED_CHASE = 0.25f;
 
 	// chase
 	Direction m_chaseDirectionBeforeCollision = Direction::Up;

@@ -22,7 +22,7 @@ public:
 private:
 	float2 m_pos{};
 	float2 m_dir{};
-	float m_speed = 0.25f;
+	float m_speed = 0.6f;
 	int m_id = -1;
 	bool m_isActive = false;
 

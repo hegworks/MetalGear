@@ -24,7 +24,7 @@ Enemy::Enemy(Surface* pScreen, LevelMaps* pLevelMaps, SpriteStorage* pSpriteStor
 	m_pRng = new Rng();
 
 	m_position = spawnPos;
-	SetSpeedToPatrolSpeed();
+	Enemy::SetSpeedToPatrolSpeed();
 
 	m_pPlayer = pPlayer;
 	m_pBulletManager = pBulletManager;
@@ -621,7 +621,6 @@ void Enemy::SwitchState(const EnemyState newState)
 	{
 		return;
 	}
-
 
 	m_state = newState;
 }
