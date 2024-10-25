@@ -3,6 +3,7 @@
 // IGAD/NHTV/BUAS/UU - Jacco Bikker - 2006-2024
 
 #pragma once
+class HudManager;
 class AudioManager;
 class AudioPlayer;
 class TextRenderer;
@@ -61,6 +62,7 @@ private:
 	Radio* m_radio = nullptr;
 	AudioPlayer* m_audioPlayer = nullptr;
 	AudioManager* m_audioManager = nullptr;
+	HudManager* m_hudManager = nullptr;
 
 	/* this function here and in this form (static constexpr), has the best place and form in my opinion.
 	 * because first this is the game.h and is/will not be included in any other file.

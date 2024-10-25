@@ -7,12 +7,13 @@
 #include "src/managers/enemy/enemySpawner.h"
 #include "src/managers/gamescreen/loseScreen.h"
 #include "src/managers/gamescreen/winScreen.h"
+#include "src/managers/hud/hudManager.h"
 #include "src/managers/room/roomFinder.h"
 #include "src/radio/radio.h"
 #include "src/tile/levelMap/levelMaps.h"
 #include "src/tile/tileMap.h"
 
-GameStateManager::GameStateManager(Surface* pScreen, WinScreen* pWinScreen, LoseScreen* pLoseScreen, Player* pPlayer, Radio* pRadio, RoomFinder* pRoomFinder, LevelMaps* pLevelMaps, EnemySpawner* pEnemySpawner, TileMap* pTileMap, BulletManager* pBulletManager, AudioManager* pAudioManager)
+GameStateManager::GameStateManager(Surface* pScreen, WinScreen* pWinScreen, LoseScreen* pLoseScreen, Player* pPlayer, Radio* pRadio, RoomFinder* pRoomFinder, LevelMaps* pLevelMaps, EnemySpawner* pEnemySpawner, TileMap* pTileMap, BulletManager* pBulletManager, AudioManager* pAudioManager, HudManager* pHudManager)
 {
 	m_pScreen = pScreen;
 	m_pWinScreen = pWinScreen;
@@ -25,6 +26,7 @@ GameStateManager::GameStateManager(Surface* pScreen, WinScreen* pWinScreen, Lose
 	m_pTileMap = pTileMap;
 	m_pBulletManager = pBulletManager;
 	m_pAudioManager = pAudioManager;
+	m_pHudManager = pHudManager;
 }
 
 void GameStateManager::Tick(float deltaTime)
@@ -47,6 +49,7 @@ void GameStateManager::Draw() const
 			m_pPlayer->Draw();
 			m_pEnemySpawner->Draw();
 			m_pBulletManager->Draw();
+			m_pHudManager->Draw();
 			break;
 		case GameState::Win:
 			m_pWinScreen->Draw(m_pScreen);
@@ -56,6 +59,7 @@ void GameStateManager::Draw() const
 			break;
 		case GameState::Radio:
 			m_pRadio->Draw();
+			m_pHudManager->Draw();
 			break;
 		default:
 			throw exception("Invalid GameState");

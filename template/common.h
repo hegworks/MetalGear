@@ -8,6 +8,7 @@
 // default screen resolution
 #define SCRWIDTH	1024
 #define SCRHEIGHT	768
+#define HUDHEIGHT	100
 
 // #define FULLSCREEN
 

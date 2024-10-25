@@ -98,7 +98,7 @@ void main()
 #ifdef FULLSCREEN
 	window = glfwCreateWindow( SCRWIDTH, SCRHEIGHT, "Tmpl8-2024", glfwGetPrimaryMonitor(), 0 );
 #else
-	window = glfwCreateWindow( SCRWIDTH, SCRHEIGHT, "Tmpl8-2024", 0, 0 );
+	window = glfwCreateWindow( SCRWIDTH, SCRHEIGHT + HUDHEIGHT, "Tmpl8-2024", 0, 0 );
 #endif
 	if (!window) FatalError( "glfwCreateWindow failed." );
 	glfwMakeContextCurrent( window );
@@ -137,8 +137,8 @@ void main()
 	printf( "Working directory: %s\n", getcwd( dir, 2048 ) );
 #endif
 	// initialize application
-	InitRenderTarget( SCRWIDTH, SCRHEIGHT );
-	Surface* screen = new Surface( SCRWIDTH, SCRHEIGHT );
+	InitRenderTarget( SCRWIDTH, SCRHEIGHT + HUDHEIGHT );
+	Surface* screen = new Surface( SCRWIDTH, SCRHEIGHT + HUDHEIGHT );
 	app = new Game();
 	app->screen = screen;
 	app->Init();

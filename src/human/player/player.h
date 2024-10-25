@@ -4,6 +4,7 @@
 #include "src/managers/room/roomChange.h"
 #include "src/managers/room/roomChangeType.h"
 
+class HudManager;
 class BoxAabb;
 class PointCollider;
 
@@ -12,7 +13,7 @@ constexpr int PLAYER_ANIMATION_COUNT = 8;
 class Player : public Human
 {
 public:
-	Player(Surface* screen, LevelMaps* levelMaps, SpriteStorage* spriteStorage, AudioManager* pAudioManager);
+	Player(Surface* screen, LevelMaps* levelMaps, SpriteStorage* spriteStorage, AudioManager* pAudioManager, HudManager* pHudManager);
 	virtual void Tick(float deltaTime);
 #ifdef _DEBUG
 	virtual void DrawColliders();
@@ -78,6 +79,9 @@ private:
 	// HP
 	const int HP_MAX = 5;
 	int m_hp = HP_MAX;
+
+	// references
+	HudManager* m_pHudManager = nullptr;
 
 	// functions
 	void HandleInput();

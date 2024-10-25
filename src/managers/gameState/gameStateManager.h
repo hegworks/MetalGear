@@ -2,6 +2,7 @@
 #include "gameState.h"
 #include "src/managers/room/roomChangeType.h"
 
+class HudManager;
 class AudioManager;
 class BulletManager;
 
@@ -21,7 +22,7 @@ class WinScreen;
 class GameStateManager
 {
 public:
-	GameStateManager(Surface* pScreen, WinScreen* pWinScreen, LoseScreen* pLoseScreen, Player* pPlayer, Radio* pRadio, RoomFinder* pRoomFinder, LevelMaps* pLevelMaps, EnemySpawner* pEnemySpawner, TileMap* pTileMap, BulletManager* pBulletManager, AudioManager* pAudioManager);
+	GameStateManager(Surface* pScreen, WinScreen* pWinScreen, LoseScreen* pLoseScreen, Player* pPlayer, Radio* pRadio, RoomFinder* pRoomFinder, LevelMaps* pLevelMaps, EnemySpawner* pEnemySpawner, TileMap* pTileMap, BulletManager* pBulletManager, AudioManager* pAudioManager, HudManager* pHudManager);
 	void PassDownReport();
 	void PassDownTick(float deltaTime);
 	void ChangeGameStateBasedOnReports();
@@ -50,6 +51,7 @@ private:
 	TileMap* m_pTileMap = nullptr;
 	BulletManager* m_pBulletManager = nullptr;
 	AudioManager* m_pAudioManager = nullptr;
+	HudManager* m_pHudManager = nullptr;
 
 	int** m_ppCurrentLevelTiles = nullptr;
 	int** m_ppCurrentLevelColliders = nullptr;

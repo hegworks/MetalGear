@@ -51,6 +51,7 @@
     <ClCompile Include="src\audio\audioManager.cpp" />
     <ClCompile Include="src\human\enemy\enemyRed\enemyRed.cpp" />
     <ClCompile Include="src\human\enemy\enemyDelayedSpawn\enemyDelayedSpawn.cpp" />
+    <ClCompile Include="src\managers\hud\hudManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="template\common.h">
@@ -129,6 +130,7 @@
     <ClInclude Include="src\animation\animationType.h" />
     <ClInclude Include="src\human\enemy\enemyType.h" />
     <ClInclude Include="src\human\enemy\enemyDelayedSpawn\enemyDelayedSpawn.h" />
+    <ClInclude Include="src\managers\hud\hudManager.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md">

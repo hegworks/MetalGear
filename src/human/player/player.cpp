@@ -7,15 +7,18 @@
 #include "src/collider/aabb/circleAabb/circleAabb.h"
 #include "src/collider/boxCollider/boxCollider.h"
 #include "src/collider/pointCollider/pointCollider.h"
+#include "src/managers/hud/hudManager.h"
 #include "src/spriteStorage/spriteStorage.h"
 #include "src/spriteStorage/spriteType.h"
 #include "src/tile/tileType.h"
 #include "src/tools/screenPrinter.h"
 
-Player::Player(Surface* screen, LevelMaps* levelMaps, SpriteStorage* spriteStorage, AudioManager* pAudioManager) : Human(screen, levelMaps, spriteStorage, pAudioManager)
+Player::Player(Surface* screen, LevelMaps* levelMaps, SpriteStorage* spriteStorage, AudioManager* pAudioManager, HudManager* pHudManager) : Human(screen, levelMaps, spriteStorage, pAudioManager)
 {
 	m_pSprite = spriteStorage->GetSpriteData(SpriteType::Player)->sprite;
 	m_pSprite->SetFrame(0);
+
+	m_pHudManager = pHudManager;
 
 	m_animationFrame = 0;
 	m_position = float2(100, 200);
@@ -29,6 +32,8 @@ Player::Player(Surface* screen, LevelMaps* levelMaps, SpriteStorage* spriteStora
 	m_enemyBulletBoxAabb = new BoxAabb(m_position, {static_cast<float>(m_pSprite->GetWidth()),static_cast<float>(m_pSprite->GetHeight())});
 
 	m_broadPhaseCircleAabb = new CircleAabb(GetCenterPos(), BROAD_PHASE_CIRCLE_AABB_RADIUS);
+
+	m_pHudManager->PlayerHpChanged(m_hp);
 }
 
 void Player::Tick(const float deltaTime)
@@ -264,6 +269,7 @@ void Player::EnemyBulletCollided()
 
 	m_hp--;
 	m_pAudioManager->Play(AudioType::BulletHit);
+	m_pHudManager->PlayerHpChanged(m_hp);
 	if(m_hp <= 0)
 	{
 		printf("PLAYER IS DEAD\n");
@@ -273,6 +279,7 @@ void Player::EnemyBulletCollided()
 void Player::Reset()
 {
 	m_hp = HP_MAX;
+	m_pHudManager->PlayerHpChanged(m_hp);
 	m_position = SPAWN_POS;
 	m_punchAnimationRemaining = 0;
 	m_currentAnimationState = AnimationType::Down;

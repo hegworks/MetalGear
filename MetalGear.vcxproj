@@ -142,6 +142,7 @@
     <ClCompile Include="src\managers\enemy\enemySpawner.cpp" />
     <ClCompile Include="src\managers\gamescreen\loseScreen.cpp" />
     <ClCompile Include="src\managers\gameState\gameStateManager.cpp" />
+    <ClCompile Include="src\managers\hud\hudManager.cpp" />
     <ClCompile Include="src\managers\room\roomFinder.cpp" />
     <ClCompile Include="src\managers\gamescreen\winScreen.cpp" />
     <ClCompile Include="src\radio\radio.cpp" />
@@ -197,6 +198,7 @@
     <ClInclude Include="src\managers\gamescreen\loseScreen.h" />
     <ClInclude Include="src\managers\gameState\gameState.h" />
     <ClInclude Include="src\managers\gameState\gameStateManager.h" />
+    <ClInclude Include="src\managers\hud\hudManager.h" />
     <ClInclude Include="src\managers\room\roomChange.h" />
     <ClInclude Include="src\managers\room\roomChangePositionType.h" />
     <ClInclude Include="src\managers\room\roomChangeType.h" />
