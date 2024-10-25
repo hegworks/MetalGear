@@ -20,6 +20,10 @@ void AudioManager::RoomChanged(int roomNumber) const
 	{
 		m_pAudioPlayer->Play(AudioType::Call);
 	}
+	else if(m_pAudioPlayer->IsPlaying(AudioType::Call))
+	{
+		m_pAudioPlayer->Stop(AudioType::Call);
+	}
 }
 
 void AudioManager::EnemyAlerted() const
