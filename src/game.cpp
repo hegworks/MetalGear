@@ -7,7 +7,6 @@
 
 #include "audio/audioManager.h"
 #include "audio/AudioPlayer.h"
-#include "audio/audioType.h"
 #include "collider/pixelPerfect/pixelPerfectCollisionChecker.h"
 #include "human/player/player.h"
 #include "managers/bullet/bulletManager.h"
