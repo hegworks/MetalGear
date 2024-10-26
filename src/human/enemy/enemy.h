@@ -98,12 +98,10 @@ private:
 	const float LOOKAROUND_TIME = 500.0f;
 
 	// speed
-	const float SPEED_PATROL = 0.1f;
+	const float SPEED_PATROL = 0.12f;
 	const float SPEED_CHASE = 0.25f;
 
 	// chase
-	Direction m_chaseDirectionBeforeCollision = Direction::Up;
-	bool m_chaseHasEverCollided = false;
 	int m_chaseNoMovementCount = 0;
 
 	// punch

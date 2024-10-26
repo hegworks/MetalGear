@@ -26,11 +26,18 @@ private:
 	int m_id = -1;
 	bool m_isActive = false;
 
+	// fix spawn in a wall variables
+	bool m_wasInWallWhenSpawned = false;
+	int m_spawnedInWallTileRow = -1;
+	bool m_wasOneTileLowerSolidWhenSpawned = false;
+	bool m_hasPassedANonSolid = false;
+
 	PointCollider* m_pPointCollider = nullptr;
 	Player* m_pPlayer = nullptr;
 	Surface* m_pScreen = nullptr;
 	Sprite* m_pSprite = nullptr;
 	PixelPerfectCollisionChecker* m_pPixelPerfectCollisionChecker = nullptr;
+	LevelMaps* m_pLevelMaps = nullptr;
 
 	void UpdatePointCollider() const;
 	void Move(float deltaTime);

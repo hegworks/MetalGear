@@ -19,6 +19,7 @@ Bullet::Bullet(int id, float2 startPos, float2 direction, Surface* pScreen, Play
 	m_pScreen = pScreen;
 	m_pPlayer = pPlayer;
 	m_pPixelPerfectCollisionChecker = pPixelPerfectCollisionChecker;
+	m_pLevelMaps = pLevelMaps;
 
 	m_pSprite = pSpriteStorage->GetSpriteData(SpriteType::Bullet)->sprite;
 
@@ -40,6 +41,16 @@ void Bullet::Activate(const float2 startPos, const float2 direction)
 {
 	m_pos = startPos;
 	m_dir = normalize(direction);
+
+	UpdatePointCollider();
+	m_wasInWallWhenSpawned = m_pPointCollider->IsSolid();
+	if(m_wasInWallWhenSpawned)
+	{
+		m_spawnedInWallTileRow = m_pLevelMaps->GetTilePos(m_pPointCollider->GetPos()).y;
+		const float2 oneTileLowerPos = m_pPointCollider->GetPos() + float2{0.0f, TILESET_TILEHEIGHT};
+		m_wasOneTileLowerSolidWhenSpawned = m_pLevelMaps->IsSolid(oneTileLowerPos);
+	}
+
 	m_isActive = true;
 }
 
@@ -47,6 +58,10 @@ void Bullet::Deactivate()
 {
 	m_pos = {0,0};
 	m_dir = {0,0};
+	m_wasInWallWhenSpawned = false;
+	m_spawnedInWallTileRow = -1;
+	m_wasOneTileLowerSolidWhenSpawned = false;
+	m_hasPassedANonSolid = false;
 	m_isActive = false;
 }
 
@@ -73,10 +88,28 @@ void Bullet::Move(const float deltaTime)
 
 void Bullet::CheckPointCollider()
 {
-	if(m_pPointCollider->IsSolid())
+	if(!m_pPointCollider->IsSolid())
 	{
-		Deactivate();
+		m_hasPassedANonSolid = true;
+		return;
 	}
+
+	if(!m_hasPassedANonSolid && m_wasInWallWhenSpawned)
+	{
+		const int tileRow = m_pLevelMaps->GetTilePos(m_pPointCollider->GetPos()).y;
+
+		if(tileRow == m_spawnedInWallTileRow)
+		{
+			return;
+		}
+
+		if(m_wasOneTileLowerSolidWhenSpawned && tileRow == m_spawnedInWallTileRow + 1)
+		{
+			return;
+		}
+	}
+
+	Deactivate();
 }
 
 void Bullet::CheckPlayerCollision()
@@ -100,7 +133,7 @@ void Bullet::CheckPlayerCollision()
 		m_pPlayer->EnemyBulletCollided();
 		Deactivate();
 	}
-}
+	}
 
 void Bullet::CheckOutOfScreen()
 {
