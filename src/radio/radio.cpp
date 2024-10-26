@@ -161,9 +161,13 @@ void Radio::Draw()
 		m_pReceive->Draw(m_pScreen, m_sendReceivePos.x, m_sendReceivePos.y);
 	}
 
-	m_pTextBox->DrawScaled(m_textBoxPos.x, m_textBoxPos.y, m_pTextBox->GetWidth() * m_textBoxScale, m_pTextBox->GetHeight() * m_textBoxScale, m_pScreen);
+	m_pTextBox->DrawScaled(static_cast<int>(m_textBoxPos.x),
+						   static_cast<int>(m_textBoxPos.y),
+						   static_cast<int>(static_cast<float>(m_pTextBox->GetWidth()) * m_textBoxScale),
+						   static_cast<int>(static_cast<float>(m_pTextBox->GetHeight()) * m_textBoxScale),
+						   m_pScreen);
 
-	m_pFontTR->DrawText(m_text, m_textPos.x, m_textPos.y, m_textScale);
+	m_pFontTR->DrawText(m_text, static_cast<int>(m_textPos.x), static_cast<int>(m_textPos.y), m_textScale);
 }
 
 void Radio::Show(int roomNumber)
@@ -351,7 +355,7 @@ void Radio::PlayTextAnimation(const string& referenceText, float deltaTime)
 		return;
 	}
 
-	const int maxIndex = referenceText.length();
+	const int maxIndex = static_cast<int>(referenceText.length());
 
 	if(m_textLastIndex == maxIndex)
 	{

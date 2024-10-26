@@ -28,7 +28,7 @@ public:
 	bool ReportIsAlerted() const { return m_state == EnemyState::Alarm; }
 	EnemyState GetEnemyState() const { return m_state; }
 	virtual void Relieve() {}
-	virtual void ComeBack(int comebackOrder) {}
+	virtual void ComeBack(int) {}
 
 protected:
 	EnemyState m_state = EnemyState::Patrol;
@@ -55,7 +55,7 @@ protected:
 	void UpdateAnimationState();
 	void Animate(float deltaTime);
 	void ChasePlayer(float deltaTime);
-	void Shoot(float deltaTime);
+	void Shoot();
 	int2 GetSightColliderPos() const;
 	void UpdateBoxAabb() const;
 	void UpdateTimers(float deltaTime);

@@ -103,7 +103,11 @@ void EnemySpawner::Draw() const
 
 	if(m_relieveScale > 0)
 	{
-		m_relieveSprite->DrawScaled(RELIEVE_SPRITE_POS.x, RELIEVE_SPRITE_POS.y, m_relieveSprite->GetWidth() * m_relieveScale, m_relieveSprite->GetHeight() * m_relieveScale, m_screen);
+		m_relieveSprite->DrawScaled(static_cast<int>(RELIEVE_SPRITE_POS.x),
+									static_cast<int>(RELIEVE_SPRITE_POS.y),
+									static_cast<int>(static_cast<float>(m_relieveSprite->GetWidth()) * m_relieveScale),
+									static_cast<int>(static_cast<float>(m_relieveSprite->GetHeight()) * m_relieveScale),
+									m_screen);
 	}
 }
 

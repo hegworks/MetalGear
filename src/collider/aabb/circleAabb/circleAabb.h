@@ -8,7 +8,7 @@ public:
 
 	virtual void UpdatePosition(float2 pos);
 #ifdef _DEBUG
-	virtual void Draw(Surface* pScreen, uint color = 0xff0000) const;
+	virtual void Draw(Surface* pScreen, uint color = 0x00ff00) const;
 #endif
 	bool IsColliding(const CircleAabb* other) const;
 	bool IsColliding(float2 point) const;

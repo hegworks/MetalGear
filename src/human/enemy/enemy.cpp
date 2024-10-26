@@ -87,7 +87,7 @@ void Enemy::Tick(float deltaTime)
 			Lookaround(deltaTime);
 			break;
 		case EnemyState::Alarm:
-			Shoot(deltaTime);
+			Shoot();
 			UpdateTileBoxCollider();
 			ChasePlayer(deltaTime);
 			break;
@@ -560,7 +560,7 @@ void Enemy::ChasePlayer(const float deltaTime)
 	MoveInDirection(deltaTime);
 }
 
-void Enemy::Shoot(const float deltaTime)
+void Enemy::Shoot()
 {
 	if(m_shootTimer <= 0 && m_punchShakeShootStopRemaining < 0)
 	{
@@ -606,7 +606,7 @@ void Enemy::PunchShake(float deltaTime)
 	{
 		m_isPunchShakeDirectionUp = false;
 	}
-	const float dir = m_isPunchShakeDirectionUp ? -1 : 1;
+	const float dir = m_isPunchShakeDirectionUp ? -1.0f : 1.0f;
 	m_position.y += dir * PUNCH_SHAKE_SPEED * deltaTime;
 
 	if(!m_isPunchShakeDirectionUp && m_position.y > m_yBeforePunchShake)

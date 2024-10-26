@@ -47,7 +47,7 @@ void EnemyRed::Tick(float deltaTime)
 			Lookaround(deltaTime);
 			break;
 		case EnemyState::Alarm:
-			Shoot(deltaTime);
+			Shoot();
 			UpdateTileBoxCollider();
 			ChasePlayer(deltaTime);
 			break;

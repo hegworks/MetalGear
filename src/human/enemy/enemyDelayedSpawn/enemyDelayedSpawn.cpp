@@ -43,7 +43,7 @@ void EnemyDelayedSpawn::Tick(float deltaTime)
 			Lookaround(deltaTime);
 			break;
 		case EnemyState::Alarm:
-			Shoot(deltaTime);
+			Shoot();
 			UpdateTileBoxCollider();
 			ChasePlayer(deltaTime);
 			break;

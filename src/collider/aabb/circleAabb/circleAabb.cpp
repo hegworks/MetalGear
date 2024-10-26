@@ -16,7 +16,7 @@ void CircleAabb::UpdatePosition(const float2 pos)
 void CircleAabb::Draw(Surface* pScreen, uint color) const
 {
 	int2 posInt = {static_cast<int>(m_pos.x), static_cast<int>(m_pos.y)};
-	pScreen->Circle(posInt.x, posInt.y, static_cast<int>(m_radius), 0x00ff00);
+	pScreen->Circle(posInt.x, posInt.y, static_cast<int>(m_radius), color);
 }
 #endif
 

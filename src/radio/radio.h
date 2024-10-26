@@ -19,6 +19,17 @@ public:
 	bool ReportActive() const { return m_isShowing; }
 
 private:
+	// float2 & int2 - on top to fix the padding warning
+	// text
+	const float2 m_textPos = {250,325};
+	// textBox
+	const float2 m_textBoxPosStart = {516,396};
+	const float2 m_textBoxPosEnd = {235,313};
+	float2 m_textBoxPos = m_textBoxPosStart;
+	// frequency
+	const int2 m_receiveCallFrequency = {8,5}; // 120.85
+	int2 m_frequency = m_receiveCallFrequency;
+
 	Surface* m_pScreen = nullptr;
 	AudioManager* m_pAudioManager = nullptr;
 
@@ -63,25 +74,18 @@ private:
 	bool m_shouldIncreaseFrequency = false;
 	bool m_shouldDecreaseFrequency = false;
 
-	const int2 m_receiveCallFrequency = {8,5}; // 120.85
-	int2 m_frequency = m_receiveCallFrequency;
-
-	const float2 m_textBoxPosStart = {516,396};
-	const float2 m_textBoxPosEnd = {235,313};
 	const float m_textBoxScaleStart = 0;
 	const float m_textBoxScaleEnd = 1;
 	const float m_textBoxScaleDuration = 500;
-	float2 m_textBoxPos = m_textBoxPosStart;
 	float m_textBoxScale = m_textBoxScaleStart;
 	float m_textBoxScalePassed = 0;
 
 	const float m_autoBackToReceiveDelay = 500;
 	float m_autoBackToReceiveRemaining = m_autoBackToReceiveDelay;
 
-	const float2 m_textPos = {250,325};
 	const float m_textAnimationDelay = 50;
 	float m_textAnimationDelayRemaining = 0;
-	const float m_textScale = 2;
+	const int m_textScale = 2;
 
 	const int m_receiveCallRoomNumber = 1;
 	int m_roomNumber = 0;
