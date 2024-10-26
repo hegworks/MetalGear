@@ -5,6 +5,7 @@
 SpriteStorage::SpriteStorage()
 {
 	m_playerData = new SpriteData{new Sprite(new Surface("assets/graphics/playerSheet.png"), 42) ,42};
+	m_playerHurtData = new SpriteData{new Sprite(new Surface("assets/graphics/playerHurtSheet.png"), 42) ,42};
 	m_enemyData = new SpriteData{new Sprite(new Surface("assets/graphics/enemySheet.png"), 12) ,12};
 	m_bulletData = new SpriteData{new Sprite(new Surface("assets/graphics/bullet.png"), 1) ,1};
 	m_enemyRedData = new SpriteData{new Sprite(new Surface("assets/graphics/enemyRedSheet.png"), 12) ,12};
@@ -16,6 +17,8 @@ SpriteData* SpriteStorage::GetSpriteData(SpriteType spriteType) const
 	{
 		case SpriteType::Player:
 			return m_playerData;
+		case SpriteType::PlayerHurt:
+			return m_playerHurtData;
 		case SpriteType::Enemy:
 			return m_enemyData;
 		case SpriteType::Bullet:

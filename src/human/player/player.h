@@ -57,6 +57,15 @@ private:
 	float m_animationUpdateTimer = 0.0f;
 	bool m_hasDirectionInput = false;
 
+	// hurt animation
+	Sprite* m_pHurtSprite = nullptr;
+	Sprite* m_pNormalSprite = nullptr;
+	bool m_isHurtAnimationPlaying = false;
+	const float HURT_ANIMATION_TIME = 500.0f;
+	float m_hurtAnimationTimer = 0;
+	const float HURT_ANIMATION_INTERVAL = 50.0f;
+	float m_hurtAnimationIntervalTimer = 0;
+
 	// room change
 	PointCollider* m_roomChangeCollider = nullptr;
 	const int m_roomChangeColliderXOffset = -5;
@@ -92,4 +101,5 @@ private:
 	void UpdateAnimationState(float deltaTime);
 	void Animate(float deltaTime);
 	virtual void UpdateBroadPhaseCircleAabb() const;
+	void CheckHurtAnimation(float deltaTime);
 };

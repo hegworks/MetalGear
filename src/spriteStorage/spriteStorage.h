@@ -10,6 +10,7 @@ public:
 
 private:
 	SpriteData* m_playerData = nullptr;
+	SpriteData* m_playerHurtData = nullptr;
 	SpriteData* m_enemyData = nullptr;
 	SpriteData* m_bulletData = nullptr;
 	SpriteData* m_enemyRedData = nullptr;

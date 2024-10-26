@@ -15,8 +15,12 @@
 
 Player::Player(Surface* screen, LevelMaps* levelMaps, SpriteStorage* spriteStorage, AudioManager* pAudioManager, HudManager* pHudManager) : Human(screen, levelMaps, spriteStorage, pAudioManager)
 {
-	m_pSprite = spriteStorage->GetSpriteData(SpriteType::Player)->sprite;
-	m_pSprite->SetFrame(0);
+	m_pNormalSprite = spriteStorage->GetSpriteData(SpriteType::Player)->sprite;
+	m_pHurtSprite = spriteStorage->GetSpriteData(SpriteType::PlayerHurt)->sprite;
+	m_pNormalSprite->SetFrame(0);
+	m_pHurtSprite->SetFrame(0);
+
+	m_pSprite = m_pNormalSprite;
 
 	m_pHudManager = pHudManager;
 
@@ -29,7 +33,7 @@ Player::Player(Surface* screen, LevelMaps* levelMaps, SpriteStorage* spriteStora
 	UpdateRoomChangeCollider();
 
 	m_punchBoxAabb = new BoxAabb(GetFeetPos(), {PUNCH_SIZE,PUNCH_SIZE});
-	m_enemyBulletBoxAabb = new BoxAabb(m_position, {static_cast<float>(m_pSprite->GetWidth()),static_cast<float>(m_pSprite->GetHeight())});
+	m_enemyBulletBoxAabb = new BoxAabb(m_position, {static_cast<float>(m_pNormalSprite->GetWidth()),static_cast<float>(m_pNormalSprite->GetHeight())});
 
 	m_broadPhaseCircleAabb = new CircleAabb(GetCenterPos(), BROAD_PHASE_CIRCLE_AABB_RADIUS);
 
@@ -43,6 +47,7 @@ void Player::Tick(const float deltaTime)
 	UpdatePosition(deltaTime);
 	UpdateAnimationState(deltaTime);
 	Animate(deltaTime);
+	CheckHurtAnimation(deltaTime);
 }
 
 void Player::HandleInput()
@@ -199,7 +204,9 @@ void Player::Animate(const float deltaTime)
 {
 	if(!m_hasDirectionInput && m_punchAnimationRemaining <= 0)
 	{
-		m_pSprite->SetFrame(animations[static_cast<int>(m_currentAnimationState)].startFrame);
+		const int frame = animations[static_cast<int>(m_currentAnimationState)].startFrame;
+		m_pNormalSprite->SetFrame(frame);
+		m_pHurtSprite->SetFrame(frame);
 		m_animationUpdateTimer = ANIMATION_UPDATE_TIME;
 		return;
 	}
@@ -222,7 +229,8 @@ void Player::Animate(const float deltaTime)
 			m_animationFrame = animations[static_cast<int>(m_currentAnimationState)].startFrame;
 		}
 
-		m_pSprite->SetFrame(m_animationFrame);
+		m_pNormalSprite->SetFrame(m_animationFrame);
+		m_pHurtSprite->SetFrame(m_animationFrame);
 	}
 }
 
@@ -231,10 +239,38 @@ void Player::UpdateBroadPhaseCircleAabb() const
 	m_broadPhaseCircleAabb->UpdatePosition(GetCenterPos());
 }
 
+void Player::CheckHurtAnimation(float deltaTime)
+{
+	if(!m_isHurtAnimationPlaying)
+	{
+		return;
+	}
+
+	if(m_hurtAnimationTimer < HURT_ANIMATION_TIME)
+	{
+		if(m_hurtAnimationIntervalTimer < HURT_ANIMATION_INTERVAL)
+		{
+			m_hurtAnimationIntervalTimer += deltaTime;
+		}
+		else
+		{
+			m_pSprite = m_pSprite == m_pHurtSprite ? m_pNormalSprite : m_pHurtSprite;
+			m_hurtAnimationIntervalTimer = 0;
+		}
+
+		m_hurtAnimationTimer += deltaTime;
+		return;
+	}
+	m_hurtAnimationTimer = 0;
+
+	m_pSprite = m_pNormalSprite;
+	m_isHurtAnimationPlaying = false;
+}
+
 float2 Player::GetCenterPos() const
 {
-	const float width = static_cast<float>(m_pSprite->GetWidth());
-	const float height = static_cast<float>(m_pSprite->GetHeight());
+	const float width = static_cast<float>(m_pNormalSprite->GetWidth());
+	const float height = static_cast<float>(m_pNormalSprite->GetHeight());
 	return  {m_position.x + width / 2.0f, m_position.y + height / 2.0f};
 }
 
@@ -243,7 +279,7 @@ int2 Player::GetFeetPos() const
 {
 	const int2 feet =
 	{
-		static_cast<int>(m_position.x) + m_pSprite->GetWidth() / 2,
+		static_cast<int>(m_position.x) + m_pNormalSprite->GetWidth() / 2,
 		static_cast<int>(m_position.y) + TILESET_TILEHEIGHT * 3
 	};
 	return feet;
@@ -268,6 +304,9 @@ void Player::EnemyBulletCollided()
 	}
 
 	m_hp--;
+	m_isHurtAnimationPlaying = true;
+	m_hurtAnimationTimer = 0;
+	m_hurtAnimationIntervalTimer = 0;
 	m_pAudioManager->Play(AudioType::BulletHit);
 	m_pHudManager->PlayerHpChanged(m_hp);
 	if(m_hp <= 0)
@@ -282,8 +321,13 @@ void Player::Reset()
 	m_pHudManager->PlayerHpChanged(m_hp);
 	m_position = SPAWN_POS;
 	m_punchAnimationRemaining = 0;
+	m_isHurtAnimationPlaying = false;
 	m_currentAnimationState = AnimationType::Down;
+	m_lastAnimationState = AnimationType::Down;
+	m_animationUpdateTimer = 0;
 	m_animationFrame = 0;
+	m_pSprite = m_pNormalSprite;
+	m_hasDirectionInput = false;
 }
 
 bool Player::ReportPunch()
@@ -413,7 +457,7 @@ void Player::DrawColliders()
 
 	m_tileBoxCollider->Draw(2);
 	m_roomChangeCollider->Draw(5, 0x00FF00FF);
-}
+	}
 #endif
 
 float2 Player::GetPosition() const
