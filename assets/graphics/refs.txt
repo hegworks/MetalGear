@@ -1,6 +1,12 @@
-font.png			Max
-bullet.png			Myself
+font.png			Max (230738)
+enemyRedSheet.png		Max (230738)
+
 enemySheet.png		Han (241945)
+playerHurtSheet.png	Han (241945)
+
 playerSheet.png		Daan (241136)
+
+bullet.png			Myself
 loseScreen.png		Myself
 winScreen.png		Myself
+relieve.png			Myself

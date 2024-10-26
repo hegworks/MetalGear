@@ -1,0 +1,4 @@
+I got the tileset and fullMap from Joost (241449),
+I scaled it to 32x32,
+and added row of coll (colliders) based on my needs,
+then I made the separate rooms myself and exported them.
