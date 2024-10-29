@@ -395,6 +395,7 @@ bool Player::ReportRoomChange()
 		case TileType::EPR:
 		case TileType::Door:
 		case TileType::Elevator:
+		case TileType::Hide:
 			return false;
 		case TileType::RC0:
 			m_newRoomChangeType = RoomChangeType::RC0;
