@@ -6,6 +6,7 @@ class SpriteStorage
 {
 public:
 	SpriteStorage();
+	~SpriteStorage();
 	SpriteData* GetSpriteData(SpriteType spriteType) const;
 
 private:

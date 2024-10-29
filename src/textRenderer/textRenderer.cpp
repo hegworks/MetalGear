@@ -22,6 +22,15 @@ TextRenderer::TextRenderer(Surface* pScreen, const string& fontAddress, const in
 		fontSurface->CopyTo(m_pSurfaces[i], -i * m_frameWidth, 0);
 		m_pSprites[i] = new Sprite(m_pSurfaces[i], 1);
 	}
+	delete fontSurface;
+}
+
+TextRenderer::~TextRenderer()
+{
+	for(int i = 0; i < m_frameCount; ++i)
+	{
+		delete m_pSprites[i];
+	}
 }
 
 void TextRenderer::DrawText(const string& text, const int x, const int y, const int scale) const

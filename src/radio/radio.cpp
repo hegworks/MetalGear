@@ -43,6 +43,18 @@ Radio::Radio(Surface* pScreen, TextRenderer* pFontTextRenderer, AudioManager* pA
 #endif
 }
 
+Radio::~Radio()
+{
+	delete m_pStaticParts;
+	delete m_pSend;
+	delete m_pReceive;
+	delete m_pBarFull;
+	delete m_pBarEmpty;
+	delete m_pTextBox;
+	delete m_pTalk;
+	delete m_pFrequencyTR;
+}
+
 void Radio::Tick(float deltaTime)
 {
 	if(m_isShowing == false) return;

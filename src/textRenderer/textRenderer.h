@@ -4,6 +4,7 @@ class TextRenderer
 {
 public:
 	TextRenderer(Surface* pScreen, const string& fontAddress, int frameCount, int charSpacing, int lineSpacing, int (*CharToIndex)(char));
+	~TextRenderer();
 	void DrawText(const string& text, int x, int y, int scale) const;
 
 private:

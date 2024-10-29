@@ -43,6 +43,16 @@ Player::Player(Surface* screen, LevelMaps* levelMaps, SpriteStorage* spriteStora
 	m_pHudManager->PlayerHpChanged(m_hp);
 }
 
+Player::~Player()
+{
+	delete m_tileBoxCollider;
+	delete m_roomChangeCollider;
+	delete m_punchBoxAabb;
+	delete m_enemyBulletBoxAabbTop;
+	delete m_enemyBulletBoxAabbBottom;
+	delete m_broadPhaseCircleAabb;
+}
+
 void Player::Tick(const float deltaTime)
 {
 	HandleInput();

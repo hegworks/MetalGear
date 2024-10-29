@@ -11,6 +11,20 @@ SpriteStorage::SpriteStorage()
 	m_enemyRedData = new SpriteData{new Sprite(new Surface("assets/graphics/enemyRedSheet.png"), 12) ,12};
 }
 
+SpriteStorage::~SpriteStorage()
+{
+	delete m_playerData->sprite;
+	delete m_playerData;
+	delete m_playerHurtData->sprite;
+	delete m_playerHurtData;
+	delete m_enemyData->sprite;
+	delete m_enemyData;
+	delete m_bulletData->sprite;
+	delete m_bulletData;
+	delete m_enemyRedData->sprite;
+	delete m_enemyRedData;
+}
+
 SpriteData* SpriteStorage::GetSpriteData(SpriteType spriteType) const
 {
 	switch(spriteType)

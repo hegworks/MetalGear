@@ -10,6 +10,7 @@ class TileSet
 {
 public:
 	TileSet();
+	~TileSet();
 	Surface* GetGraphic() const { return m_graphic; }
 
 private:

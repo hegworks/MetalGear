@@ -4,6 +4,7 @@ class WinScreen
 {
 public:
 	WinScreen();
+	~WinScreen();
 	void Draw(Surface* pScreen) const;
 
 private:

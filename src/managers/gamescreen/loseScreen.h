@@ -5,6 +5,7 @@ class LoseScreen
 {
 public:
 	LoseScreen();
+	~LoseScreen();
 	void Draw(Surface* pScreen) const;
 
 private:

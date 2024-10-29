@@ -19,6 +19,15 @@ EnemySpawner::EnemySpawner(Surface* pScreen, LevelMaps* pLevelMaps, SpriteStorag
 	m_relieveSprite = new Sprite(new Surface("assets/graphics/relieve.png"), 1);
 }
 
+EnemySpawner::~EnemySpawner()
+{
+	for(int i = 0; i < m_enemyCount; ++i)
+	{
+		delete m_enemies[i];
+	}
+	delete m_relieveSprite;
+}
+
 void EnemySpawner::Tick(const float deltaTime)
 {
 	if(m_isInRoom8 && !m_hasAlertedAllInRoom)
@@ -214,11 +223,7 @@ void EnemySpawner::RoomChanged()
 {
 	for(int i = 0; i < m_enemyCount; i++)
 	{
-		if(m_enemies[i] != nullptr)
-		{
-			delete m_enemies[i];
-			m_enemies[i] = nullptr;
-		}
+		delete m_enemies[i];
 	}
 
 	m_enemyCount = 0;

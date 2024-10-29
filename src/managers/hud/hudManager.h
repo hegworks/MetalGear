@@ -4,6 +4,7 @@ class HudManager
 {
 public:
 	HudManager(Surface* pScreen);
+	~HudManager();
 	void Draw() const;
 	void PlayerHpChanged(int hp);
 

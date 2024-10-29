@@ -54,6 +54,28 @@ void Game::Tick(const float deltaTime)
 #endif
 }
 
+void Game::Shutdown()
+{
+	delete m_audioPlayer;
+	delete m_audioManager;
+	delete m_hudManager;
+	delete m_tileSet;
+	delete m_tileMap;
+	delete m_levelMaps;
+	delete m_player;
+	delete m_roomFinder;
+	delete m_roomChangeStorage;
+	delete m_spriteStorage;
+	delete m_enemySpawner;
+	delete m_bulletManager;
+	delete m_gameStateManager;
+	delete m_winScreen;
+	delete m_loseScreen;
+	delete m_pixelPerfectCollisionChecker;
+	delete m_fontTextRenderer;
+	delete m_radio;
+}
+
 void Game::KeyDown(const int glfwKey)
 {
 	m_gameStateManager->KeyDown(glfwKey);

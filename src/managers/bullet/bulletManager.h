@@ -12,6 +12,7 @@ class BulletManager
 {
 public:
 	BulletManager(Surface* pScreen, LevelMaps* pLevelMaps, Player* pPlayer, SpriteStorage* pSpriteStorage, PixelPerfectCollisionChecker* pPixelPerfectCollisionChecker);
+	~BulletManager();
 	void Tick(float deltaTime);
 	void Draw() const;
 	Bullet* SpawnNewBullet(float2 startPos, float2 direction) const;

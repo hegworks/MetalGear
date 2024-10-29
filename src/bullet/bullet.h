@@ -11,6 +11,7 @@ class Bullet
 {
 public:
 	Bullet(int id, float2 startPos, float2 direction, Surface* pScreen, Player* pPlayer, SpriteStorage* pSpriteStorage, LevelMaps* pLevelMaps, PixelPerfectCollisionChecker* pPixelPerfectCollisionChecker);
+	~Bullet();
 	void Tick(float deltaTime);
 	void Activate(float2 startPos, float2 direction);
 	void Deactivate();

@@ -14,6 +14,7 @@ class Player : public Human
 {
 public:
 	Player(Surface* screen, LevelMaps* levelMaps, SpriteStorage* spriteStorage, AudioManager* pAudioManager, HudManager* pHudManager);
+	~Player();
 	virtual void Tick(float deltaTime);
 #ifdef _DEBUG
 	virtual void DrawColliders();

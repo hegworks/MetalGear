@@ -10,6 +10,12 @@ HudManager::HudManager(Surface* pScreen)
 	m_pHpFillSprite = new Sprite(new Surface("assets/graphics/hud/hpFill.png"), 1);
 }
 
+HudManager::~HudManager()
+{
+	delete m_pBgSprite;
+	delete m_pHpFillSprite;
+}
+
 void HudManager::Draw() const
 {
 	m_pBgSprite->Draw(m_pScreen, BG_POS.x, BG_POS.y);

@@ -19,6 +19,14 @@ BulletManager::BulletManager(Surface* pScreen, LevelMaps* pLevelMaps, Player* pP
 	}
 }
 
+BulletManager::~BulletManager()
+{
+	for(int i = 0; i < MAX_BULLETS; ++i)
+	{
+		delete m_pBullets[i];
+	}
+}
+
 void BulletManager::Tick(const float deltaTime)
 {
 	for(int i = 0; i < MAX_BULLETS; ++i)

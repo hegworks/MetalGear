@@ -26,6 +26,11 @@ Bullet::Bullet(int id, float2 startPos, float2 direction, Surface* pScreen, Play
 	m_pPointCollider = new PointCollider(m_pScreen, pLevelMaps);
 }
 
+Bullet::~Bullet()
+{
+	delete m_pPointCollider;
+}
+
 void Bullet::Tick(float deltaTime)
 {
 	if(!m_isActive) return;

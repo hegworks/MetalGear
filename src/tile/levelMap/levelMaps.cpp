@@ -559,22 +559,23 @@ LevelMaps::LevelMaps()
 
 int** LevelMaps::GetLevelMapPointers()
 {
-	int** maps = new int* [LEVELMAP_ROWS];
+	delete[] m_ppMaps;
+	m_ppMaps = new int* [LEVELMAP_ROWS];
 	for(int i = 0; i < LEVELMAP_ROWS; ++i)
 	{
-		maps[i] = m_tiles[m_currentLevelId][i];
+		m_ppMaps[i] = m_tiles[m_currentLevelId][i];
 	}
-	return maps;
+	return m_ppMaps;
 }
 
 int** LevelMaps::GetLevelColliderPointers()
 {
-	int** colliders = new int* [LEVELMAP_ROWS];
+	m_ppColliders = new int* [LEVELMAP_ROWS];
 	for(int i = 0; i < LEVELMAP_ROWS; ++i)
 	{
-		colliders[i] = m_colls[m_currentLevelId][i];
+		m_ppColliders[i] = m_colls[m_currentLevelId][i];
 	}
-	return colliders;
+	return m_ppColliders;
 }
 
 TileType LevelMaps::GetTileType(const float2 pos) const
@@ -601,4 +602,9 @@ bool LevelMaps::IsSolid(const float2 pos) const
 int2 LevelMaps::GetTilePos(const float2 pos) const
 {
 	return {static_cast<int>(pos.x / TILESET_TILEWIDTH), static_cast<int>(pos.y / TILESET_TILEHEIGHT)};
+}
+
+void LevelMaps::DeleteCurrentColliders() const
+{
+	delete[] m_ppColliders;
 }

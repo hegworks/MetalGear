@@ -10,6 +10,7 @@ class Radio
 {
 public:
 	Radio(Surface* pScreen, TextRenderer* pFontTextRenderer, AudioManager* pAudioManager);
+	~Radio();
 	void Tick(float deltaTime);
 	void Draw();
 	void Show(int roomNumber);

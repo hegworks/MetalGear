@@ -33,7 +33,7 @@ public:
 	// game flow methods
 	void Init();
 	void Tick(float deltaTime);
-	void Shutdown() { /* implement if you want to do something on exit */ }
+	void Shutdown();
 	// input handling
 	void MouseUp(int) { /* implement if you want to detect mouse button presses */ }
 	void MouseDown(int) { /* implement if you want to detect mouse button presses */ }
@@ -66,7 +66,8 @@ private:
 
 	/* this function here and in this form (static constexpr), has the best place and form in my opinion.
 	 * because first this is the game.h and is/will not be included in any other file.
-	 * and second, this is a function which is being passed as an argument to another function (constructor of TextRenderer). so it really needs to be the same across all instances of this class.
+	 * and second, this is a function which is being passed as an argument to another function (constructor of TextRenderer).
+	 * so it really needs to be the same across all instances of this class.
 	 * we have the same thing but a bit different in the radio.cpp
 	 * and third, game.h exists through the whole session anyway, and this function is the same.
 	 */

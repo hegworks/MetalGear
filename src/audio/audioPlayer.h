@@ -17,6 +17,7 @@ class AudioPlayer
 {
 public:
 	AudioPlayer();
+	~AudioPlayer();
 	void Play(AudioType audioType) const;
 	void Stop(AudioType audioType) const;
 	void Resume(AudioType audioType) const;

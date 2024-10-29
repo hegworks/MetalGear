@@ -10,6 +10,7 @@ class EnemySpawner
 {
 public:
 	EnemySpawner(Surface* pScreen, LevelMaps* pLevelMaps, SpriteStorage* pSpriteStorage, Player* pPlayer, BulletManager* pBulletManager, AudioManager* pAudioManager);
+	~EnemySpawner();
 	void Tick(float deltaTime);
 	void Draw() const;
 #ifdef _DEBUG

@@ -24,6 +24,14 @@ AudioPlayer::AudioPlayer()
 	m_audios[10] = new AudioData{AudioType::RadioType, new Audio::Sound("assets/audio/0/radioType.mp3",Audio::Sound::Type::Sound)};
 }
 
+AudioPlayer::~AudioPlayer()
+{
+	for(int i = 0; i < AUDIO_COUNT; ++i)
+	{
+		delete m_audios[i];
+	}
+}
+
 void AudioPlayer::Play(const AudioType audioType) const
 {
 	GetSound(audioType)->replay();

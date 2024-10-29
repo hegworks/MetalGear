@@ -284,6 +284,7 @@ void GameStateManager::ChangeRoom(const RoomChangeType roomChangeType)
 	}
 	m_pLevelMaps->SetCurrentLevelId(m_pRoomFinder->GetCurrentLevelId());
 	m_ppCurrentLevelTiles = m_pLevelMaps->GetLevelMapPointers();
+	m_pLevelMaps->DeleteCurrentColliders();
 	m_ppCurrentLevelColliders = m_pLevelMaps->GetLevelColliderPointers();
 	m_pEnemySpawner->RoomChanged();
 	m_pEnemySpawner->Spawn();
