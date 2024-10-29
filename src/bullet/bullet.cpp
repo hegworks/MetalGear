@@ -126,14 +126,13 @@ void Bullet::CheckPlayerCollision()
 	m_pScreen->Circle(centerPosInt.x, centerPosInt.y, 7, 0x00ff00);
 #endif
 
-
-
 	if(m_pPixelPerfectCollisionChecker->IsColliding(m_pPlayer->GetSprite(), m_pSprite, m_pPlayer->GetPosition(), m_pos, m_pPlayer->GetSprite()->GetCurrentFrame(), 0))
 	{
 		m_pPlayer->EnemyBulletCollided();
 		Deactivate();
 	}
-	}
+}
+
 
 void Bullet::CheckOutOfScreen()
 {

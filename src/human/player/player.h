@@ -28,10 +28,12 @@ public:
 
 	// getter
 	float2 GetPosition() const;
+	float2 GetHalfHeightPosition() const { return float2{m_position.x, m_position.y + m_halfHeightSpriteSize.y}; }
 	int2 GetFeetTilePosition() const;
 	int2 GetFeetPos() const;
 	BoxAabb* GetPunchBoxAabb() const { return m_punchBoxAabb; }
-	BoxAabb* GetEnemyBulletBoxAabb() const { return m_enemyBulletBoxAabb; }
+	BoxAabb* GetEnemyBulletBoxAabbTop() const { return m_enemyBulletBoxAabbTop; }
+	BoxAabb* GetEnemyBulletBoxAabbBottom() const { return m_enemyBulletBoxAabbBottom; }
 	float2 GetCenterPos() const;
 
 	// else
@@ -83,7 +85,10 @@ private:
 	float m_punchAnimationRemaining = 0;
 
 	// enemy bullet
-	BoxAabb* m_enemyBulletBoxAabb = nullptr;
+	BoxAabb* m_enemyBulletBoxAabbTop = nullptr;
+	BoxAabb* m_enemyBulletBoxAabbBottom = nullptr;
+	float2 m_spriteSize = {};
+	float2 m_halfHeightSpriteSize = {};
 
 	// HP
 	const int HP_MAX = 5;

@@ -33,7 +33,10 @@ Player::Player(Surface* screen, LevelMaps* levelMaps, SpriteStorage* spriteStora
 	UpdateRoomChangeCollider();
 
 	m_punchBoxAabb = new BoxAabb(GetFeetPos(), {PUNCH_SIZE,PUNCH_SIZE});
-	m_enemyBulletBoxAabb = new BoxAabb(m_position, {static_cast<float>(m_pNormalSprite->GetWidth()),static_cast<float>(m_pNormalSprite->GetHeight())});
+	m_spriteSize = {static_cast<float>(m_pNormalSprite->GetWidth()),static_cast<float>(m_pNormalSprite->GetHeight())};
+	m_halfHeightSpriteSize = {m_spriteSize.x, m_spriteSize.y / 2.0f};
+	m_enemyBulletBoxAabbTop = new BoxAabb(m_position, m_halfHeightSpriteSize);
+	m_enemyBulletBoxAabbBottom = new BoxAabb(GetHalfHeightPosition(), m_halfHeightSpriteSize);
 
 	m_broadPhaseCircleAabb = new CircleAabb(GetCenterPos(), BROAD_PHASE_CIRCLE_AABB_RADIUS);
 
@@ -140,7 +143,8 @@ void Player::UpdateRoomChangeCollider() const
 
 void Player::UpdateEnemyBulletCollider() const
 {
-	m_enemyBulletBoxAabb->UpdatePosition(m_position);
+	m_enemyBulletBoxAabbTop->UpdatePosition(m_position);
+	m_enemyBulletBoxAabbBottom->UpdatePosition(GetHalfHeightPosition());
 }
 
 void Player::UpdateAnimationState(const float deltaTime)
@@ -309,10 +313,6 @@ void Player::EnemyBulletCollided()
 	m_hurtAnimationIntervalTimer = 0;
 	m_pAudioManager->Play(AudioType::BulletHit);
 	m_pHudManager->PlayerHpChanged(m_hp);
-	if(m_hp <= 0)
-	{
-		printf("PLAYER IS DEAD\n");
-	}
 }
 
 void Player::Reset()
@@ -445,7 +445,8 @@ void Player::DrawColliders()
 		m_punchBoxAabb->Draw(m_pScreen, 0xffff00);
 	}
 
-	m_enemyBulletBoxAabb->Draw(m_pScreen);
+	m_enemyBulletBoxAabbTop->Draw(m_pScreen);
+	m_enemyBulletBoxAabbBottom->Draw(m_pScreen);
 
 	m_broadPhaseCircleAabb->Draw(m_pScreen);
 
@@ -457,7 +458,7 @@ void Player::DrawColliders()
 
 	m_tileBoxCollider->Draw(2);
 	m_roomChangeCollider->Draw(5, 0x00FF00FF);
-	}
+}
 #endif
 
 float2 Player::GetPosition() const

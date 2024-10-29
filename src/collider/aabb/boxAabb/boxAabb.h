@@ -14,6 +14,7 @@ public:
 	bool IsColliding(float2 point) const;
 	float2 GetMin() const { return m_min; }
 	float2 GetMax() const { return m_max; }
+	float2 GetSize() const { return m_size; }
 
 private:
 	float2 m_min{};
