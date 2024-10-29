@@ -303,7 +303,8 @@ void Player::KeyDown(const int glfwKey)
 {
 	switch(glfwKey)
 	{
-		case GLFW_KEY_F:
+		case GLFW_KEY_N:
+		case GLFW_KEY_M:
 			if(m_punchAnimationRemaining <= 0)
 				m_isPunchKeyDownAndHaveNotPunched = true;
 			break;
