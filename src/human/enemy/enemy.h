@@ -24,7 +24,7 @@ public:
 #endif
 	virtual void Draw() const;
 	void PlayerPunchReported();
-	void OneEnemyAlarmedReport();
+	virtual void OneEnemyAlarmedReport();
 	bool ReportIsAlerted() const { return m_state == EnemyState::Alarm; }
 	EnemyState GetEnemyState() const { return m_state; }
 	virtual void Relieve() {}

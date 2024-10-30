@@ -12,6 +12,7 @@ public:
 	virtual void Relieve();
 	virtual void ComeBack(int comebackOrder);
 	virtual void SetSpeedToChaseSpeed();
+	virtual void OneEnemyAlarmedReport();
 
 private:
 	const float LOOKAROUND_TIME = 1000.0f;

@@ -114,6 +114,15 @@ void EnemyRed::SetSpeedToChaseSpeed()
 	m_speed = SPEED_CHASE;
 }
 
+void EnemyRed::OneEnemyAlarmedReport()
+{
+	if((m_state == EnemyState::RedComeBack || m_state == EnemyState::RedRelieve) && m_position.x > SCRWIDTH)
+	{
+		m_position.x = static_cast<float>(SCRWIDTH - m_pSprite->GetWidth());
+	}
+	Enemy::OneEnemyAlarmedReport();
+}
+
 void EnemyRed::CheckPatrolCollider()
 {
 	switch(m_patrolCollider->GetTileType())
