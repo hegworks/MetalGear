@@ -1,6 +1,9 @@
 #include "precomp.h"
 #include "tileMap.h"
 
+#include "levelMap/levelMaps.h"
+#include "tileSet.h"
+
 using namespace Tmpl8;
 
 /*
@@ -10,22 +13,11 @@ using namespace Tmpl8;
 */
 
 // Constructor
-TileMap::TileMap(Surface* screen, TileSet* tileSet)
+TileMap::TileMap(Surface* screen, const TileSet* tileSet)
 	: graphicSurface(tileSet->GetGraphic()), tileWidth(TILESET_TILEWIDTH), tileHeight(TILESET_TILEHEIGHT),
 	rows(TILESET_ROWS), columns(TILESET_COLUMNS), currentTile(0)
 {
 	this->screen = screen;
-}
-
-// Destructor
-TileMap::~TileMap()
-{
-}
-
-// Set the current tile index
-void TileMap::SetCurrentTile(int tileIndex)
-{
-	currentTile = tileIndex;
 }
 
 // Draw the current tile at the specified position
@@ -85,7 +77,7 @@ void TileMap::DrawLevel(int** levelMap)
 			int tileIndex = levelMap[row][col];
 			if(tileIndex != -1)
 			{
-				SetCurrentTile(tileIndex);
+				currentTile = tileIndex;
 				DrawCurrentTile(col * tileWidth, row * tileHeight);
 			}
 		}

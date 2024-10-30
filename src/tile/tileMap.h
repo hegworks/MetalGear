@@ -1,6 +1,6 @@
 #pragma once
-#include "levelMap/levelMaps.h"
-#include "tileSet.h"
+
+class TileSet;
 
 namespace Tmpl8
 {
@@ -10,21 +10,8 @@ namespace Tmpl8
 class TileMap
 {
 public:
-	// Constructors and destructor
-	TileMap(Surface* screen, TileSet* tileSet);
-	~TileMap();
-
-	// Methods
-	void SetCurrentTile(int tileIndex);
-	void DrawCurrentTile(int x, int y) const;
+	TileMap(Surface* screen, const TileSet* tileSet);
 	void DrawLevel(int** levelMap);
-
-	// Getters
-	int GetTileWidth() const { return tileWidth; }
-	int GetTileHeight() const { return tileHeight; }
-	int GetRows() const { return rows; }
-	int GetColumns() const { return columns; }
-	Surface* GetSurface() const { return graphicSurface; }
 
 private:
 	// Attributes
@@ -33,5 +20,7 @@ private:
 	int tileWidth, tileHeight; // Size of a single tile
 	int rows, columns; // Number of rows and columns in the tileset
 	int currentTile; // Currently selected tile index
+
+	void DrawCurrentTile(int x, int y) const;
 };
 } // namespace Tmpl8
