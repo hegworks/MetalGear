@@ -2,10 +2,10 @@
 #include "roomChange.h"
 #include "src/tile/levelMap/levelMaps.h"
 
-constexpr float RCS_TOP_Y = SCRHEIGHT - 150.0f;
-constexpr float RCS_BOTTOM_Y = -50;
-constexpr float RCS_LEFT_X = SCRWIDTH - 80.0f;
-constexpr float RCS_RIGHT_X = 16.0f;
+constexpr float RCS_TOP_Y = SCRHEIGHT - 160.0f;
+constexpr float RCS_BOTTOM_Y = -60;
+constexpr float RCS_LEFT_X = SCRWIDTH - 90.0f;
+constexpr float RCS_RIGHT_X = 25.0f;
 
 class RoomChangeStorage
 {
