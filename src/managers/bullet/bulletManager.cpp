@@ -56,11 +56,10 @@ void BulletManager::Draw() const
 	}
 }
 
-Bullet* BulletManager::SpawnNewBullet(const float2 startPos, const float2 direction) const
+void BulletManager::SpawnNewBullet(const float2 startPos, const float2 direction) const
 {
 	Bullet* newBullet = GetFirstInactiveBullet();
 	newBullet->Activate(startPos, direction);
-	return newBullet;
 }
 
 void BulletManager::RoomChanged() const
