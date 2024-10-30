@@ -207,6 +207,7 @@ void Enemy::PlayerPunchReported()
 		m_pAudioManager->Play(AudioType::PunchHit);
 		m_yBeforePunchShake = m_position.y;
 		m_punchShakeShootStopRemaining = PUNCH_SHAKE_SHOOT_STOP_DURATION;
+		m_enemyStateBeforePunchShake = m_state;
 		SwitchState(EnemyState::PunchShake);
 		m_isPunchShakePlaying = true;
 		m_hp--;
@@ -614,7 +615,15 @@ void Enemy::PunchShake(float deltaTime)
 		m_position.y = m_yBeforePunchShake;
 		m_isPunchShakePlaying = false;
 		m_isPunchShakeDirectionUp = true;
-		SwitchState(EnemyState::Alarm);
+
+		/*
+		 * if you want the enemies to not be alarmed after being punched (like the original game),
+		 * uncomment the 1st line and comment the 2nd line below,
+		 * otherwise, if you want the enemy to get alarmed and also alarm other enemies as soon as you punch them,
+		 * comment the 1st line and uncomment the 2nd line below.
+		 */
+		//SwitchState(m_enemyStateBeforePunchShake); // reference game behavior
+		SwitchState(EnemyState::Alarm);	 // what I believe makes more sense
 	}
 }
 

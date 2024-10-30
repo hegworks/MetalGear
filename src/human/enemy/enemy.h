@@ -114,6 +114,7 @@ private:
 	bool m_isPunchShakePlaying = false;
 	const float PUNCH_SHAKE_SHOOT_STOP_DURATION = 700;
 	float m_punchShakeShootStopRemaining = 0;
+	EnemyState m_enemyStateBeforePunchShake = EnemyState::Patrol;
 
 	// HP
 	const int MAX_HP = 3;
