@@ -104,7 +104,7 @@ private:
 	void UpdateColliders() const;
 	void UpdateRoomChangeCollider() const;
 	void UpdateEnemyBulletCollider() const;
-	void UpdateAnimationState(float deltaTime);
+	void UpdateAnimationType(float deltaTime);
 	void Animate(float deltaTime);
 	virtual void UpdateBroadPhaseCircleAabb() const;
 	void CheckHurtAnimation(float deltaTime);

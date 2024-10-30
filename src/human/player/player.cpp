@@ -58,7 +58,7 @@ void Player::Tick(const float deltaTime)
 	HandleInput();
 	UpdateColliders();
 	UpdatePosition(deltaTime);
-	UpdateAnimationState(deltaTime);
+	UpdateAnimationType(deltaTime);
 	Animate(deltaTime);
 	CheckHurtAnimation(deltaTime);
 }
@@ -157,7 +157,7 @@ void Player::UpdateEnemyBulletCollider() const
 	m_enemyBulletBoxAabbBottom->UpdatePosition(GetHalfHeightPosition());
 }
 
-void Player::UpdateAnimationState(const float deltaTime)
+void Player::UpdateAnimationType(const float deltaTime)
 {
 	bool shouldResetToIdleAnimation = false;
 
