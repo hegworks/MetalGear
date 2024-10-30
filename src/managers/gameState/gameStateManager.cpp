@@ -4,7 +4,7 @@
 #include "src/audio/audioManager.h"
 #include "src/human/player/player.h"
 #include "src/managers/bullet/bulletManager.h"
-#include "src/managers/enemy/enemySpawner.h"
+#include "src/managers/enemy/EnemyManager.h"
 #include "src/managers/gamescreen/loseScreen.h"
 #include "src/managers/gamescreen/winScreen.h"
 #include "src/managers/hud/hudManager.h"
@@ -13,7 +13,7 @@
 #include "src/tile/levelMap/levelMaps.h"
 #include "src/tile/tileMap.h"
 
-GameStateManager::GameStateManager(Surface* pScreen, WinScreen* pWinScreen, LoseScreen* pLoseScreen, Player* pPlayer, Radio* pRadio, RoomFinder* pRoomFinder, LevelMaps* pLevelMaps, EnemySpawner* pEnemySpawner, TileMap* pTileMap, BulletManager* pBulletManager, AudioManager* pAudioManager, HudManager* pHudManager)
+GameStateManager::GameStateManager(Surface* pScreen, WinScreen* pWinScreen, LoseScreen* pLoseScreen, Player* pPlayer, Radio* pRadio, RoomFinder* pRoomFinder, LevelMaps* pLevelMaps, EnemyManager* pEnemyManager, TileMap* pTileMap, BulletManager* pBulletManager, AudioManager* pAudioManager, HudManager* pHudManager)
 {
 	m_pScreen = pScreen;
 	m_pWinScreen = pWinScreen;
@@ -22,7 +22,7 @@ GameStateManager::GameStateManager(Surface* pScreen, WinScreen* pWinScreen, Lose
 	m_pRadio = pRadio;
 	m_pRoomFinder = pRoomFinder;
 	m_pLevelMaps = pLevelMaps;
-	m_pEnemySpawner = pEnemySpawner;
+	m_pEnemyManager = pEnemyManager;
 	m_pTileMap = pTileMap;
 	m_pBulletManager = pBulletManager;
 	m_pAudioManager = pAudioManager;
@@ -47,7 +47,7 @@ void GameStateManager::Draw() const
 		case GameState::Gameplay:
 			m_pTileMap->DrawLevel(m_ppCurrentLevelTiles);
 			m_pPlayer->Draw();
-			m_pEnemySpawner->Draw();
+			m_pEnemyManager->Draw();
 			m_pBulletManager->Draw();
 			m_pHudManager->Draw();
 			break;
@@ -77,7 +77,7 @@ void GameStateManager::DrawColliders() const
 		case GameState::Gameplay:
 			m_pPlayer->DrawColliders();
 			m_pTileMap->DrawLevel(m_ppCurrentLevelColliders);
-			m_pEnemySpawner->DrawColliders();
+			m_pEnemyManager->DrawColliders();
 			break;
 		case GameState::Win:
 			break;
@@ -132,7 +132,7 @@ void GameStateManager::PassDownReport()
 			}
 			if(m_pPlayer->ReportPunch())
 			{
-				m_pEnemySpawner->PlayerPunchReported();
+				m_pEnemyManager->PlayerPunchReported();
 			}
 			break;
 		case GameState::Win:
@@ -158,7 +158,7 @@ void GameStateManager::PassDownTick(float deltaTime)
 			break;
 		case GameState::Gameplay:
 			m_pPlayer->Tick(deltaTime);
-			m_pEnemySpawner->Tick(deltaTime);
+			m_pEnemyManager->Tick(deltaTime);
 			m_pBulletManager->Tick(deltaTime);
 			break;
 		case GameState::Radio:
@@ -286,8 +286,8 @@ void GameStateManager::ChangeRoom(const RoomChangeType roomChangeType)
 	m_ppCurrentLevelTiles = m_pLevelMaps->GetLevelMapPointers();
 	m_pLevelMaps->DeleteCurrentColliders();
 	m_ppCurrentLevelColliders = m_pLevelMaps->GetLevelColliderPointers();
-	m_pEnemySpawner->RoomChanged();
-	m_pEnemySpawner->Spawn();
+	m_pEnemyManager->RoomChanged();
+	m_pEnemyManager->Spawn();
 	m_pBulletManager->RoomChanged();
 	m_pAudioManager->RoomChanged(m_pRoomFinder->GetCurrentLevelId());
 }

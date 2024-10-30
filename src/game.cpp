@@ -10,7 +10,7 @@
 #include "collider/pixelPerfect/pixelPerfectCollisionChecker.h"
 #include "human/player/player.h"
 #include "managers/bullet/bulletManager.h"
-#include "managers/enemy/enemySpawner.h"
+#include "managers/enemy/EnemyManager.h"
 #include "managers/gamescreen/loseScreen.h"
 #include "managers/gamescreen/winScreen.h"
 #include "managers/gameState/gameStateManager.h"
@@ -41,8 +41,8 @@ void Game::Init()
 	m_loseScreen = new LoseScreen();
 	m_fontTextRenderer = new TextRenderer(screen, "assets/graphics/font.png", 41, 1, 4, FontTextRendererCharToIndex);
 	m_radio = new Radio(screen, m_fontTextRenderer, m_audioManager);
-	m_enemySpawner = new EnemySpawner(screen, m_levelMaps, m_spriteStorage, m_player, m_bulletManager, m_audioManager);
-	m_gameStateManager = new GameStateManager(screen, m_winScreen, m_loseScreen, m_player, m_radio, m_roomFinder, m_levelMaps, m_enemySpawner, m_tileMap, m_bulletManager, m_audioManager, m_hudManager);
+	m_enemyManager = new EnemyManager(screen, m_levelMaps, m_spriteStorage, m_player, m_bulletManager, m_audioManager);
+	m_gameStateManager = new GameStateManager(screen, m_winScreen, m_loseScreen, m_player, m_radio, m_roomFinder, m_levelMaps, m_enemyManager, m_tileMap, m_bulletManager, m_audioManager, m_hudManager);
 }
 
 void Game::Tick(const float deltaTime)
@@ -66,7 +66,7 @@ void Game::Shutdown()
 	delete m_roomFinder;
 	delete m_roomChangeStorage;
 	delete m_spriteStorage;
-	delete m_enemySpawner;
+	delete m_enemyManager;
 	delete m_bulletManager;
 	delete m_gameStateManager;
 	delete m_winScreen;

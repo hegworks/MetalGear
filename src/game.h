@@ -13,7 +13,7 @@ class LoseScreen;
 class WinScreen;
 class GameStateManager;
 class BulletManager;
-class EnemySpawner;
+class EnemyManager;
 class Enemy;
 class SpriteStorage;
 class RoomChangeStorage;
@@ -52,7 +52,7 @@ private:
 	RoomFinder* m_roomFinder = nullptr;
 	RoomChangeStorage* m_roomChangeStorage = nullptr;
 	SpriteStorage* m_spriteStorage = nullptr;
-	EnemySpawner* m_enemySpawner = nullptr;
+	EnemyManager* m_enemyManager = nullptr;
 	BulletManager* m_bulletManager = nullptr;
 	GameStateManager* m_gameStateManager = nullptr;
 	WinScreen* m_winScreen = nullptr;

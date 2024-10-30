@@ -139,7 +139,7 @@
     <ClCompile Include="src\collider\pointCollider\pointCollider.cpp" />
     <ClCompile Include="src\game.cpp" />
     <ClCompile Include="src\managers\bullet\bulletManager.cpp" />
-    <ClCompile Include="src\managers\enemy\enemySpawner.cpp" />
+    <ClCompile Include="src\managers\enemy\enemyManager.cpp" />
     <ClCompile Include="src\managers\gamescreen\loseScreen.cpp" />
     <ClCompile Include="src\managers\gameState\gameStateManager.cpp" />
     <ClCompile Include="src\managers\hud\hudManager.cpp" />
@@ -194,7 +194,7 @@
     <ClInclude Include="src\collider\pointCollider\pointCollider.h" />
     <ClInclude Include="src\game.h" />
     <ClInclude Include="src\managers\bullet\bulletManager.h" />
-    <ClInclude Include="src\managers\enemy\enemySpawner.h" />
+    <ClInclude Include="src\managers\enemy\enemyManager.h" />
     <ClInclude Include="src\managers\gamescreen\loseScreen.h" />
     <ClInclude Include="src\managers\gameState\gameState.h" />
     <ClInclude Include="src\managers\gameState\gameStateManager.h" />

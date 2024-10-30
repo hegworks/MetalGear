@@ -6,11 +6,11 @@
 class AudioManager;
 constexpr int MAX_ENEMIES = 2;
 
-class EnemySpawner
+class EnemyManager
 {
 public:
-	EnemySpawner(Surface* pScreen, LevelMaps* pLevelMaps, SpriteStorage* pSpriteStorage, Player* pPlayer, BulletManager* pBulletManager, AudioManager* pAudioManager);
-	~EnemySpawner();
+	EnemyManager(Surface* pScreen, LevelMaps* pLevelMaps, SpriteStorage* pSpriteStorage, Player* pPlayer, BulletManager* pBulletManager, AudioManager* pAudioManager);
+	~EnemyManager();
 	void Tick(float deltaTime);
 	void Draw() const;
 #ifdef _DEBUG

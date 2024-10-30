@@ -31,7 +31,7 @@
     <ClCompile Include="src\collider\boxCollider\boxCollider.cpp" />
     <ClCompile Include="src\managers\room\roomFinder.cpp" />
     <ClCompile Include="src\spriteStorage\spriteStorage.cpp" />
-    <ClCompile Include="src\managers\enemy\enemySpawner.cpp" />
+    <ClCompile Include="src\managers\enemy\enemyManager.cpp" />
     <ClCompile Include="src\human\enemy\enemy.cpp" />
     <ClCompile Include="src\human\human.cpp" />
     <ClCompile Include="src\human\player\player.cpp" />
@@ -99,7 +99,7 @@
     <ClInclude Include="src\spriteStorage\spriteData.h" />
     <ClInclude Include="src\spriteStorage\spriteStorage.h" />
     <ClInclude Include="src\spriteStorage\spriteType.h" />
-    <ClInclude Include="src\managers\enemy\enemySpawner.h" />
+    <ClInclude Include="src\managers\enemy\enemyManager.h" />
     <ClInclude Include="src\tools\rng.h" />
     <ClInclude Include="src\human\direction.h" />
     <ClInclude Include="src\human\enemy\enemy.h" />

@@ -11,7 +11,7 @@ namespace Tmpl8
 class TileMap;
 }
 
-class EnemySpawner;
+class EnemyManager;
 class LevelMaps;
 class RoomFinder;
 class Radio;
@@ -22,7 +22,7 @@ class WinScreen;
 class GameStateManager
 {
 public:
-	GameStateManager(Surface* pScreen, WinScreen* pWinScreen, LoseScreen* pLoseScreen, Player* pPlayer, Radio* pRadio, RoomFinder* pRoomFinder, LevelMaps* pLevelMaps, EnemySpawner* pEnemySpawner, TileMap* pTileMap, BulletManager* pBulletManager, AudioManager* pAudioManager, HudManager* pHudManager);
+	GameStateManager(Surface* pScreen, WinScreen* pWinScreen, LoseScreen* pLoseScreen, Player* pPlayer, Radio* pRadio, RoomFinder* pRoomFinder, LevelMaps* pLevelMaps, EnemyManager* pEnemyManager, TileMap* pTileMap, BulletManager* pBulletManager, AudioManager* pAudioManager, HudManager* pHudManager);
 	void PassDownReport();
 	void PassDownTick(float deltaTime);
 	void ChangeGameStateBasedOnReports();
@@ -47,7 +47,7 @@ private:
 	Radio* m_pRadio = nullptr;
 	RoomFinder* m_pRoomFinder = nullptr;
 	LevelMaps* m_pLevelMaps = nullptr;
-	EnemySpawner* m_pEnemySpawner = nullptr;
+	EnemyManager* m_pEnemyManager = nullptr;
 	TileMap* m_pTileMap = nullptr;
 	BulletManager* m_pBulletManager = nullptr;
 	AudioManager* m_pAudioManager = nullptr;

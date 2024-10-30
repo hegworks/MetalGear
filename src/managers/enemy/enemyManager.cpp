@@ -1,5 +1,5 @@
 ﻿#include "precomp.h"
-#include "enemySpawner.h"
+#include "EnemyManager.h"
 
 #include "src/audio/audioManager.h"
 #include "src/human/enemy/enemyDelayedSpawn/enemyDelayedSpawn.h"
@@ -7,7 +7,7 @@
 #include "src/tile/levelMap/levelMaps.h"
 #include "src/tile/tileSet.h"
 
-EnemySpawner::EnemySpawner(Surface* pScreen, LevelMaps* pLevelMaps, SpriteStorage* pSpriteStorage, Player* pPlayer, BulletManager* pBulletManager, AudioManager* pAudioManager)
+EnemyManager::EnemyManager(Surface* pScreen, LevelMaps* pLevelMaps, SpriteStorage* pSpriteStorage, Player* pPlayer, BulletManager* pBulletManager, AudioManager* pAudioManager)
 {
 	m_screen = pScreen;
 	m_levelMaps = pLevelMaps;
@@ -19,7 +19,7 @@ EnemySpawner::EnemySpawner(Surface* pScreen, LevelMaps* pLevelMaps, SpriteStorag
 	m_relieveSprite = new Sprite(new Surface("assets/graphics/relieve.png"), 1);
 }
 
-EnemySpawner::~EnemySpawner()
+EnemyManager::~EnemyManager()
 {
 	for(int i = 0; i < m_enemyCount; ++i)
 	{
@@ -28,7 +28,7 @@ EnemySpawner::~EnemySpawner()
 	delete m_relieveSprite;
 }
 
-void EnemySpawner::Tick(const float deltaTime)
+void EnemyManager::Tick(const float deltaTime)
 {
 	if(m_isInRoom8 && !m_hasAlertedAllInRoom)
 	{
@@ -103,7 +103,7 @@ void EnemySpawner::Tick(const float deltaTime)
 	}
 }
 
-void EnemySpawner::Draw() const
+void EnemyManager::Draw() const
 {
 	for(int i = 0; i < m_enemyCount; ++i)
 	{
@@ -121,7 +121,7 @@ void EnemySpawner::Draw() const
 }
 
 #ifdef _DEBUG
-void EnemySpawner::DrawColliders() const
+void EnemyManager::DrawColliders() const
 {
 	for(int i = 0; i < m_enemyCount; ++i)
 	{
@@ -130,7 +130,7 @@ void EnemySpawner::DrawColliders() const
 }
 #endif
 
-bool EnemySpawner::Spawn()
+bool EnemyManager::Spawn()
 {
 	const int currentLevelId = m_levelMaps->GetCurrentLevelId();
 	const bool isExceptionLevel4 = currentLevelId == 4;
@@ -211,7 +211,7 @@ bool EnemySpawner::Spawn()
 	return m_enemyCount > 0;
 }
 
-void EnemySpawner::PlayerPunchReported() const
+void EnemyManager::PlayerPunchReported() const
 {
 	for(int i = 0; i < m_enemyCount; ++i)
 	{
@@ -219,7 +219,7 @@ void EnemySpawner::PlayerPunchReported() const
 	}
 }
 
-void EnemySpawner::RoomChanged()
+void EnemyManager::RoomChanged()
 {
 	for(int i = 0; i < m_enemyCount; i++)
 	{
@@ -233,7 +233,7 @@ void EnemySpawner::RoomChanged()
 	ResetRoom8State();
 }
 
-void EnemySpawner::CheckRelieveAndComeBackRoom8(float deltaTime)
+void EnemyManager::CheckRelieveAndComeBackRoom8(float deltaTime)
 {
 	switch(m_room8State)
 	{
@@ -284,7 +284,7 @@ void EnemySpawner::CheckRelieveAndComeBackRoom8(float deltaTime)
 	}
 }
 
-void EnemySpawner::PlayRelieveSpriteAnimation(float deltaTime)
+void EnemyManager::PlayRelieveSpriteAnimation(float deltaTime)
 {
 	if(m_relieveAnimationState == AnimationState::Finished)
 	{
@@ -312,14 +312,14 @@ void EnemySpawner::PlayRelieveSpriteAnimation(float deltaTime)
 	}
 }
 
-void EnemySpawner::StartRelieveSpriteAnimation()
+void EnemyManager::StartRelieveSpriteAnimation()
 {
 	m_relieveAnimationTimer = 0;
 	m_relieveScale = 0;
 	m_relieveAnimationState = AnimationState::Started;
 }
 
-void EnemySpawner::CheckRelieveHideTimer(float deltaTime)
+void EnemyManager::CheckRelieveHideTimer(float deltaTime)
 {
 	if(m_relieveHideTimer < RELIEVE_HIDE_TIME)
 	{
@@ -336,7 +336,7 @@ void EnemySpawner::CheckRelieveHideTimer(float deltaTime)
 	}
 }
 
-void EnemySpawner::PlayWalkAnimation(float deltaTime)
+void EnemyManager::PlayWalkAnimation(float deltaTime)
 {
 	if(m_walkAnimationState == AnimationState::Finished)
 	{
@@ -355,13 +355,13 @@ void EnemySpawner::PlayWalkAnimation(float deltaTime)
 	}
 }
 
-void EnemySpawner::StartWalkAnimation()
+void EnemyManager::StartWalkAnimation()
 {
 	m_walkTimer = 0;
 	m_walkAnimationState = AnimationState::Started;
 }
 
-void EnemySpawner::ResetRoom8State()
+void EnemyManager::ResetRoom8State()
 {
 	m_relieveScale = 0;
 	m_relieveTimer = 0;
