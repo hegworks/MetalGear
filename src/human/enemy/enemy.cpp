@@ -203,19 +203,22 @@ void Enemy::PlayerPunchReported()
 	{
 #ifdef _DEBUG
 		m_boxAabb->Draw(m_pScreen, 0xffff00);
+		constexpr int debug_gotPunchedFrameCount = 10;
+		m_debug_gotPunchedFrameCounter = debug_gotPunchedFrameCount;
 #endif
 		m_pAudioManager->Play(AudioType::PunchHit);
-		m_yBeforePunchShake = m_position.y;
-		m_punchShakeShootStopRemaining = PUNCH_SHAKE_SHOOT_STOP_DURATION;
-		m_enemyStateBeforePunchShake = m_state;
-		SwitchState(EnemyState::PunchShake);
-		m_isPunchShakePlaying = true;
 		m_hp--;
-		int debug_gotPunchedFrameCount = 10;
-		m_debug_gotPunchedFrameCounter = debug_gotPunchedFrameCount;
 		if(m_hp <= 0)
 		{
 			SwitchState(EnemyState::Dead);
+		}
+		else
+		{
+			m_yBeforePunchShake = m_position.y;
+			m_punchShakeShootStopRemaining = PUNCH_SHAKE_SHOOT_STOP_DURATION;
+			m_enemyStateBeforePunchShake = m_state;
+			SwitchState(EnemyState::PunchShake);
+			m_isPunchShakePlaying = true;
 		}
 	}
 }

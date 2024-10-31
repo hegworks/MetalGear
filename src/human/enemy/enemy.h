@@ -106,7 +106,6 @@ private:
 
 	// punch
 	BoxAabb* m_boxAabb = nullptr;
-	int m_debug_gotPunchedFrameCounter = 0;
 	const float PUNCH_SHAKE_MAX_DISTANCE = 32;
 	float m_yBeforePunchShake = 0;
 	const float PUNCH_SHAKE_SPEED = 0.3f;
@@ -115,6 +114,9 @@ private:
 	const float PUNCH_SHAKE_SHOOT_STOP_DURATION = 700;
 	float m_punchShakeShootStopRemaining = 0;
 	EnemyState m_enemyStateBeforePunchShake = EnemyState::Patrol;
+#ifdef _DEBUG
+	int m_debug_gotPunchedFrameCounter = 0;
+#endif
 
 	// HP
 	const int MAX_HP = 3;
