@@ -174,8 +174,8 @@ void GameStateManager::ChangeGameStateBasedOnReports()
 	switch(m_gameState)
 	{
 		case GameState::Intro:
-			//TODO play the real intro
-			// if intro finished:
+			// play the real intro if I had one here, but I don't.
+			// so just load the first room and reset the player
 			m_pAudioManager->GameplayStarted();
 			m_pRoomFinder->SetCurrentLevelId(STARTING_ROOM_ID);
 			ChangeRoom();
