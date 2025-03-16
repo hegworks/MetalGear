@@ -57,6 +57,6 @@ private:
 	int** m_ppCurrentLevelColliders = nullptr;
 
 	const int RESTART_KEY = GLFW_KEY_R;
-	const int RADIO_KEY = GLFW_KEY_F4;
+	const int RADIO_KEY = GLFW_KEY_K;
 	const int STARTING_ROOM_ID = 0;
 };
